@@ -90,7 +90,7 @@ export default function FeaturesPage() {
 
       <div className="mb-20">
         <Image
-          src="/nex-ui.webp"
+          src="/nex-ui.png"
           alt="Nex launcher interface"
           width={1510}
           height={1040}
