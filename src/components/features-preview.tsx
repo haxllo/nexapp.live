@@ -5,42 +5,42 @@ import { motion } from "motion/react";
 
 const features = [
   {
-    prefix: "⌨",
+    prefix: "›",
     cmd: "hotkey",
     title: "Global Hotkey",
     desc: "Summon from anywhere with customizable shortcut",
-    meta: "Ctrl+Space",
+    meta: "Win",
   },
   {
-    prefix: "@",
-    cmd: "apps",
+    prefix: "›",
+    cmd: "fuzzy",
     title: "Fuzzy Search",
     desc: "Typo-tolerant matching via Tantivy full-text search",
     meta: "15ms",
   },
   {
-    prefix: "⚡",
+    prefix: "›",
     cmd: "everything-sdk",
     title: "Everything SDK",
     desc: "Voidtools Everything integration for instant file search",
     meta: "Plugin",
   },
   {
-    prefix: ">",
+    prefix: "›",
     cmd: "actions",
     title: "Actions & Commands",
     desc: "Execute custom commands, web searches, system operations",
     meta: "Custom",
   },
   {
-    prefix: "🧮",
+    prefix: "›",
     cmd: "calc",
     title: "Calculator",
     desc: "Inline arithmetic evaluation in the search bar",
     meta: "Instant",
   },
   {
-    prefix: "🔌",
+    prefix: "›",
     cmd: "plugin-sdk",
     title: "Plugin SDK",
     desc: "Extend with trait-based WASM plugins",
@@ -107,7 +107,7 @@ export function FeaturesPreview() {
             href="/features"
             className="inline-flex items-center gap-2 text-sm text-text-muted hover:text-accent transition-colors font-mono"
           >
-            <span className="text-code">❯</span> view all features
+            <span className="text-text-muted">❯</span> view all features
           </Link>
         </motion.div>
       </div>

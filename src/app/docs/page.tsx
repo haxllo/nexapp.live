@@ -52,7 +52,7 @@ export default function DocsPage() {
           </div>
           <div>
             <h3 className="text-sm font-medium text-accent mb-2">Default Hotkey</h3>
-            <code className="font-mono text-sm text-code">Ctrl+Space</code>
+            <code className="font-mono text-sm text-code">Win</code>
           </div>
           <div>
             <h3 className="text-sm font-medium text-accent mb-2">Search Syntax</h3>

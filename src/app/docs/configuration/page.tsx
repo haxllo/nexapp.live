@@ -1,6 +1,6 @@
 export default function ConfigurationPage() {
   const core = [
-    ["hotkey", "string", "Ctrl+Space", "Global hotkey to toggle overlay"],
+    ["hotkey", "string", "Win", "Global hotkey to toggle overlay"],
     ["launch_at_startup", "bool", "true", "Start Nex on Windows sign-in"],
     ["max_results", "u16", "20", "Results per query (5–100)"],
     ["show_files", "bool", "false", "Include files in search results"],
@@ -99,7 +99,7 @@ export default function ConfigurationPage() {
       <Table headers={["Setting", "Type", "Default", "Description"]} rows={index_} />
 
       <h2 className="text-2xl font-medium mt-12 mb-4 text-accent">Example</h2>
-      <pre className="rounded-md bg-bg p-4 font-mono text-sm overflow-x-auto mb-6 text-text-muted">{`hotkey = "Ctrl+Space"
+      <pre className="rounded-md bg-bg p-4 font-mono text-sm overflow-x-auto mb-6 text-text-muted">{`hotkey = "Win"
 launch_at_startup = true
 max_results = 20
 show_files = false

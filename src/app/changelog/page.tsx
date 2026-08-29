@@ -77,7 +77,6 @@ const releases = [
       { type: "fixed", text: "SQLITE_BUSY launch freeze — launch reads from cache, WAL mode + busy timeout added" },
       { type: "fixed", text: "Warm-release hotkey miss — show_pending set before build_webview" },
       { type: "removed", text: "FTS5 search backend removed — Tantivy is sole indexed search backend" },
-      { type: "changed", text: "Default hotkey changed to Ctrl+Space" },
       { type: "fixed", text: "Config hot-reload stale in search worker — Arc<RwLock<>> sharing" },
       { type: "fixed", text: "Console flash on launch — CREATE_NO_WINDOW for plugin/explorer spawns" },
       { type: "changed", text: "Diagnostics privacy — raw config/logs opt-in, query text hashed" },
@@ -204,9 +203,9 @@ export default function ChangelogPage() {
                           : change.type === "changed"
                           ? "bg-accent"
                           : change.type === "removed"
-                          ? "bg-red-500"
+                          ? "bg-text-dim"
                           : change.type === "perf"
-                          ? "bg-yellow-500"
+                          ? "bg-text-muted"
                           : "bg-text-dim"
                       }`}
                     />

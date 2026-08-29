@@ -75,7 +75,7 @@ export default function DownloadPage() {
             </li>
             <li className="flex items-start gap-3">
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent/20 text-accent text-sm font-medium">2</span>
-              <div>Press <kbd className="rounded border border-border bg-bg-card px-2 py-0.5 font-mono text-xs">Ctrl+Space</kbd> to summon the launcher</div>
+              <div>Press <kbd className="rounded border border-border bg-bg-card px-2 py-0.5 font-mono text-xs">Win</kbd> to summon the launcher</div>
             </li>
             <li className="flex items-start gap-3">
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent/20 text-accent text-sm font-medium">3</span>

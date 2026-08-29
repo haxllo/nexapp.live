@@ -11,8 +11,8 @@
 
 ## Design System
 
-- **Dark theme** — near-black bg (#0a0a0a), warm orange accent (#ff6b35), terminal green code (#4ade80)
-- **Typography** — Instrument Serif (display), Geist Sans (body), JetBrains Mono (code)
+- **Dark theme** — near-black bg (#0a0a0b), single silver accent (#a8a8b0), neutral mono code (#d4d4dc)
+- **Typography** — Geist Sans (display + body), JetBrains Mono (code)
 - **Animations** — fade-up, pulse-glow, stagger delays via CSS + Motion library
 
 ## Completed

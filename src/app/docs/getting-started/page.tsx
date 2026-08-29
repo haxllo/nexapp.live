@@ -33,14 +33,14 @@ cargo build --release --bin nex</pre>
         <li className="text-text-muted flex items-start gap-2"><span className="text-code mt-1">2.</span>Writes default <code className="font-mono text-sm text-code">config.toml</code></li>
         <li className="text-text-muted flex items-start gap-2"><span className="text-code mt-1">3.</span>Initializes SQLite search index</li>
         <li className="text-text-muted flex items-start gap-2"><span className="text-code mt-1">4.</span>Scans Start Menu for installed applications</li>
-        <li className="text-text-muted flex items-start gap-2"><span className="text-code mt-1">5.</span>Registers global hotkey (<code className="font-mono text-sm text-code">Ctrl+Space</code> by default)</li>
+        <li className="text-text-muted flex items-start gap-2"><span className="text-code mt-1">5.</span>Registers global hotkey (<code className="font-mono text-sm text-code">Win</code> by default)</li>
         <li className="text-text-muted flex items-start gap-2"><span className="text-code mt-1">6.</span>Adds system tray icon</li>
       </ol>
       <p className="text-text-muted mb-4">Verify with <code className="font-mono text-sm text-code">nex --status</code>.</p>
 
       <h2 className="text-2xl font-medium mt-12 mb-4 text-accent">Your First Search</h2>
       <ol className="space-y-2 mb-6">
-        <li className="text-text-muted flex items-start gap-2"><span className="text-code mt-1">1.</span>Press <kbd className="rounded border border-border bg-bg-card px-2 py-0.5 font-mono text-xs">Ctrl+Space</kbd> anywhere</li>
+        <li className="text-text-muted flex items-start gap-2"><span className="text-code mt-1">1.</span>Press <kbd className="rounded border border-border bg-bg-card px-2 py-0.5 font-mono text-xs">Win</kbd> anywhere</li>
         <li className="text-text-muted flex items-start gap-2"><span className="text-code mt-1">2.</span>Type an app name (e.g., <code className="font-mono text-sm text-code">notepad</code>, <code className="font-mono text-sm text-code">chrome</code>)</li>
         <li className="text-text-muted flex items-start gap-2"><span className="text-code mt-1">3.</span>Press <kbd className="rounded border border-border bg-bg-card px-2 py-0.5 font-mono text-xs">Enter</kbd> to launch</li>
         <li className="text-text-muted flex items-start gap-2"><span className="text-code mt-1">4.</span>Press <kbd className="rounded border border-border bg-bg-card px-2 py-0.5 font-mono text-xs">Esc</kbd> to dismiss</li>

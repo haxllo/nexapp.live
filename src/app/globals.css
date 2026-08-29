@@ -1,21 +1,23 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-bg: #0a0a0a;
-  --color-bg-elevated: #111111;
-  --color-bg-card: #161616;
-  --color-border: #222222;
-  --color-border-hover: #333333;
-  --color-text: #ededed;
-  --color-text-muted: #888888;
-  --color-text-dim: #555555;
-  --color-accent: #ff6b35;
-  --color-accent-hover: #ff8555;
-  --color-code: #4ade80;
-  --color-code-bg: #0d1f0d;
+  --color-bg: #0a0a0b;
+  --color-bg-elevated: #111114;
+  --color-bg-card: #16161a;
+  --color-bg-hover: #1c1c22;
+  --color-border: #1f1f25;
+  --color-border-hover: #2a2a32;
+  --color-text: #f5f5f7;
+  --color-text-muted: #9b9ba3;
+  --color-text-dim: #5a5a64;
+  --color-accent: #a8a8b0;
+  --color-accent-hover: #c8c8d0;
+  --color-accent-soft: rgba(168, 168, 176, 0.10);
+  --color-code: #d4d4dc;
+  --color-code-bg: #16161a;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-jetbrains-mono);
-  --font-display: var(--font-instrument-serif);
+  --font-display: var(--font-geist-sans);
 }
 
 * {
@@ -25,7 +27,7 @@
 
 ::selection {
   background: var(--color-accent);
-  color: #000;
+  color: var(--color-bg);
 }
 
 body {
@@ -48,10 +50,10 @@ body {
 
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(255, 107, 53, 0.1);
+    box-shadow: 0 0 20px rgba(168, 168, 176, 0.10);
   }
   50% {
-    box-shadow: 0 0 40px rgba(255, 107, 53, 0.2);
+    box-shadow: 0 0 40px rgba(168, 168, 176, 0.20);
   }
 }
 

@@ -33,7 +33,22 @@ export function Hero() {
             <span className="text-accent">Instantly.</span>
           </h1>
           <p className="mx-auto max-w-2xl text-xl text-text-muted mb-12">
-            Press <kbd className="rounded border border-border bg-bg-card px-2 py-0.5 font-mono text-sm">Ctrl+Space</kbd> to launch.
+            Press{" "}
+            <kbd
+              aria-label="Windows key"
+              className="relative inline-flex items-center justify-center align-middle rounded-[10px] border border-b-[3px] border-border-hover bg-gradient-to-b from-bg-card to-bg-elevated px-3 py-1.5 shadow-[0_2px_0_0_var(--color-border),0_4px_8px_-2px_rgba(0,0,0,0.6)]"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="text-text drop-shadow-[0_1px_0_rgba(255,255,255,0.05)]"
+              >
+                <path d="M0 3.449L9.75 2.1v9.451H0V3.449zM10.949 1.949L24 0v11.4H10.95V1.949zM0 12.6h9.75v9.451L0 20.699V12.6zM10.949 12.6H24V24l-13.05-1.949V12.6z" />
+              </svg>
+            </kbd>{" "}
+            to launch.
             Find apps, files, and actions with fuzzy search. Built in Rust for speed.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
