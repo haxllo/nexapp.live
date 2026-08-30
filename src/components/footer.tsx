@@ -1,42 +1,100 @@
 import Link from "next/link";
 
+const groups: { title: string; links: { label: string; href: string }[] }[] = [
+  {
+    title: "Product",
+    links: [
+      { label: "Features", href: "/features" },
+      { label: "Changelog", href: "/changelog" },
+      { label: "Download", href: "/download" },
+      { label: "Linear Method", href: "/method" },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { label: "Docs", href: "/docs" },
+      { label: "Plugin SDK", href: "/plugin-sdk" },
+      { label: "Help center", href: "/help" },
+      { label: "Status", href: "/status" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "About", href: "/about" },
+      { label: "Careers", href: "/careers" },
+      { label: "Brand", href: "/brand" },
+      { label: "Contact", href: "mailto:hello@nexapp.live" },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      { label: "Terms", href: "/terms" },
+      { label: "Privacy", href: "/privacy" },
+      { label: "Security", href: "/security" },
+      { label: "License (MIT)", href: "https://github.com/haxllo/nex/blob/main/LICENSE" },
+    ],
+  },
+];
+
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-bg-elevated">
-      <div className="mx-auto max-w-6xl px-6 py-12">
-        <div className="grid gap-8 md:grid-cols-4">
-          <div>
-            <h3 className="font-display text-xl mb-4">nex</h3>
-            <p className="text-sm text-text-muted">
+    <footer className="border-t border-border bg-bg">
+      <div className="mx-auto max-w-6xl px-4 py-16">
+        <div className="grid gap-10 md:grid-cols-5">
+          <div className="md:col-span-1">
+            <div className="flex items-center gap-2">
+              <span className="text-[13px] font-medium text-text">Nex</span>
+            </div>
+            <p className="mt-3 text-[12px] leading-relaxed text-text-dim max-w-[180px]">
               Keyboard-first launcher for Windows. Built in Rust.
             </p>
           </div>
-          <div>
-            <h4 className="text-sm font-medium mb-3">Product</h4>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="/features" className="text-text-muted hover:text-text transition-colors">Features</Link></li>
-              <li><Link href="/download" className="text-text-muted hover:text-text transition-colors">Download</Link></li>
-              <li><Link href="/changelog" className="text-text-muted hover:text-text transition-colors">Changelog</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-sm font-medium mb-3">Developers</h4>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="/docs" className="text-text-muted hover:text-text transition-colors">Documentation</Link></li>
-              <li><Link href="/plugin-sdk" className="text-text-muted hover:text-text transition-colors">Plugin SDK</Link></li>
-              <li><a href="https://github.com/haxllo/nex" target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-text transition-colors">GitHub</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-sm font-medium mb-3">Community</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="https://github.com/haxllo/nex/issues" target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-text transition-colors">Issues</a></li>
-              <li><a href="https://github.com/haxllo/nex/discussions" target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-text transition-colors">Discussions</a></li>
-            </ul>
-          </div>
+          {groups.map((g) => (
+            <div key={g.title}>
+              <h4 className="text-[12px] font-medium uppercase tracking-wider text-text-dim mb-3">
+                {g.title}
+              </h4>
+              <ul className="space-y-2">
+                {g.links.map((l) => (
+                  <li key={l.href}>
+                    <Link
+                      href={l.href}
+                      className="text-[13px] text-text-muted hover:text-text transition-colors"
+                    >
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-        <div className="mt-12 pt-8 border-t border-border text-center text-sm text-text-dim">
-          <p>MIT License. Built with Rust.</p>
+        <div className="mt-14 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-border pt-6">
+          <p className="text-[12px] text-text-dim">
+            © 2026 Nex. MIT License.
+          </p>
+          <div className="flex items-center gap-3 text-text-dim">
+            <a
+              href="https://github.com/haxllo/nex"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[12px] hover:text-text transition-colors"
+            >
+              GitHub
+            </a>
+            <span className="h-3 w-px bg-border" />
+            <a
+              href="https://github.com/haxllo/nex/discussions"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[12px] hover:text-text transition-colors"
+            >
+              Discussions
+            </a>
+          </div>
         </div>
       </div>
     </footer>

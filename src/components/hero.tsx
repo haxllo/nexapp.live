@@ -1,122 +1,69 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
+import { motion } from "motion/react";
 import Image from "next/image";
 
 export function Hero() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-  });
-
-  const rotateX = useTransform(scrollYProgress, [0, 0.6], [35, 0]);
-  const imgScale = useTransform(scrollYProgress, [0, 0.6], [0.85, 1]);
-
   return (
-    <section ref={sectionRef} className="relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-accent/5 via-transparent to-transparent" />
-      <div className="relative mx-auto max-w-6xl px-6 py-32">
+    <section className="relative overflow-hidden bg-bg">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-[55%] -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[900px]"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, rgba(160,180,220,0.18) 0%, rgba(140,160,200,0.10) 25%, rgba(100,120,160,0.04) 50%, rgba(0,0,0,0) 80%)",
+          filter: "blur(60px)",
+        }}
+      />
+
+      <div className="relative mx-auto max-w-6xl px-4 pt-24 pb-16 sm:pt-32 sm:pb-20">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center"
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="max-w-2xl"
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-bg-card px-4 py-1.5 text-sm text-text-muted mb-8">
-            <span className="h-2 w-2 rounded-full bg-code animate-pulse" />
-            Windows 10/11 · MIT License
-          </div>
-          <h1 className="font-display text-6xl md:text-7xl lg:text-8xl tracking-tight mb-6">
-            Summon search.
+          <h1 className="font-display text-[40px] sm:text-[52px] md:text-[60px] font-medium tracking-[-0.03em] leading-[1.02] text-text">
+            The keyboard-first
             <br />
-            <span className="text-accent">Instantly.</span>
+            launcher for Windows.
           </h1>
-          <p className="mx-auto max-w-2xl text-xl text-text-muted mb-12">
-            Press{" "}
-            <kbd
-              aria-label="Windows key"
-              className="relative inline-flex items-center justify-center align-middle rounded-[10px] border border-b-[3px] border-border-hover bg-gradient-to-b from-bg-card to-bg-elevated px-3 py-1.5 shadow-[0_2px_0_0_var(--color-border),0_4px_8px_-2px_rgba(0,0,0,0.6)]"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="text-text drop-shadow-[0_1px_0_rgba(255,255,255,0.05)]"
-              >
-                <path d="M0 3.449L9.75 2.1v9.451H0V3.449zM10.949 1.949L24 0v11.4H10.95V1.949zM0 12.6h9.75v9.451L0 20.699V12.6zM10.949 12.6H24V24l-13.05-1.949V12.6z" />
-              </svg>
-            </kbd>{" "}
-            to launch.
-            Find apps, files, and actions with fuzzy search. Built in Rust for speed.
+          <p className="mt-5 max-w-lg text-[15px] leading-relaxed text-text-muted">
+            Press a key. Find anything. Run anything. Built in Rust for instant
+            fuzzy search across apps, files, and actions.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="mt-7 flex items-center gap-2">
             <a
               href="/download"
-              className="inline-flex items-center justify-center rounded-md bg-accent px-8 py-3 font-medium text-black hover:bg-accent-hover transition-colors"
+              className="inline-flex h-9 items-center justify-center rounded-md bg-text px-4 text-[13px] font-medium text-bg hover:bg-text-muted transition-colors"
             >
               Download for Windows
             </a>
             <a
-              href="/docs"
-              className="inline-flex items-center justify-center rounded-md border border-border bg-bg-card px-8 py-3 font-medium hover:border-border-hover hover:bg-bg-elevated transition-colors"
+              href="/method"
+              className="inline-flex h-9 items-center justify-center rounded-md px-3 text-[13px] font-medium text-text-muted hover:text-text transition-colors"
             >
-              View Documentation
+              Read the method →
             </a>
           </div>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-20"
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+          className="mt-16 sm:mt-20"
         >
-          <motion.div
-            className="relative mx-auto max-w-4xl"
-            style={{
-              perspective: "1000px",
-            }}
-          >
-            <motion.div
-              style={{
-                rotateX,
-                scale: imgScale,
-                transformStyle: "preserve-3d",
-                transformOrigin: "center bottom",
-              }}
-            >
-              <Image
-                src="/nex-ui.png"
-                alt="Nex launcher interface"
-                width={1510}
-                height={1040}
-                unoptimized
-                className="rounded-lg shadow-2xl w-full h-auto"
-                priority
-              />
-            </motion.div>
-          </motion.div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-20 grid gap-8 md:grid-cols-3 text-center"
-        >
-          <div>
-            <div className="font-display text-4xl mb-2">{"<60ms"}</div>
-            <div className="text-sm text-text-muted">Hotkey to visible</div>
-          </div>
-          <div>
-            <div className="font-display text-4xl mb-2">{"<15ms"}</div>
-            <div className="text-sm text-text-muted">Query response</div>
-          </div>
-          <div>
-            <div className="font-display text-4xl mb-2">72<small className="text-lg text-text-dim ml-1">MB</small></div>
-            <div className="text-sm text-text-muted">Idle memory</div>
+          <div className="relative">
+            <Image
+              src="https://cdn.nexapp.live/Product.png"
+              alt="Nex launcher interface"
+              width={949}
+              height={540}
+              unoptimized
+              className="mx-auto rounded-md"
+              priority
+            />
           </div>
         </motion.div>
       </div>
