@@ -8,7 +8,6 @@ export function DesktopFrame({
   position = "center",
   height = "h-[452px]",
   priority = false,
-  dim = false,
   children,
   className = "",
 }: {
@@ -18,7 +17,6 @@ export function DesktopFrame({
   position?: string;
   height?: string;
   priority?: boolean;
-  dim?: boolean;
   children: ReactNode;
   className?: string;
 }) {
@@ -38,7 +36,7 @@ export function DesktopFrame({
         />
         <div
           aria-hidden
-          className={`absolute inset-0 bg-[radial-gradient(130%_100%_at_50%_8%,rgba(255,255,255,0)_38%,rgba(8,10,14,0.26)_100%)] ${dim ? "bg-black/25" : ""}`}
+          className="absolute inset-0 bg-[radial-gradient(130%_100%_at_50%_8%,rgba(255,255,255,0)_38%,rgba(8,10,14,0.26)_100%)]"
         />
         <div className="absolute inset-0 flex items-center justify-center p-3">
           {children}

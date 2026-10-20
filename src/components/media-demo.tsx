@@ -10,11 +10,11 @@ export function MediaDemo() {
 
   return (
     <DesktopFrame
-      src="/glass-lake.jpg"
-      alt="Moraine Lake at sunset behind the Nex media controls"
+      src="/wallpaper.jpg"
+      alt="The Nex desktop wallpaper behind the media controls"
       sizes="(min-width: 1024px) 1100px, 100vw"
       height="h-[270px] sm:h-[320px]"
-      position="center 55%"
+      position="center 58%"
     >
       <div className="glass-panel w-full max-w-[640px] rounded-[14px] p-4">
         <div className="flex items-center gap-3">

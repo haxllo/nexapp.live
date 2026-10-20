@@ -11,11 +11,11 @@ export function Chat() {
           <div className="min-w-0 lg:col-span-7">
             <Reveal>
               <DesktopFrame
-                src="/glass-lake.jpg"
-                alt="Moraine Lake at sunset behind the Nex chat surface"
+                src="/wallpaper.jpg"
+                alt="The Nex desktop wallpaper behind the chat surface"
                 sizes="(min-width: 1024px) 640px, 100vw"
                 height="h-[500px]"
-                position="center 52%"
+                position="center 45%"
               >
                 <ChatDemo />
               </DesktopFrame>

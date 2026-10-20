@@ -390,13 +390,12 @@ export function LauncherDemo() {
   return (
     <div className="w-full">
       <DesktopFrame
-        src="/glass-lake.jpg"
-        alt="Moraine Lake at sunset, used as the desktop behind the Nex panel"
+        src="/wallpaper.jpg"
+        alt="The Nex desktop wallpaper: a monolith in a rust desert beneath a ringed planet"
         sizes="(min-width: 1024px) 620px, 100vw"
         height="h-[480px] sm:h-[470px]"
         priority
-        dim
-        position="center 70%"
+        position="center 50%"
       >
         <div className="glass-panel w-full max-w-[400px] overflow-hidden rounded-[12px]">
           <div className="flex h-11 items-center gap-2.5 border-b border-[var(--glass-line)] px-3.5">

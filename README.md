@@ -31,13 +31,13 @@ That is why there is no glass screenshot on the site.
 
 The previews instead render the material in the browser with layered
 `backdrop-filter` (blur, saturation, brightness), a 1px rim highlight, inset edge light,
-and a soft contact shadow over a real desktop photograph. The panel keeps the app's
+and a soft contact shadow over the project desktop wallpaper. The panel keeps the app's
 smoked tint so text stays readable over bright wallpaper, with opaque fallbacks for
 browsers without compositing support and for `prefers-reduced-transparency`.
 
 Asset notes:
 
-- Desktop photograph: Unsplash (Moraine Lake), free to use. The media cover is a crop of a second Unsplash photo.
+- Desktop wallpaper: wallhaven `rr1y5j`, supplied by the project owner (5824x3264 source). The media cover is a crop of an Unsplash desert photo.
 - App icons: Simple Icons (CC0) for brand marks, Phosphor for system utilities.
 - Album art: a crop of the lake photograph, not a real release cover.
 
