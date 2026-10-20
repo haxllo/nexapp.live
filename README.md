@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# nex-website
 
-## Getting Started
+Marketing site and documentation for [Nex](https://github.com/haxllo/nex), a keyboard-first launcher for Windows.
 
-First, run the development server:
+Live at [nexapp.live](https://www.nexapp.live).
+
+## Stack
+
+- Next.js 16 (App Router, Turbopack)
+- React 19
+- Tailwind CSS v4
+- Motion (the library formerly known as Framer Motion)
+- Phosphor icons
+- TypeScript
+
+## Design system
+
+The site follows the product's own geometry rather than a generic marketing template.
+
+- **Canvas** `#0a0b0d`, one pale blue signal `#9db9ff` taken from the panel accent. No gradients used as decoration.
+- **Type** Instrument Sans for display and UI, JetBrains Mono for metadata, keys, and code.
+- **Shape** 8px controls, 10px panels, 12px grids. 1px hairlines instead of card shadows.
+- **Motion** IntersectionObserver reveals plus a short hero entrance. Everything is disabled under `prefers-reduced-motion`.
+- **Previews** three rendered views of the real overlay: search (live fuzzy search, calculator, scopes, command mode), chat (working composer, context chips), and media (play/pause). They are built from the actual app layout, not invented UI.
+
+## The glass previews
+
+The real panel samples the live desktop through DXGI Desktop Duplication and sets
+`WDA_EXCLUDEFROMCAPTURE`, so it is invisible to screenshots, OBS, and Discord by design.
+That is why there is no glass screenshot on the site.
+
+The previews instead render the material in the browser with layered
+`backdrop-filter` (blur, saturation, brightness), a 1px rim highlight, inset edge light,
+and a soft contact shadow over a real desktop photograph. The panel keeps the app's
+smoked tint so text stays readable over bright wallpaper, with opaque fallbacks for
+browsers without compositing support and for `prefers-reduced-transparency`.
+
+Asset notes:
+
+- Desktop photographs: Unsplash, free to use.
+- App icons: Simple Icons (CC0) for brand marks, Phosphor for system utilities.
+- Album art: a crop of the lake photograph, not a real release cover.
+
+## Pages
+
+| Route | Purpose |
+|---|---|
+| `/` | Product page: live panel preview, capabilities, syntax, chat, engineering, config, releases |
+| `/features` | Grouped capability reference |
+| `/download` | Release assets, requirements, post-install steps, source build |
+| `/docs` | Docs index and quick reference |
+| `/docs/getting-started` | Install, first run, syntax, CLI, troubleshooting |
+| `/docs/configuration` | Every `config.toml` key with type, default, and range |
+| `/changelog` | Recent release notes plus the full version list |
+| `/plugin-sdk` | Manifest schema, action types, safe mode, example plugin |
+
+## Commands
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm dev     # local dev server
+pnpm build   # production build
+pnpm start   # production server
+pnpm lint    # ESLint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Content
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Product facts were taken from the public repository and the v2.28.0 release notes.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `src/lib/constants.ts` holds the current release, asset names, sizes, and URLs. Update it when a release ships.
+- `src/lib/settings.ts` holds the configuration reference. Keep it in sync with `config.toml`.
+- The changelog is written from GitHub release notes; the version list is complete back to 2.0.0.

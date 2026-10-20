@@ -1,31 +1,14 @@
-import Link from "next/link";
-
-const sidebar = [
-  { title: "Overview", href: "/docs" },
-  { title: "Getting Started", href: "/docs/getting-started" },
-  { title: "Configuration", href: "/docs/configuration" },
-];
+import { DocsNav } from "@/components/docs-nav";
 
 export default function DocsLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mx-auto flex max-w-6xl px-6 py-16 gap-12">
-      <aside className="hidden md:block w-56 shrink-0">
-        <nav className="sticky top-24 space-y-1">
-          <h3 className="text-sm font-medium text-text-dim mb-3 uppercase tracking-wider">Docs</h3>
-          {sidebar.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="block rounded-md px-3 py-2 text-sm text-text-muted hover:text-text hover:bg-bg-card transition-colors"
-            >
-              {item.title}
-            </Link>
-          ))}
-        </nav>
-      </aside>
-      <article className="min-w-0 flex-1 max-w-3xl">
-        {children}
-      </article>
+    <div className="shell py-10 md:py-14">
+      <div className="grid gap-8 lg:grid-cols-[190px_minmax(0,1fr)] lg:gap-14">
+        <aside className="lg:sticky lg:top-24 lg:self-start">
+          <DocsNav />
+        </aside>
+        <article className="min-w-0">{children}</article>
+      </div>
     </div>
   );
 }

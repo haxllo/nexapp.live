@@ -1,92 +1,193 @@
+import type { Metadata } from "next";
+import { CodeBlock } from "@/components/code-block";
+import { DownloadSimple } from "@/components/icons";
+import { Button, Kbd, PageHead, TextLink } from "@/components/ui";
+import { CONFIG_PATH, GITHUB_RELEASES, RELEASE } from "@/lib/constants";
+
+export const metadata: Metadata = {
+  title: "Download",
+  description:
+    "Download Nex 2.28.0 for Windows 10 and 11, x64. Installer, portable zip, and build-from-source instructions.",
+};
+
+const build = `git clone https://github.com/haxllo/nex.git
+cd nex
+cargo build --release --bin Nex --bin NexHelper
+.\\target\\release\\Nex.exe`;
+
 export default function DownloadPage() {
+  const installer = RELEASE.assets[0];
+
   return (
-    <div className="mx-auto max-w-4xl px-6 py-24">
-      <div className="mb-16">
-        <h1 className="font-display text-5xl md:text-6xl mb-6">Download</h1>
-        <p className="text-xl text-text-muted">
-          Get Nex for Windows 10/11 (64-bit).
-        </p>
-      </div>
+    <div className="shell pt-14 pb-20 md:pt-20 md:pb-28">
+      <PageHead
+        title="Install Nex."
+        lede="Windows 10 or 11, 64-bit. The installer is 7.4 MB, and Nex starts in the background with the Win key already wired up."
+      />
 
-      <div className="space-y-8">
-        <div className="rounded-lg border border-border bg-bg-card p-8">
-          <h2 className="text-2xl font-medium mb-4">Binary Release (Recommended)</h2>
-          <p className="text-text-muted mb-6">
-            Download the latest release installer. Follow the setup instructions after download.
-          </p>
-          <a
-            href="https://github.com/haxllo/nex/releases/latest"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-md bg-accent px-8 py-3 font-medium text-black hover:bg-accent-hover transition-colors"
-          >
-            Download Latest Release
-          </a>
-        </div>
+      <div className="mt-12 grid gap-12 lg:grid-cols-12 lg:gap-16">
+        <div className="min-w-0 lg:col-span-7">
+          <div className="rounded-[12px] border border-line bg-ink-2 p-6 md:p-7">
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <h2 className="text-[15px] font-medium text-paper">Latest release</h2>
+              <span className="mono text-[10.5px] text-faint">
+                v{RELEASE.version} · {RELEASE.date}
+              </span>
+            </div>
+            <p className="mt-1.5 text-[13px] text-muted">{RELEASE.title}</p>
 
-        <div className="rounded-lg border border-border bg-bg-card p-8">
-          <h2 className="text-2xl font-medium mb-4">Build from Source</h2>
-          <p className="text-text-muted mb-6">
-            Requires Rust 1.75+. Clone the repository and build with Cargo.
-          </p>
-          <div className="rounded-md bg-bg p-4 font-mono text-sm">
-            <div className="text-text-dim mb-2"># Clone the repository</div>
-            <div className="text-code mb-4">git clone https://github.com/haxllo/nex.git</div>
-            <div className="text-text-dim mb-2"># Build release binary</div>
-            <div className="text-code mb-4">cd nex && cargo build --release</div>
-            <div className="text-text-dim mb-2"># Binary location</div>
-            <div className="text-text-muted">target/release/nex.exe</div>
+            <div className="mt-6">
+              <Button
+                href={installer.url}
+                external
+                size="lg"
+                icon={<DownloadSimple size={15} weight="bold" aria-hidden />}
+                className="w-full sm:w-auto"
+              >
+                Download for Windows
+              </Button>
+            </div>
+
+            <div className="mt-7 border-t border-line">
+              {RELEASE.assets.map((asset) => (
+                <a
+                  key={asset.name}
+                  href={asset.url}
+                  className="group flex items-center justify-between gap-4 border-b border-line py-3 transition-colors duration-200 hover:text-paper"
+                >
+                  <span className="min-w-0">
+                    <span className="block text-[12.5px] text-paper">{asset.label}</span>
+                    <span className="mono block truncate text-[10.5px] text-faint">
+                      {asset.name}
+                    </span>
+                  </span>
+                  <span className="mono flex shrink-0 items-center gap-3 text-[10.5px] text-faint">
+                    {asset.size}
+                    <DownloadSimple
+                      size={13}
+                      aria-hidden
+                      className="text-faint transition-colors group-hover:text-paper"
+                    />
+                  </span>
+                </a>
+              ))}
+            </div>
+
+            <p className="mono mt-4 text-[10.5px] leading-relaxed text-faint">
+              Older versions live on{" "}
+              <a
+                href={GITHUB_RELEASES}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted underline decoration-white/20 underline-offset-2 hover:text-paper"
+              >
+                GitHub Releases
+              </a>
+              .
+            </p>
           </div>
+
+          <section className="mt-10">
+            <h2 className="text-[15px] font-medium text-paper">After installing</h2>
+            <div className="mt-4 border-t border-line">
+              {[
+                {
+                  title: "The installer runs and Nex starts in the background",
+                  body: "There is no window until you ask for one. A tray icon takes over from there.",
+                },
+                {
+                  title: "Press Win",
+                  body: "The panel opens on the monitor under your cursor, in the upper third, with Quick Launch already filled.",
+                },
+                {
+                  title: "Type, then Enter",
+                  body: "Apps, files, and actions share one field. Esc closes the panel and gives focus back to whatever was in front.",
+                },
+              ].map((step) => (
+                <div key={step.title} className="border-b border-line py-4">
+                  <div className="text-[13.5px] text-paper">{step.title}</div>
+                  <p className="mt-1.5 max-w-[52ch] text-[13px] leading-[1.65] text-muted">
+                    {step.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="mt-10">
+            <h2 className="text-[15px] font-medium text-paper">Build from source</h2>
+            <p className="mt-2 max-w-[56ch] text-[13px] leading-[1.65] text-muted">
+              Rust 1.85 or newer. The two binaries are the app and the helper that owns
+              activation and allowlisted key simulation.
+            </p>
+            <div className="mt-4">
+              <CodeBlock code={build} title="PowerShell" language="powershell" />
+            </div>
+          </section>
         </div>
 
-        <div className="rounded-lg border border-border bg-bg-card p-8">
-          <h2 className="text-2xl font-medium mb-4">System Requirements</h2>
-          <ul className="space-y-3 text-text-muted">
-            <li className="flex items-start gap-3">
-              <span className="text-code mt-1">•</span>
-              <div>
-                <div className="text-text font-medium">Windows 10/11 (64-bit)</div>
-                <div className="text-sm">Windows 10 22H2 or later recommended</div>
-              </div>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-code mt-1">•</span>
-              <div>
-                <div className="text-text font-medium">Memory</div>
-                <div className="text-sm">Under 120MB idle usage</div>
-              </div>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-code mt-1">•</span>
-              <div>
-                <div className="text-text font-medium">Disk Space</div>
-                <div className="text-sm">Less than 50MB installed</div>
-              </div>
-            </li>
-          </ul>
-        </div>
+        <aside className="min-w-0 lg:sticky lg:top-24 lg:col-span-5 lg:self-start">
+          <div className="rounded-[12px] border border-line bg-ink-2/60 p-6">
+            <h2 className="text-[12px] font-medium text-paper">Requirements</h2>
+            <dl className="mt-4 space-y-3">
+              {[
+                ["System", "Windows 10 or 11, 64-bit"],
+                ["Runtime", "WebView2, bundled with Windows 11"],
+                ["Memory", "72 MB active target, configurable"],
+                ["Disk", "7.4 MB installer"],
+                ["License", "MIT, source available"],
+              ].map(([key, value]) => (
+                <div key={key} className="flex items-baseline justify-between gap-6">
+                  <dt className="mono text-[10.5px] uppercase tracking-[0.08em] text-faint">
+                    {key}
+                  </dt>
+                  <dd className="text-right text-[12.5px] text-muted">{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
 
-        <div className="rounded-lg border border-border bg-bg-card p-8">
-          <h2 className="text-2xl font-medium mb-4">Quick Start</h2>
-          <ol className="space-y-4 text-text-muted">
-            <li className="flex items-start gap-3">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent/20 text-accent text-sm font-medium">1</span>
-              <div>Download and run the installer</div>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent/20 text-accent text-sm font-medium">2</span>
-              <div>Press <kbd className="rounded border border-border bg-bg-card px-2 py-0.5 font-mono text-xs">Win</kbd> to summon the launcher</div>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent/20 text-accent text-sm font-medium">3</span>
-              <div>Start typing to search apps, files, and actions</div>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent/20 text-accent text-sm font-medium">4</span>
-              <div>Press <kbd className="rounded border border-border bg-bg-card px-2 py-0.5 font-mono text-xs">Enter</kbd> to launch selected item</div>
-            </li>
-          </ol>
-        </div>
+          <div className="mt-6 rounded-[12px] border border-line bg-ink-2/60 p-6">
+            <h2 className="text-[12px] font-medium text-paper">Where things live</h2>
+            <div className="mt-4 space-y-4">
+              <div>
+                <div className="text-[12.5px] text-muted">Config</div>
+                <div className="mono mt-1 break-all rounded-[6px] border border-line bg-white/[0.03] px-2 py-1.5 text-[10.5px] text-paper">
+                  {CONFIG_PATH}
+                </div>
+              </div>
+              <div>
+                <div className="text-[12.5px] text-muted">Index</div>
+                <div className="mono mt-1 break-all rounded-[6px] border border-line bg-white/[0.03] px-2 py-1.5 text-[10.5px] text-paper">
+                  %APPDATA%\Nex\index.tantivy
+                </div>
+              </div>
+              <p className="text-[12.5px] leading-[1.6] text-muted">
+                Settings hot-reload in about a second. The hotkey and the index path
+                need a restart.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-8 space-y-3">
+            <div className="flex items-center gap-2">
+              <Kbd>Win</Kbd>
+              <span className="text-[12.5px] text-muted">default hotkey</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Kbd>Esc</Kbd>
+              <span className="text-[12.5px] text-muted">close the panel</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Kbd>Enter</Kbd>
+              <span className="text-[12.5px] text-muted">open the selection</span>
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <TextLink href="/docs/getting-started">Setup and troubleshooting</TextLink>
+          </div>
+        </aside>
       </div>
     </div>
   );

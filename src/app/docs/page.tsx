@@ -1,103 +1,126 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowRight } from "@/components/icons";
+import { Kbd, PageHead } from "@/components/ui";
+import { CONFIG_PATH, RELEASE } from "@/lib/constants";
 
-const docSections = [
+export const metadata: Metadata = {
+  title: "Documentation",
+  description:
+    "Install Nex, learn the search syntax, change every setting in config.toml, and extend the launcher with plugins.",
+};
+
+const pages = [
   {
-    title: "Getting Started",
-    description: "Install, run, and configure Nex for the first time.",
+    title: "Getting started",
+    body: "Prerequisites, installation, the first search, the search syntax, and what to do when the hotkey will not fire.",
     href: "/docs/getting-started",
   },
   {
     title: "Configuration",
-    description: "Full reference for all settings in config.toml.",
+    body: "Every key in config.toml with its type, default, and valid range, grouped the way the file is grouped.",
     href: "/docs/configuration",
   },
   {
     title: "Plugin SDK",
-    description: "Extend Nex with custom plugins.",
+    body: "Add results and actions with a JSON manifest. Paths, commands, keywords, and safe mode.",
     href: "/plugin-sdk",
   },
 ];
 
+const syntax = [
+  ["plain text", "Fuzzy match across apps, files, and folders"],
+  ["> action", "Command mode"],
+  ["@apps, @files, @folders", "Narrow the search scope"],
+  ["kind:file, ext:md", "Filter by type or extension"],
+  ["modified:week", "Filter by date"],
+  ["-term, AND, OR, NOT", "Exclude and combine terms"],
+];
+
+const cli = [
+  ["nex --status", "Check whether Nex is running"],
+  ["nex --quit", "Stop the running instance"],
+  ["nex --restart", "Restart the instance"],
+  ["nex --diagnostics-bundle", "Write a diagnostics zip"],
+];
+
 export default function DocsPage() {
   return (
-    <div className="mx-auto max-w-6xl px-6 py-24">
-      <div className="mb-16">
-        <h1 className="font-display text-5xl md:text-6xl mb-6">Documentation</h1>
-        <p className="text-xl text-text-muted max-w-2xl">
-          Everything you need to know about installing, configuring, and extending Nex.
-        </p>
-      </div>
+    <>
+      <PageHead
+        title="Documentation"
+        lede={`Install it, change how it behaves, and extend it. Everything here describes the current release, ${RELEASE.version}.`}
+      />
 
-      <div className="grid gap-6 md:grid-cols-3">
-        {docSections.map((section) => (
+      <div className="mt-10 border-t border-line">
+        {pages.map((page) => (
           <Link
-            key={section.title}
-            href={section.href}
-            className="group rounded-lg border border-border bg-bg-card p-6 hover:border-border-hover transition-colors"
+            key={page.href}
+            href={page.href}
+            className="group grid gap-1.5 border-b border-line py-5 transition-colors duration-200 hover:bg-white/[0.015] md:grid-cols-[minmax(0,30%)_minmax(0,1fr)_auto] md:items-baseline md:gap-8"
           >
-            <h2 className="text-lg font-medium mb-2 group-hover:text-accent transition-colors">
-              {section.title}
-            </h2>
-            <p className="text-sm text-text-muted">{section.description}</p>
+            <span className="text-[14px] text-paper">{page.title}</span>
+            <span className="max-w-[58ch] text-[13px] leading-[1.65] text-muted">
+              {page.body}
+            </span>
+            <ArrowRight
+              size={15}
+              aria-hidden
+              className="hidden text-faint transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-paper md:block"
+            />
           </Link>
         ))}
       </div>
 
-      <div className="mt-16 rounded-lg border border-border bg-bg-card p-8">
-        <h2 className="text-xl font-medium mb-4">Quick Reference</h2>
-        <div className="space-y-6">
-          <div>
-            <h3 className="text-sm font-medium text-accent mb-2">Config File Location</h3>
-            <code className="font-mono text-sm text-code">%APPDATA%\Nex\config.toml</code>
-          </div>
-          <div>
-            <h3 className="text-sm font-medium text-accent mb-2">Default Hotkey</h3>
-            <code className="font-mono text-sm text-code">Win</code>
-          </div>
-          <div>
-            <h3 className="text-sm font-medium text-accent mb-2">Search Syntax</h3>
-            <div className="grid gap-2 text-sm">
-              <div className="flex gap-3">
-                <code className="font-mono text-code w-24">plain text</code>
-                <span className="text-text-muted">Fuzzy search all items</span>
-              </div>
-              <div className="flex gap-3">
-                <code className="font-mono text-code w-24">{">"} command</code>
-                <span className="text-text-muted">Search actions/commands</span>
-              </div>
-              <div className="flex gap-3">
-                <code className="font-mono text-code w-24">@{""}mode</code>
-                <span className="text-text-muted">Switch search mode (apps, files, actions)</span>
-              </div>
-              <div className="flex gap-3">
-                <code className="font-mono text-code w-24">kind:...</code>
-                <span className="text-text-muted">Filter by type (kind:file, ext:md)</span>
-              </div>
+      <div className="mt-12 grid gap-10 md:grid-cols-2">
+        <section>
+          <h2 className="text-[13px] font-medium text-paper">The essentials</h2>
+          <dl className="mt-4 space-y-4 border-t border-line pt-4">
+            <div>
+              <dt className="text-[12.5px] text-muted">Config file</dt>
+              <dd className="mono mt-1 break-all text-[11px] text-paper">{CONFIG_PATH}</dd>
             </div>
-          </div>
-          <div>
-            <h3 className="text-sm font-medium text-accent mb-2">CLI Commands</h3>
-            <div className="grid gap-2 text-sm">
-              <div className="flex gap-3">
-                <code className="font-mono text-code w-40">nex --status</code>
-                <span className="text-text-muted">Check if running</span>
-              </div>
-              <div className="flex gap-3">
-                <code className="font-mono text-code w-40">nex --quit</code>
-                <span className="text-text-muted">Stop the launcher</span>
-              </div>
-              <div className="flex gap-3">
-                <code className="font-mono text-code w-40">nex --restart</code>
-                <span className="text-text-muted">Restart the launcher</span>
-              </div>
-              <div className="flex gap-3">
-                <code className="font-mono text-code w-40">nex --probe-index</code>
-                <span className="text-text-muted">Print index statistics</span>
-              </div>
+            <div>
+              <dt className="text-[12.5px] text-muted">Default hotkey</dt>
+              <dd className="mt-2 flex items-center gap-2">
+                <Kbd wide>Win</Kbd>
+                <span className="mono text-[10.5px] text-faint">changeable</span>
+              </dd>
             </div>
-          </div>
-        </div>
+            <div>
+              <dt className="text-[12.5px] text-muted">Close the panel</dt>
+              <dd className="mt-2 flex items-center gap-2">
+                <Kbd>Esc</Kbd>
+                <span className="mono text-[10.5px] text-faint">focus returns</span>
+              </dd>
+            </div>
+          </dl>
+        </section>
+
+        <section>
+          <h2 className="text-[13px] font-medium text-paper">Search syntax</h2>
+          <dl className="mt-4 border-t border-line">
+            {syntax.map(([token, meaning]) => (
+              <div key={token} className="flex items-baseline justify-between gap-6 border-b border-line py-2.5">
+                <dt className="mono text-[10.5px] text-paper">{token}</dt>
+                <dd className="text-right text-[12px] text-muted">{meaning}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
       </div>
-    </div>
+
+      <section className="mt-12">
+        <h2 className="text-[13px] font-medium text-paper">Command line</h2>
+        <dl className="mt-4 grid gap-x-10 border-t border-line sm:grid-cols-2">
+          {cli.map(([command, meaning]) => (
+            <div key={command} className="border-b border-line py-2.5">
+              <dt className="mono text-[10.5px] text-paper">{command}</dt>
+              <dd className="mt-1 text-[12px] text-muted">{meaning}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    </>
   );
 }

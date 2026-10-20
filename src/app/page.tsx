@@ -1,26 +1,24 @@
 import { Hero } from "@/components/hero";
-import { LogoStrip } from "@/components/logo-strip";
-import { FeaturesThreeCards } from "@/components/features-three-cards";
-import { IntakeSection } from "@/components/intake-section";
-import { PlanningSection } from "@/components/planning-section";
-import { AiSection } from "@/components/ai-section";
-import { BuildSection } from "@/components/build-section";
-import { ChangelogSection } from "@/components/changelog-section";
-import { TestimonialSection } from "@/components/testimonial-section";
+import { Capabilities } from "@/components/capabilities";
+import { Syntax } from "@/components/syntax";
+import { Chat } from "@/components/chat";
+import { Engineering } from "@/components/engineering";
+import { Media } from "@/components/media";
+import { Configuration } from "@/components/configuration-section";
+import { Releases } from "@/components/releases";
 import { FinalCta } from "@/components/final-cta";
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <LogoStrip />
-      <FeaturesThreeCards />
-      <IntakeSection />
-      <PlanningSection />
-      <AiSection />
-      <BuildSection />
-      <ChangelogSection />
-      <TestimonialSection />
+      <Capabilities />
+      <Syntax />
+      <Chat />
+      <Engineering />
+      <Media />
+      <Configuration />
+      <Releases />
       <FinalCta />
     </>
   );

@@ -1,235 +1,234 @@
-const releases = [
+import type { Metadata } from "next";
+import { ArrowUpRight } from "@/components/icons";
+import { Button, PageHead } from "@/components/ui";
+import { GITHUB_RELEASES, GITHUB_LATEST, RELEASE } from "@/lib/constants";
+
+export const metadata: Metadata = {
+  title: "Changelog",
+  description:
+    "Release notes for Nex, from the liquid glass panel in 2.28.0 back to the WebView2 rewrite in 2.0.0.",
+};
+
+const recent = [
   {
-    version: "2.4.2",
-    date: "2026-07-10",
-    changes: [
-      { type: "fixed", text: "White flash on open — quick launch items load into state before Show posted" },
-      { type: "fixed", text: "Pulse on open — resize fires before painted, avoiding 60px initial height jump" },
-      { type: "fixed", text: "Opacity flash on open — removed opacity 0→1 from row-in animation" },
-      { type: "fixed", text: "Body flash on close — window hides before cleared state pushes" },
-      { type: "fixed", text: "Divider visible on idle — idle class hides list area until rows render" },
+    version: "2.28.0",
+    date: "2026-10-19",
+    title: "The panel is glass now",
+    summary:
+      "The panel is no longer a page painted over a blur. It is drawn as a pane of glass: the desktop behind it bends into the rim, the edge picks up light, and the whole thing sits above a soft contact shadow.",
+    points: [
+      "The backdrop bends into the edges instead of only softening, and color splits slightly at the very edge.",
+      "Edge light sits on all four sides at rest. It leans toward the pointer only while the pointer is over the panel.",
+      "The silhouette lives in the surface, so corners stay anti-aliased and no longer overflow at 125% scaling.",
+      "The reveal waits for a frame at the size the panel actually has, so it never shows the previous session's rows.",
+      "Dividers and the scrollbar reach the right edge again, after the invisible resize frame was clipping them.",
+      "Attached-file and PC chips use the same 1px edge, 6px radius, and row inset as the rest of the panel.",
     ],
   },
   {
-    version: "2.4.1",
-    date: "2026-07-10",
-    changes: [
-      { type: "changed", text: "WebView stays warm for process lifetime — icon cache only trimmed on idle" },
-      { type: "changed", text: "Heap reclaimed on idle via icon cache clear while keeping WebView resident" },
-      { type: "changed", text: "README updated with Rust badge, warm-release description" },
+    version: "2.27.1",
+    date: "2026-10-18",
+    title: "Glass that is live from the first frame",
+    summary:
+      "A short polish pass on the glass: opening over playing video no longer holds a frozen picture, and the surface reads cleaner over bright wallpapers.",
+    points: [
+      "A show pulls the newest desktop frame before revealing, instead of the poll's copy from up to a quarter second earlier.",
+      "Lighter wash and quieter grain, so the panel reads as clean glass rather than a milky layer.",
+      "The soft shadow under text is kept on dark backdrops and removed on light ones.",
     ],
   },
   {
-    version: "2.4.0",
-    date: "2026-07-04",
-    changes: [
-      { type: "added", text: "Quick Launch — pinned apps with hybrid model (pins when set, usage-based when empty)" },
-      { type: "added", text: "Pinned items appear at top of search results" },
-      { type: "changed", text: "Icon extraction uses ExtractIconExW for highest-res (32/48/256px)" },
-      { type: "fixed", text: "Overlay not opening — JavaScript regex syntax error prevented WebView ready signal" },
-      { type: "fixed", text: "Config format — nested TOML structure for quick_launch, migration from old flat format" },
+    version: "2.27.0",
+    date: "2026-10-18",
+    title: "The panel is now made of glass",
+    summary:
+      "The first release of the native glass material. The search surface stopped imitating a blurred panel and started sampling the desktop behind it, with an opaque fallback for machines where the GPU path cannot start.",
+    points: [
+      "The panel captures what is behind it and refracts that content at the rim.",
+      "When transparency is off, or the renderer fails, the panel falls back to an opaque surface instead of a blank window.",
+      "Panel corner radius and row radius share the same 8px geometry.",
     ],
   },
   {
-    version: "2.3.1",
-    date: "2026-07-03",
-    changes: [
-      { type: "fixed", text: "Shutdown hang — COM STA deadlock fixed via MTA, FileWatcherHandle non-blocking drop" },
-      { type: "fixed", text: "Startup unwrap hardened — 5 bare .unwrap() calls replaced with poisoned lock recovery" },
-      { type: "perf", text: "Arrow key ~1ms instead of ~20ms — UiCommand::SelectChanged sends lightweight JSON" },
-      { type: "perf", text: "Dual PostWebMessageAsJson — state lock hold reduced from ~5ms to ~0.1ms" },
-      { type: "perf", text: "Removed backdrop-filter saturate doubling compositor work" },
-      { type: "perf", text: "Row-in animation only on initial render, JS debounce 80ms→40ms" },
-      { type: "fixed", text: "Persistent icon-prefetch thread replaces per-call thread spawning" },
-      { type: "fixed", text: "last_touch unbounded growth — clean_orphaned_touches added" },
+    version: "2.26.1",
+    date: "2026-10-15",
+    title: "Chat UI pass",
+    summary:
+      "The chat surface became usable with a keyboard: hover-revealed actions, a boxed composer, and a model picker rebuilt as a real dropdown.",
+    points: [
+      "Every dropdown shares one surface, hover fill, and left accent selection.",
+      "Custom model IDs enter through a Use-query option instead of a raw input.",
+      "Context chips match the panel's edge and radius.",
     ],
   },
   {
-    version: "2.3.0",
-    date: "2026-06-22",
-    changes: [
-      { type: "fixed", text: "Cargo package renamed from nex-launch to nex — CI and build-from-source work again" },
-      { type: "fixed", text: "Update script pointing at wrong repo, now defaults to haxllo/nex" },
-      { type: "fixed", text: "File watcher self-heals on event storm via incremental resync" },
-      { type: "changed", text: "Clipboard history off by default and encrypted at rest with DPAPI" },
-      { type: "changed", text: "Launch at startup defaults to true" },
-      { type: "changed", text: "Config generation counter clears search worker session on reload" },
+    version: "2.26.0",
+    date: "2026-10-14",
+    title: "Text finally renders right, and the helper grew up",
+    summary:
+      "A release about sharp text and reliable activation. ClearType returns where it can, the helper owns activation, and the pieces behind the hotkey stop fighting the system.",
+    points: [
+      "ClearType in search, rows, hover, media, chat, and menus. Transparent glass still renders grayscale by design.",
+      "A single activation path through the helper, with demotion to the keyboard hook and a foreground stack for restore.",
+      "Icons that expose a tiny frame on a big canvas fall through to the dense icon instead of serving a blurry one.",
+      "Outside clicks dismiss immediately, including with the file picker open.",
     ],
   },
   {
-    version: "2.2.2",
-    date: "2026-06-22",
-    changes: [
-      { type: "fixed", text: "Nex not showing in Task Manager startup apps — background default conflict suppressed CLI commands" },
-    ],
-  },
-  {
-    version: "2.2.1",
-    date: "2026-06-21",
-    changes: [
-      { type: "fixed", text: "First hotkey after warm-release teardown — spurious Focused events during WebView rebuild dismissed overlay" },
-    ],
-  },
-  {
-    version: "2.2.0",
-    date: "2026-06-21",
-    changes: [
-      { type: "fixed", text: "SQLITE_BUSY launch freeze — launch reads from cache, WAL mode + busy timeout added" },
-      { type: "fixed", text: "Warm-release hotkey miss — show_pending set before build_webview" },
-      { type: "removed", text: "FTS5 search backend removed — Tantivy is sole indexed search backend" },
-      { type: "fixed", text: "Config hot-reload stale in search worker — Arc<RwLock<>> sharing" },
-      { type: "fixed", text: "Console flash on launch — CREATE_NO_WINDOW for plugin/explorer spawns" },
-      { type: "changed", text: "Diagnostics privacy — raw config/logs opt-in, query text hashed" },
-    ],
-  },
-  {
-    version: "2.1.1",
-    date: "2026-06-20",
-    changes: [
-      { type: "fixed", text: "Shutdown hang — OnceLock::clone deep copy hid thread ID from Drop, wrapped in Arc" },
-    ],
-  },
-  {
-    version: "2.1.0",
-    date: "2026-06-20",
-    changes: [
-      { type: "perf", text: "Pre-read ALL Tantivy segment files + SQLite DB into OS page cache — disk I/O eliminated from first keystroke" },
-      { type: "perf", text: "Icon decode throttle — first 8 sync, rest deferred, show latency cut ~60%" },
-      { type: "perf", text: "RwLock replaces Mutex<CoreService> — concurrent reads, no reader contention" },
-      { type: "perf", text: "Adaptive debounce — first char instant, rapid chars coalesced at 80ms" },
-      { type: "perf", text: "Search cache warmup on overlay show + stale prune off critical path" },
-      { type: "fixed", text: "Overlay hang after first indexing — sync_indexes_from_cache short-circuits" },
-      { type: "fixed", text: "Blank window on first hotkey — removed panel-in CSS animation causing opacity fade delay" },
-      { type: "changed", text: "Crate renamed nex-cli → nex-launch (binary stays nex.exe)" },
-    ],
-  },
-  {
-    version: "2.0.0",
-    date: "2026-06-18",
-    changes: [
-      { type: "changed", text: "Complete replacement of Iced/resvg/tiny-skia rendering with WebView2 (wry + tao)" },
-      { type: "added", text: "DWM acrylic backdrop with native window shadow — no CSS shadow hacks" },
-      { type: "added", text: "Warm-then-release — WebView built at startup, released ~5s after hide" },
-      { type: "fixed", text: "Transparent icon — regenerated ico from SVG with true alpha transparency" },
-      { type: "fixed", text: "Click-outside-to-dismiss with proper focus grace period" },
-    ],
-  },
-  {
-    version: "1.3.0",
-    date: "2026-05-28",
-    changes: [
-      { type: "removed", text: "D2D/DWrite rendering stack removed — GDI+ is now hard requirement" },
-      { type: "changed", text: "SpaceMono replaced with Inter as bundled font" },
-      { type: "fixed", text: "register_private_fonts was searching Inter directories for SpaceMono filenames" },
-      { type: "fixed", text: "All hanging ShellExecuteW tests fixed" },
-    ],
-  },
-  {
-    version: "1.2.0",
-    date: "2026-05-25",
-    changes: [
-      { type: "changed", text: "Optimized icon caching with async painting and background refresh" },
-      { type: "fixed", text: "Icon cache invalidation on file changes" },
-    ],
-  },
-  {
-    version: "1.1.1",
-    date: "2026-05-24",
-    changes: [
-      { type: "changed", text: "Search now fully async — query processing moved to dedicated background thread" },
-      { type: "fixed", text: "Overlay no longer freezes during search" },
-      { type: "fixed", text: "Thread safety for CoreService with Arc<Mutex<CoreService>>" },
-    ],
-  },
-  {
-    version: "1.1.0",
-    date: "2026-05-24",
-    changes: [
-      { type: "added", text: "Everything SDK integration — instant file search via Everything64.dll" },
-      { type: "added", text: "Window management — eight preset tile layouts from command palette" },
-      { type: "added", text: "Calculator (basic) — inline arithmetic evaluation in search bar" },
-      { type: "added", text: "Plugin SDK foundations — JSON manifest loading and validation" },
-      { type: "changed", text: "Packaging bundles Everything64.dll, TLS 1.2 enforced" },
-    ],
-  },
-  {
-    version: "1.0.1",
-    date: "2026-05-19",
-    changes: [
-      { type: "fixed", text: "Inno Setup silent installation support for winget and package managers" },
-      { type: "fixed", text: "PrivilegesRequiredOverridesAllowed uses commandline instead of dialog" },
-    ],
-  },
-  {
-    version: "1.0.0",
-    date: "2026-05-17",
-    changes: [
-      { type: "added", text: "Initial stable release — keyboard-first launcher for Windows" },
-      { type: "added", text: "Global hotkey (Alt+Space) with customizable shortcut" },
-      { type: "added", text: "Fuzzy search via Tantivy full-text search" },
-      { type: "added", text: "App discovery from Start Menu and installed apps" },
-      { type: "added", text: "File and folder indexing with real-time watching" },
-      { type: "added", text: "Clipboard history (optional), plugin support, game mode" },
+    version: "2.25.3",
+    date: "2026-10-12",
+    title: "Sharper dark mode groundwork, quieter glass, calmer updates",
+    summary:
+      "Opaque black and white modes start on an opaque surface, glass resizes without flashing, and the update pill stops nagging.",
+    points: [
+      "Black and white modes create the WebView on an opaque surface and seed it before the environment exists.",
+      "The glass layer stays parked on resizes instead of resurrecting behind opaque panels.",
+      "A clean update check is fully silent now; update and retry pills appear only when they matter.",
     ],
   },
 ];
 
+const earlier = [
+  ["2.26.3", "2026-10-15"],
+  ["2.26.2", "2026-10-15"],
+  ["2.25.2", "2026-10-12"],
+  ["2.25.1", "2026-10-12"],
+  ["2.25.0", "2026-10-12"],
+  ["2.24.2", "2026-10-10"],
+  ["2.24.1", "2026-10-10"],
+  ["2.24.0", "2026-10-10"],
+  ["2.23.3", "2026-10-08"],
+  ["2.23.2", "2026-10-08"],
+  ["2.23.1", "2026-10-07"],
+  ["2.23.0", "2026-10-07"],
+  ["2.22.12", "2026-10-05"],
+  ["2.22.11", "2026-10-05"],
+  ["2.22.10", "2026-10-04"],
+  ["2.22.9", "2026-10-02"],
+  ["2.22.8", "2026-10-02"],
+  ["2.22.7", "2026-10-01"],
+  ["2.22.6", "2026-10-01"],
+  ["2.22.5", "2026-10-01"],
+  ["2.22.4", "2026-10-01"],
+  ["2.22.3", "2026-10-01"],
+  ["2.22.2", "2026-10-01"],
+  ["2.22.1", "2026-10-01"],
+  ["2.22.0", "2026-10-01"],
+  ["2.21.4", "2026-09-28"],
+  ["2.21.3", "2026-09-28"],
+  ["2.21.2", "2026-09-26"],
+  ["2.21.1", "2026-09-26"],
+  ["2.21.0", "2026-09-25"],
+  ["2.20.0", "2026-09-19"],
+  ["2.19.0", "2026-09-15"],
+  ["2.18.0", "2026-09-08"],
+  ["2.17.1", "2026-09-03"],
+  ["2.17.0", "2026-08-29"],
+  ["2.16.0", "2026-08-21"],
+  ["2.15.1", "2026-08-18"],
+  ["2.15.0", "2026-08-18"],
+  ["2.14.0", "2026-08-10"],
+  ["2.13.0", "2026-08-05"],
+  ["2.12.0", "2026-08-03"],
+  ["2.11.0", "2026-08-02"],
+  ["2.10.0", "2026-07-31"],
+  ["2.9.1", "2026-07-29"],
+  ["2.9.0", "2026-07-29"],
+  ["2.8.1", "2026-07-24"],
+  ["2.8.0", "2026-07-23"],
+  ["2.7.0", "2026-07-23"],
+  ["2.6.0", "2026-07-23"],
+  ["2.5.0", "2026-07-22"],
+  ["2.4.3", "2026-07-22"],
+  ["2.4.2", "2026-07-10"],
+  ["2.4.1", "2026-07-10"],
+  ["2.4.0", "2026-07-04"],
+  ["2.3.1", "2026-07-03"],
+  ["2.3.0", "2026-06-22"],
+  ["2.2.2", "2026-06-22"],
+  ["2.2.1", "2026-06-21"],
+  ["2.2.0", "2026-06-21"],
+  ["2.1.1", "2026-06-20"],
+  ["2.1.0", "2026-06-20"],
+  ["2.0.0", "2026-06-18"],
+];
+
 export default function ChangelogPage() {
   return (
-    <div className="mx-auto max-w-4xl px-6 py-24">
-      <div className="mb-16">
-        <h1 className="font-display text-5xl md:text-6xl mb-6">Changelog</h1>
-        <p className="text-xl text-text-muted">
-          Release history and version notes.
-        </p>
-      </div>
+    <div className="shell pt-14 pb-20 md:pt-20 md:pb-28">
+      <PageHead
+        title="Changelog"
+        lede="Nex ships small releases, usually more than one a week. These are the ones that changed how the panel feels."
+      >
+        <div className="flex flex-wrap items-center gap-4">
+          <Button href={GITHUB_LATEST} external>
+            Download v{RELEASE.version}
+          </Button>
+          <a
+            href={GITHUB_RELEASES}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-1.5 text-[13px] text-muted transition-colors hover:text-paper"
+          >
+            Every release on GitHub
+            <ArrowUpRight size={13} aria-hidden />
+          </a>
+        </div>
+      </PageHead>
 
-      <div className="space-y-12">
-        {releases.map((release) => (
-          <div key={release.version} className="relative">
-            <div className="absolute left-0 top-0 bottom-0 w-px bg-border" />
-            <div className="pl-8">
-              <div className="flex items-baseline gap-4 mb-4">
-                <h2 className="text-2xl font-medium">v{release.version}</h2>
-                <span className="text-sm text-text-dim">{release.date}</span>
-              </div>
-              <div className="space-y-3">
-                {release.changes.map((change, i) => (
-                  <div key={i} className="flex items-start gap-3">
+      <div className="mt-12 border-t border-line">
+        {recent.map((release) => (
+          <article
+            key={release.version}
+            className="grid gap-4 border-b border-line py-8 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-10"
+          >
+            <header className="md:sticky md:top-24 md:self-start">
+              <h2 className="mono text-[13px] text-paper">v{release.version}</h2>
+              <div className="mono mt-1 text-[10.5px] text-faint">{release.date}</div>
+            </header>
+            <div>
+              <h3 className="text-[16px] leading-snug tracking-[-0.01em] text-paper">
+                {release.title}
+              </h3>
+              <p className="mt-2.5 max-w-[64ch] text-[13.5px] leading-[1.7] text-muted">
+                {release.summary}
+              </p>
+              <ul className="mt-4 max-w-[64ch] space-y-2">
+                {release.points.map((point) => (
+                  <li
+                    key={point}
+                    className="relative pl-4 text-[13px] leading-[1.65] text-muted"
+                  >
                     <span
-                      className={`mt-1 h-2 w-2 rounded-full flex-shrink-0 ${
-                        change.type === "added"
-                          ? "bg-code"
-                          : change.type === "changed"
-                          ? "bg-accent"
-                          : change.type === "removed"
-                          ? "bg-text-dim"
-                          : change.type === "perf"
-                          ? "bg-text-muted"
-                          : "bg-text-dim"
-                      }`}
+                      aria-hidden
+                      className="absolute left-0 top-[0.72em] h-px w-2 bg-white/25"
                     />
-                    <div className="flex-1">
-                      <span className="text-text-muted">{change.text}</span>
-                    </div>
-                  </div>
+                    {point}
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
-          </div>
+          </article>
         ))}
       </div>
 
-      <div className="mt-16 pt-8 border-t border-border text-center">
-        <a
-          href="https://github.com/haxllo/nex/releases"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm text-text-muted hover:text-accent transition-colors"
-        >
-          View all releases on GitHub →
-        </a>
-      </div>
+      <section className="mt-12">
+        <h2 className="text-[13px] font-medium text-paper">Earlier releases</h2>
+        <p className="mt-1.5 text-[12.5px] text-faint">
+          Version and date. Release notes for each are on GitHub.
+        </p>
+        <div className="mt-5 grid grid-cols-2 gap-x-8 sm:grid-cols-3 lg:grid-cols-4">
+          {earlier.map(([version, date]) => (
+            <div
+              key={version}
+              className="flex items-baseline justify-between border-b border-line/60 py-1.5"
+            >
+              <span className="mono text-[10.5px] text-muted">v{version}</span>
+              <span className="mono text-[10px] text-faint">{date}</span>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

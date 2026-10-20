@@ -1,79 +1,62 @@
-# Nex Website — Progress
+# Nex Website: Progress
 
 ## Stack
 
 - **Next.js 16.2.10** (App Router, Turbopack)
 - **React 19.2.4**
 - **Tailwind CSS v4.3.3**
-- **Motion 12.42.2** (framer-motion successor)
+- **Motion 12.42.2**
+- **Phosphor Icons 2.1.10**
 - **TypeScript 5.9.3**
 - **pnpm 10.34.3**
 
-## Design System
+## Design system
 
-- **Dark theme** — near-black bg (#0a0a0b), single silver accent (#a8a8b0), neutral mono code (#d4d4dc)
-- **Typography** — Geist Sans (display + body), JetBrains Mono (code)
-- **Animations** — fade-up, pulse-glow, stagger delays via CSS + Motion library
+| Token | Value | Use |
+|---|---|---|
+| `ink` | `#0a0b0d` | page canvas |
+| `ink-2` | `#0d0f13` | raised surfaces |
+| `ink-3` | `#12151a` | panel shells |
+| `line` | `rgba(255,255,255,0.08)` | hairlines |
+| `paper` | `#edeff2` | primary text |
+| `muted` | `#a4abb6` | body text |
+| `faint` | `#7a828e` | metadata |
+| `signal` | `#9db9ff` | focus, selection, one accent |
 
-## Completed
+- Type: Instrument Sans (display/UI), JetBrains Mono (metadata, keys, code).
+- Radii: 8px controls, 10px panels, 12px glass panels, 14px screen frames.
+- Motion: CSS reveals driven by IntersectionObserver, 600ms `cubic-bezier(0.22,1,0.36,1)`. Reduced motion shows content immediately.
+- Glass: layered `backdrop-filter` (blur 20px, saturate 190%, brightness 0.82), 1px white rim, inset edge light, contact shadow, opaque reduced-transparency fallback.
+- No em-dashes, no decorative dots, no gradient glows, no fake UI screenshots.
 
-### Pages (8 routes)
+## Done
 
-| Route | Status | Description |
-|-------|--------|-------------|
-| `/` | Done | Hero with animated search bar mockup, features preview grid, CTA |
-| `/features` | Done | 3-category feature breakdown (Core, Productivity, Performance) |
-| `/download` | Done | Binary release, build from source, system requirements, quick start |
-| `/docs` | Done | Doc index with quick reference (search syntax, CLI commands) |
-| `/docs/getting-started` | Done | Full getting started guide from nex project docs |
-| `/docs/configuration` | Done | Full config.toml reference tables from nex project docs |
-| `/changelog` | Done | v1.0.0, v1.1.0, v1.1.1 release timeline |
-| `/plugin-sdk` | Done | Plugin structure, manifest, interface, build instructions, roadmap |
+- Full redesign of every route; removed the previous Linear-inspired issue-tracker sections that described features Nex does not have.
+- Rebuilt the three homepage demos from the real overlay layouts:
+  - **Search**: the app list from the actual UI (Riot Client, Brave, Discord, Spotify, Terminal, File Explorer, Task Manager, Settings), brand icons, per-row bookmarks, selection fill, live fuzzy matching, calculator, scopes, and command mode.
+  - **Chat**: header with model pill, the "What's on your mind?" empty state, suggestion chips, working composer with send, copy, new-chat, attach-file and PC-facts context chips.
+  - **Media**: cover art, progress, transport, volume, working play/pause.
+- Liquid Glass treatment over real desktop photographs, with an engineering note explaining `WDA_EXCLUDEFROMCAPTURE` and why the real material cannot be screenshotted.
+- Content rewritten from the actual repository, live config, and v2.28.0 release notes (glass panel, chat, Quick Launch, Everything SDK, config keys, plugin manifest schema).
+- Shared shell: sticky header with active states and mobile menu, footer with real destinations only, custom 404.
+- Docs layout with active sidebar, full configuration reference, real CLI flags, plugin manifest reference.
+- Changelog with recent release notes and the complete version list back to 2.0.0.
+- SEO: per-page metadata, `sitemap.xml`, `robots.txt`, skip link, focus rings, axe WCAG AA clean on all routes.
+- Responsive QA at 360, 390, 768, 1024, and 1440; no horizontal overflow.
 
-### Components
+## Open
 
-| Component | File | Description |
-|-----------|------|-------------|
-| Header | `src/components/header.tsx` | Sticky nav with logo, links, download CTA |
-| Footer | `src/components/footer.tsx` | 4-column footer with links |
-| Hero | `src/components/hero.tsx` | Animated hero with search bar mockup, stats |
-| FeaturesPreview | `src/components/features-preview.tsx` | 6-card feature grid |
-| CTA | `src/components/cta.tsx` | Download + GitHub call-to-action |
-
-### Build
-
-- `pnpm run build` — passes (all static pages generated)
-- `pnpm run lint` — pending verification
-
-## To Do
-
-### High Priority
-
-- [x] **Screenshots/images** — Added Nex UI screenshot to hero and features pages
-- [ ] **Mobile nav** — Header currently desktop-only, needs hamburger menu for mobile
-- [ ] **SEO meta** — Per-page metadata (title, description, OG images)
-- [ ] **Favicon** — Copy nex.svg logo to public/
-
-### Medium Priority
-
-- [ ] **Docs sidebar nav** — Left sidebar navigation for docs section
-- [ ] **Search** — Add site-wide search (could use Algolia DocSearch or similar)
-- [ ] **MDX integration** — Convert docs pages to MDX for easier content management
-- [ ] **Blog section** — For announcements and tutorials
-- [ ] **Dark/light toggle** — Currently dark-only
-
-### Low Priority
-
-- [ ] **Analytics** — Privacy-respecting analytics (Plausible, Umami)
-- [ ] **RSS feed** — For changelog/blog
-- [ ] **i18n** — Multi-language support
-- [ ] **Accessibility audit** — Full WCAG compliance check
+- [ ] Dedicated OG/Twitter card (currently the square logo).
+- [ ] Search across docs.
+- [ ] Privacy-respecting analytics.
+- [ ] Release automation so `src/lib/constants.ts` and the changelog update from GitHub.
+- [ ] Swap the Unsplash desktops for official Nex wallpapers if the brand gets a set.
 
 ## Commands
 
 ```bash
-pnpm dev          # Dev server
-pnpm build        # Production build
-pnpm start        # Start production server
-pnpm lint         # ESLint
+pnpm dev
+pnpm build
+pnpm start
+pnpm lint
 ```

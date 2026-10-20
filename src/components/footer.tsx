@@ -1,100 +1,99 @@
+import Image from "next/image";
 import Link from "next/link";
+import {
+  GITHUB_ISSUES,
+  GITHUB_REPO,
+  GITHUB_RELEASES,
+  LICENSE_URL,
+} from "@/lib/constants";
 
-const groups: { title: string; links: { label: string; href: string }[] }[] = [
+const columns: { title: string; links: { label: string; href: string; external?: boolean }[] }[] = [
   {
     title: "Product",
     links: [
       { label: "Features", href: "/features" },
-      { label: "Changelog", href: "/changelog" },
       { label: "Download", href: "/download" },
-      { label: "Linear Method", href: "/method" },
+      { label: "Changelog", href: "/changelog" },
     ],
   },
   {
-    title: "Resources",
+    title: "Developers",
     links: [
-      { label: "Docs", href: "/docs" },
+      { label: "Documentation", href: "/docs" },
+      { label: "Configuration", href: "/docs/configuration" },
       { label: "Plugin SDK", href: "/plugin-sdk" },
-      { label: "Help center", href: "/help" },
-      { label: "Status", href: "/status" },
+      { label: "GitHub", href: GITHUB_REPO, external: true },
     ],
   },
   {
-    title: "Company",
+    title: "Elsewhere",
     links: [
-      { label: "About", href: "/about" },
-      { label: "Careers", href: "/careers" },
-      { label: "Brand", href: "/brand" },
-      { label: "Contact", href: "mailto:hello@nexapp.live" },
-    ],
-  },
-  {
-    title: "Legal",
-    links: [
-      { label: "Terms", href: "/terms" },
-      { label: "Privacy", href: "/privacy" },
-      { label: "Security", href: "/security" },
-      { label: "License (MIT)", href: "https://github.com/haxllo/nex/blob/main/LICENSE" },
+      { label: "Releases", href: GITHUB_RELEASES, external: true },
+      { label: "Issues", href: GITHUB_ISSUES, external: true },
+      { label: "MIT license", href: LICENSE_URL, external: true },
     ],
   },
 ];
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-bg">
-      <div className="mx-auto max-w-6xl px-4 py-16">
-        <div className="grid gap-10 md:grid-cols-5">
-          <div className="md:col-span-1">
-            <div className="flex items-center gap-2">
-              <span className="text-[13px] font-medium text-text">Nex</span>
-            </div>
-            <p className="mt-3 text-[12px] leading-relaxed text-text-dim max-w-[180px]">
-              Keyboard-first launcher for Windows. Built in Rust.
+    <footer className="border-t border-line">
+      <div className="shell py-14 md:py-16">
+        <div className="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr_1fr] md:gap-8">
+          <div>
+            <Link href="/" className="flex w-fit items-center gap-2.5" aria-label="Nex home">
+              <Image src="/nex-logo.svg" alt="" width={20} height={20} className="invert" />
+              <span className="text-[13.5px] font-medium tracking-[-0.01em] text-paper">
+                Nex
+              </span>
+            </Link>
+            <p className="mt-4 max-w-[30ch] text-[13px] leading-[1.6] text-muted">
+              A keyboard-first launcher for Windows. Free, open source, built in Rust.
             </p>
+            <div className="mono mt-6 flex items-center gap-3 text-[10.5px] text-faint">
+              <span>Windows 10 / 11</span>
+              <span aria-hidden className="h-2.5 w-px bg-line-2" />
+              <span>x64</span>
+            </div>
           </div>
-          {groups.map((g) => (
-            <div key={g.title}>
-              <h4 className="text-[12px] font-medium uppercase tracking-wider text-text-dim mb-3">
-                {g.title}
-              </h4>
-              <ul className="space-y-2">
-                {g.links.map((l) => (
-                  <li key={l.href}>
-                    <Link
-                      href={l.href}
-                      className="text-[13px] text-text-muted hover:text-text transition-colors"
-                    >
-                      {l.label}
-                    </Link>
+
+          {columns.map((column) => (
+            <div key={column.title}>
+              <h2 className="text-[12px] font-medium text-paper">{column.title}</h2>
+              <ul className="mt-4 space-y-2.5">
+                {column.links.map((link) => (
+                  <li key={link.href}>
+                    {link.external ? (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[13px] text-muted transition-colors duration-200 hover:text-paper"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className="text-[13px] text-muted transition-colors duration-200 hover:text-paper"
+                      >
+                        {link.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
             </div>
           ))}
         </div>
-        <div className="mt-14 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-border pt-6">
-          <p className="text-[12px] text-text-dim">
-            © 2026 Nex. MIT License.
+
+        <div className="mt-12 flex flex-col gap-3 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="mono text-[10.5px] text-faint">
+            © 2026 Nex. MIT licensed. Built with Rust and WebView2.
           </p>
-          <div className="flex items-center gap-3 text-text-dim">
-            <a
-              href="https://github.com/haxllo/nex"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[12px] hover:text-text transition-colors"
-            >
-              GitHub
-            </a>
-            <span className="h-3 w-px bg-border" />
-            <a
-              href="https://github.com/haxllo/nex/discussions"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[12px] hover:text-text transition-colors"
-            >
-              Discussions
-            </a>
-          </div>
+          <p className="mono text-[10.5px] text-faint">
+            Not affiliated with Microsoft.
+          </p>
         </div>
       </div>
     </footer>

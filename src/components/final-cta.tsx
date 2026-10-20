@@ -1,25 +1,40 @@
+import { Button, Kbd, TextLink } from "@/components/ui";
+import { GITHUB_LATEST, GITHUB_REPO, RELEASE } from "@/lib/constants";
+
 export function FinalCta() {
   return (
-    <section className="bg-bg py-32 md:py-40 border-t border-border">
-      <div className="mx-auto max-w-3xl px-4 text-center">
-        <h2 className="text-balance text-4xl sm:text-5xl md:text-[56px] font-medium tracking-[-0.03em] leading-[1.02] text-text">
-          Built for the future.
-          <br />
-          Available today.
-        </h2>
-        <div className="mt-8 flex items-center justify-center gap-3">
-          <a
-            href="/download"
-            className="inline-flex h-10 items-center justify-center rounded-md bg-text px-5 text-[13px] font-medium text-bg hover:bg-text-muted transition-colors"
-          >
-            Download for Windows
-          </a>
-          <a
-            href="/docs"
-            className="inline-flex h-10 items-center justify-center rounded-md px-3 text-[13px] font-medium text-text-muted hover:text-text transition-colors"
-          >
-            Read the docs →
-          </a>
+    <section className="border-t border-line">
+      <div className="shell py-24 md:py-32">
+        <div className="grid items-end gap-10 lg:grid-cols-12">
+          <div className="lg:col-span-8">
+            <h2 className="max-w-[18ch] text-[34px] leading-[1.03] tracking-[-0.035em] text-paper sm:text-[44px] md:text-[52px]">
+              Press <span className="whitespace-nowrap">Win.</span> That is the whole
+              onboarding.
+            </h2>
+          </div>
+          <div className="lg:col-span-4 lg:justify-self-end">
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+              <Button href={GITHUB_LATEST} withWindowsMark external>
+                Download for Windows
+              </Button>
+              <TextLink href={GITHUB_REPO} external>
+                Source
+              </TextLink>
+            </div>
+            <div className="mono mt-5 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[10.5px] text-faint">
+              <span>v{RELEASE.version}</span>
+              <span aria-hidden className="hidden h-2.5 w-px bg-line-2 sm:block" />
+              <span>Windows 10 / 11</span>
+              <span aria-hidden className="hidden h-2.5 w-px bg-line-2 sm:block" />
+              <span>MIT</span>
+            </div>
+            <div className="mt-6 flex items-center gap-2">
+              <Kbd wide>Win</Kbd>
+              <span className="mono text-[10.5px] text-faint">
+                default hotkey, changeable in config
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
