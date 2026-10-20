@@ -37,7 +37,7 @@ browsers without compositing support and for `prefers-reduced-transparency`.
 
 Asset notes:
 
-- Desktop photographs: Unsplash, free to use.
+- Desktop photograph: Unsplash (Moraine Lake), free to use. The media cover is a crop of a second Unsplash photo.
 - App icons: Simple Icons (CC0) for brand marks, Phosphor for system utilities.
 - Album art: a crop of the lake photograph, not a real release cover.
 

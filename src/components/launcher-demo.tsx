@@ -282,17 +282,17 @@ function ItemIcon({ item }: { item: Item }) {
   const glyph = (() => {
     switch (item.glyph) {
       case "terminal":
-        return <TerminalWindow size={17} weight="regular" className="text-[#d7dde7]" aria-hidden />;
+        return <TerminalWindow size={17} weight="regular" className="text-[var(--glass-glyph)]" aria-hidden />;
       case "folder":
-        return <FolderSimple size={18} weight="fill" className="text-[#f2c14e]" aria-hidden />;
+        return <FolderSimple size={18} weight="fill" className="text-[var(--glass-folder)]" aria-hidden />;
       case "chart":
-        return <ChartBar size={18} weight="fill" className="text-[#5b9dff]" aria-hidden />;
+        return <ChartBar size={18} weight="fill" className="text-[var(--glass-accent)]" aria-hidden />;
       case "gear":
-        return <Gear size={18} weight="fill" className="text-[#c9d2de]" aria-hidden />;
+        return <Gear size={18} weight="fill" className="text-[var(--glass-glyph)]" aria-hidden />;
       case "command":
-        return <Lightning size={16} weight="fill" className="text-[#9db9ff]" aria-hidden />;
+        return <Lightning size={16} weight="fill" className="text-[var(--glass-accent)]" aria-hidden />;
       default:
-        return <File size={17} weight="regular" className="text-[#c3ccd9]" aria-hidden />;
+        return <File size={17} weight="regular" className="text-[var(--glass-glyph)]" aria-hidden />;
     }
   })();
 
@@ -390,16 +390,17 @@ export function LauncherDemo() {
   return (
     <div className="w-full">
       <DesktopFrame
-        src="/glass-desert.jpg"
-        alt="Monument Valley at midday, used as the desktop behind the Nex panel"
+        src="/glass-lake.jpg"
+        alt="Moraine Lake at sunset, used as the desktop behind the Nex panel"
         sizes="(min-width: 1024px) 620px, 100vw"
         height="h-[480px] sm:h-[470px]"
         priority
-        position="center 62%"
+        dim
+        position="center 70%"
       >
-        <div className="glass-panel w-full max-w-[400px] overflow-hidden rounded-[12px] transition-[border-color,box-shadow] duration-200">
-          <div className="flex h-11 items-center gap-2.5 border-b border-white/[0.09] px-3.5">
-            <MagnifyingGlass size={15} aria-hidden className="shrink-0 text-white/60" />
+        <div className="glass-panel w-full max-w-[400px] overflow-hidden rounded-[12px]">
+          <div className="flex h-11 items-center gap-2.5 border-b border-[var(--glass-line)] px-3.5">
+            <MagnifyingGlass size={15} aria-hidden className="shrink-0 text-[var(--glass-faint)]" />
             <input
               ref={inputRef}
               value={query}
@@ -420,7 +421,7 @@ export function LauncherDemo() {
               }
               spellCheck={false}
               autoComplete="off"
-              className="min-w-0 flex-1 bg-transparent text-[13px] text-white caret-[#8fb6ff] outline-none placeholder:text-white/60 focus-visible:outline-none"
+              className="min-w-0 flex-1 bg-transparent text-[13px] text-[var(--glass-text)] caret-[var(--glass-accent)] outline-none placeholder:text-[var(--glass-faint)] focus-visible:outline-none"
             />
             <button
               type="button"
@@ -430,7 +431,7 @@ export function LauncherDemo() {
                 setSelected(0);
                 inputRef.current?.focus();
               }}
-              className="shrink-0 rounded-[4px] p-0.5 text-white/55 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8fb6ff]/70"
+              className="shrink-0 rounded-[4px] p-0.5 text-[var(--glass-faint)] transition-colors hover:text-[var(--glass-text)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8fb6ff]/70"
             >
               <Power size={14} aria-hidden />
             </button>
@@ -443,7 +444,7 @@ export function LauncherDemo() {
             className="max-h-[340px] overflow-y-auto p-1.5"
           >
             {results.length === 0 && (
-              <li className="px-2.5 py-4 text-[12px] leading-relaxed text-white/70">
+              <li className="px-2.5 py-4 text-[12px] leading-relaxed text-[var(--glass-dim)]">
                 Nothing indexed for that. Try fewer letters, or a different scope.
               </li>
             )}
@@ -459,21 +460,21 @@ export function LauncherDemo() {
                   onClick={() => setSelected(index)}
                   className={`flex h-[42px] cursor-pointer items-center gap-2.5 rounded-[8px] px-2 transition-colors duration-150 ${
                     active
-                      ? "bg-white/[0.11] shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_1px_2px_rgba(0,0,0,0.18)]"
-                      : "hover:bg-white/[0.06]"
+                      ? "bg-[var(--glass-selected)] ring-1 ring-inset ring-[var(--glass-selected-border)]"
+                      : "hover:bg-[var(--glass-hover)]"
                   }`}
                 >
                   <ItemIcon item={item} />
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate text-[12.5px] leading-[1.25] text-white">
+                    <span className="block truncate text-[12.5px] leading-[1.25] text-[var(--glass-text)]">
                       {item.title}
                     </span>
-                    <span className="block truncate text-[10.8px] leading-[1.35] text-white/65">
+                    <span className="block truncate text-[10.8px] leading-[1.35] text-[var(--glass-dim)]">
                       {item.subtitle}
                     </span>
                   </span>
                   {item.kind === "calc" ? (
-                    <span className="mono shrink-0 text-[13px] text-[#9dc0ff] tabular-nums">
+                    <span className="mono shrink-0 text-[13px] text-[var(--glass-accent)] tabular-nums">
                       {item.value}
                     </span>
                   ) : item.kind === "app" || item.kind === "file" || item.kind === "folder" ? (
@@ -481,7 +482,7 @@ export function LauncherDemo() {
                       size={12}
                       weight="fill"
                       aria-hidden
-                      className="shrink-0 text-[#6ea8fe]"
+                      className="shrink-0 text-[var(--glass-accent)]"
                     />
                   ) : null}
                 </li>

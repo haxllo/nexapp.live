@@ -47,7 +47,9 @@ export function Engineering() {
           <p className="mono mt-10 max-w-[86ch] text-[10.5px] leading-[1.7] text-faint">
             The real panel carries WDA_EXCLUDEFROMCAPTURE, the OS flag honored by
             screenshots, OBS, and Discord, so the material never appears in a capture.
-            The previews on this page render the glass in the browser instead.
+            The previews render it in the browser. The native tint also follows the
+            backdrop, switching at 0.55 luma; these static previews stay on the dark
+            tint.
           </p>
         </Reveal>
 

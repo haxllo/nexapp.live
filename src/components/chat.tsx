@@ -15,7 +15,7 @@ export function Chat() {
                 alt="Moraine Lake at sunset behind the Nex chat surface"
                 sizes="(min-width: 1024px) 640px, 100vw"
                 height="h-[500px]"
-                position="center 38%"
+                position="center 52%"
               >
                 <ChatDemo />
               </DesktopFrame>

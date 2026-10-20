@@ -36,7 +36,7 @@
   - **Search**: the app list from the actual UI (Riot Client, Brave, Discord, Spotify, Terminal, File Explorer, Task Manager, Settings), brand icons, per-row bookmarks, selection fill, live fuzzy matching, calculator, scopes, and command mode.
   - **Chat**: header with model pill, the "What's on your mind?" empty state, suggestion chips, working composer with send, copy, new-chat, attach-file and PC-facts context chips.
   - **Media**: cover art, progress, transport, volume, working play/pause.
-- Liquid Glass treatment over real desktop photographs, with an engineering note explaining `WDA_EXCLUDEFROMCAPTURE` and why the real material cannot be screenshotted.
+- Liquid Glass treatment over a real desktop photograph, with an engineering note explaining `WDA_EXCLUDEFROMCAPTURE` and why the real material cannot be screenshotted.
 - Content rewritten from the actual repository, live config, and v2.28.0 release notes (glass panel, chat, Quick Launch, Everything SDK, config keys, plugin manifest schema).
 - Shared shell: sticky header with active states and mobile menu, footer with real destinations only, custom 404.
 - Docs layout with active sidebar, full configuration reference, real CLI flags, plugin manifest reference.
@@ -50,7 +50,7 @@
 - [ ] Search across docs.
 - [ ] Privacy-respecting analytics.
 - [ ] Release automation so `src/lib/constants.ts` and the changelog update from GitHub.
-- [ ] Swap the Unsplash desktops for official Nex wallpapers if the brand gets a set.
+- [ ] Swap the Unsplash desktop for an official Nex wallpaper if the brand gets one.
 
 ## Commands
 
