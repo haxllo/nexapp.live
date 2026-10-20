@@ -7,16 +7,18 @@ export function DesktopFrame({
   sizes,
   position = "center",
   height = "h-[452px]",
-  priority = false,
+  eager = false,
   children,
   className = "",
 }: {
   src: string;
   alt: string;
+  /** Width the cropped image is painted at, not the width of the frame. */
   sizes: string;
   position?: string;
   height?: string;
-  priority?: boolean;
+  /** Above the fold: load immediately so it can be the LCP. */
+  eager?: boolean;
   children: ReactNode;
   className?: string;
 }) {
@@ -29,7 +31,10 @@ export function DesktopFrame({
           src={src}
           alt={alt}
           fill
-          priority={priority}
+          loading={eager ? "eager" : "lazy"}
+          fetchPriority={eager ? "high" : undefined}
+          // The wallpaper is stretched to the frame (no cover crop), so `sizes`
+          // is the frame width again.
           sizes={sizes}
           style={{ objectPosition: position }}
           className="object-cover"

@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "@/components/icons";
 import { Kbd, PageHead } from "@/components/ui";
-import { CONFIG_PATH, RELEASE } from "@/lib/constants";
+import { CONFIG_PATH } from "@/lib/constants";
+import { getLatestRelease } from "@/lib/releases";
 
 export const metadata: Metadata = {
   title: "Documentation",
@@ -44,12 +45,14 @@ const cli = [
   ["nex --diagnostics-bundle", "Write a diagnostics zip"],
 ];
 
-export default function DocsPage() {
+export default async function DocsPage() {
+  const release = await getLatestRelease();
+
   return (
     <>
       <PageHead
         title="Documentation"
-        lede={`Install it, change how it behaves, and extend it. Everything here describes the current release, ${RELEASE.version}.`}
+        lede={`Install it, change how it behaves, and extend it. Everything here describes the current release, ${release.version}.`}
       />
 
       <div className="mt-10 border-t border-line">

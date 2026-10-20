@@ -32,8 +32,9 @@ export default function GettingStartedPage() {
         <ul>
           <li>Windows 10 or 11, 64-bit.</li>
           <li>
-            WebView2. It ships with Windows 11 and the installer adds it on Windows 10
-            if it is missing.
+            WebView2. It ships with Windows 11 and with most updated Windows 10
+            installs; if the panel stays blank, install the Evergreen runtime from
+            Microsoft.
           </li>
           <li>Rust 1.85 or newer, only if you are building from source.</li>
         </ul>

@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import { CodeBlock } from "@/components/code-block";
 import { DownloadSimple } from "@/components/icons";
 import { Button, Kbd, PageHead, TextLink } from "@/components/ui";
-import { CONFIG_PATH, GITHUB_RELEASES, RELEASE } from "@/lib/constants";
+import { CONFIG_PATH, GITHUB_RELEASES } from "@/lib/constants";
+import { getLatestRelease } from "@/lib/releases";
 
 export const metadata: Metadata = {
   title: "Download",
   description:
-    "Download Nex 2.28.0 for Windows 10 and 11, x64. Installer, portable zip, and build-from-source instructions.",
+    "Download Nex for Windows 10 and 11, x64. Installer, portable zip, and build-from-source instructions.",
 };
 
 const build = `git clone https://github.com/haxllo/nex.git
@@ -15,14 +16,17 @@ cd nex
 cargo build --release --bin Nex --bin NexHelper
 .\\target\\release\\Nex.exe`;
 
-export default function DownloadPage() {
-  const installer = RELEASE.assets[0];
+export default async function DownloadPage() {
+  const release = await getLatestRelease();
+  const installer = release.assets.find((asset) => asset.label === "Installer");
 
   return (
     <div className="shell pt-14 pb-20 md:pt-20 md:pb-28">
       <PageHead
         title="Install Nex."
-        lede="Windows 10 or 11, 64-bit. The installer is 7.4 MB, and Nex starts in the background with the Win key already wired up."
+        lede={`Windows 10 or 11, 64-bit. The installer is ${
+          installer?.size ?? "small"
+        }, and Nex starts in the background with the Win key already wired up.`}
       />
 
       <div className="mt-12 grid gap-12 lg:grid-cols-12 lg:gap-16">
@@ -31,14 +35,14 @@ export default function DownloadPage() {
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <h2 className="text-[15px] font-medium text-paper">Latest release</h2>
               <span className="mono text-[10.5px] text-faint">
-                v{RELEASE.version} · {RELEASE.date}
+                v{release.version} · {release.date}
               </span>
             </div>
-            <p className="mt-1.5 text-[13px] text-muted">{RELEASE.title}</p>
+            <p className="mt-1.5 text-[13px] text-muted">{release.title}</p>
 
             <div className="mt-6">
               <Button
-                href={installer.url}
+                href={installer?.url ?? GITHUB_RELEASES}
                 external
                 size="lg"
                 icon={<DownloadSimple size={15} weight="bold" aria-hidden />}
@@ -49,7 +53,7 @@ export default function DownloadPage() {
             </div>
 
             <div className="mt-7 border-t border-line">
-              {RELEASE.assets.map((asset) => (
+              {release.assets.map((asset) => (
                 <a
                   key={asset.name}
                   href={asset.url}
@@ -134,7 +138,7 @@ export default function DownloadPage() {
                 ["System", "Windows 10 or 11, 64-bit"],
                 ["Runtime", "WebView2, bundled with Windows 11"],
                 ["Memory", "72 MB active target, configurable"],
-                ["Disk", "7.4 MB installer"],
+                ["Disk", installer ? `${installer.size} installer` : "About 7 MB"],
                 ["License", "MIT, source available"],
               ].map(([key, value]) => (
                 <div key={key} className="flex items-baseline justify-between gap-6">

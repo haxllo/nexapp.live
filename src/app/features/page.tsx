@@ -54,7 +54,7 @@ const groups: Group[] = [
       },
       {
         title: "Actions",
-        body: "Power actions, uninstall entries, and plugin commands run by name. Command mode keeps them out of the way until you ask.",
+        body: "Power actions, uninstall entries, and plugin actions run by name. Plugin commands stay blocked while safe mode is on. Command mode keeps all of it out of the way until you ask.",
         detail: "> restart",
       },
       {
@@ -89,8 +89,8 @@ const groups: Group[] = [
       },
       {
         title: "Grid or list",
-        body: "Rows are the default. Grid view turns results into a wall of icons for people who aim by sight instead of by name.",
-        detail: "grid_view = false",
+        body: "Grid view is the default: results appear as a wall of icons for people who aim by sight instead of by name. Turn it off for rows.",
+        detail: "grid_view = true",
       },
       {
         title: "Keyboard first, mouse welcome",
@@ -130,7 +130,7 @@ const groups: Group[] = [
       },
       {
         title: "Diagnostics you opt into",
-        body: "A diagnostics bundle is a command away. Raw config and logs are opt-in, and query text in diagnostics is hashed.",
+        body: "A diagnostics bundle is a command away. Raw config and recent logs stay out of it unless you opt in.",
         detail: "nex --diagnostics-bundle",
       },
       {

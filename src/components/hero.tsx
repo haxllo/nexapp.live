@@ -2,9 +2,13 @@ import Link from "next/link";
 import { LauncherDemo } from "@/components/launcher-demo";
 import { Reveal } from "@/components/reveal";
 import { Button, Kbd, TextLink } from "@/components/ui";
-import { GITHUB_LATEST, RELEASE } from "@/lib/constants";
+import { GITHUB_LATEST } from "@/lib/constants";
+import { getLatestRelease } from "@/lib/releases";
 
-export function Hero() {
+export async function Hero() {
+  const release = await getLatestRelease();
+  const installer = release.assets.find((asset) => asset.label === "Installer");
+
   return (
     <section
       id="top"
@@ -43,12 +47,12 @@ export function Hero() {
                   href="/changelog"
                   className="text-muted transition-colors hover:text-paper"
                 >
-                  v{RELEASE.version}
+                  v{release.version}
                 </Link>
                 <span aria-hidden className="hidden h-2.5 w-px bg-line-2 sm:block" />
                 <span>Windows 10 / 11, x64</span>
                 <span aria-hidden className="hidden h-2.5 w-px bg-line-2 sm:block" />
-                <span>7.4 MB installer</span>
+                <span>{installer ? `${installer.size} installer` : "Windows installer"}</span>
               </div>
             </Reveal>
           </div>

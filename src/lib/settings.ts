@@ -76,8 +76,8 @@ export const settingGroups: SettingGroup[] = [
       {
         key: "grid_view",
         type: "bool",
-        def: "false",
-        desc: "Show results as a grid of icons instead of a list of rows.",
+        def: "true",
+        desc: "Show results as a grid of icons. Turn it off for a list of rows.",
       },
       {
         key: "game_mode_enabled",
@@ -128,13 +128,13 @@ export const settingGroups: SettingGroup[] = [
       {
         key: "show_files",
         type: "bool",
-        def: "false",
+        def: "true",
         desc: "Include files in results.",
       },
       {
         key: "show_folders",
         type: "bool",
-        def: "false",
+        def: "true",
         desc: "Include folders in results.",
       },
       {
@@ -205,13 +205,13 @@ export const settingGroups: SettingGroup[] = [
   {
     id: "clipboard",
     title: "Clipboard",
-    note: "Off by default. Encrypted at rest with DPAPI.",
+    note: "On by default. Encrypted at rest with DPAPI.",
     settings: [
       {
         key: "clipboard_enabled",
         type: "bool",
-        def: "false",
-        desc: "Record recently copied text so it can be searched.",
+        def: "true",
+        desc: "Record recently copied text so it can be searched. Turn it off to stop capturing entirely.",
       },
       {
         key: "clipboard_retention_minutes",
@@ -249,7 +249,7 @@ export const settingGroups: SettingGroup[] = [
         key: "plugin_paths",
         type: "string[]",
         def: '["%APPDATA%\\\\Nex\\\\plugins"]',
-        desc: "Folders or manifest files to scan. Each plugin is a folder with a manifest.json.",
+        desc: "Folders of .json manifests, or a manifest file directly. Subfolders are not scanned.",
       },
     ],
   },

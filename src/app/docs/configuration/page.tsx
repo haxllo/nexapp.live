@@ -16,7 +16,7 @@ max_results = 20
 search_mode_default = "all"
 
 panel_background = "glass"
-grid_view = false
+grid_view = true
 game_mode_enabled = false
 
 show_files = true
@@ -27,7 +27,7 @@ web_search_provider = "google"
 create_actions_enabled = true
 default_create_dir = ""
 
-clipboard_enabled = false
+clipboard_enabled = true
 clipboard_retention_minutes = 480
 
 plugins_enabled = true

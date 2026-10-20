@@ -1,7 +1,10 @@
 import { Button, Kbd, TextLink } from "@/components/ui";
-import { GITHUB_LATEST, GITHUB_REPO, RELEASE } from "@/lib/constants";
+import { GITHUB_LATEST, GITHUB_REPO } from "@/lib/constants";
+import { getLatestRelease } from "@/lib/releases";
 
-export function FinalCta() {
+export async function FinalCta() {
+  const release = await getLatestRelease();
+
   return (
     <section className="border-t border-line">
       <div className="shell py-24 md:py-32">
@@ -22,7 +25,7 @@ export function FinalCta() {
               </TextLink>
             </div>
             <div className="mono mt-5 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[10.5px] text-faint">
-              <span>v{RELEASE.version}</span>
+              <span>v{release.version}</span>
               <span aria-hidden className="hidden h-2.5 w-px bg-line-2 sm:block" />
               <span>Windows 10 / 11</span>
               <span aria-hidden className="hidden h-2.5 w-px bg-line-2 sm:block" />

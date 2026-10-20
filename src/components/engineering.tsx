@@ -4,7 +4,7 @@ import { Figure, SectionHead } from "@/components/ui";
 const stack = [
   { name: "Rust core", role: "Search, indexing, hotkey, tray, updates." },
   { name: "tao + wry", role: "A real Win32 window hosting a WebView2 surface." },
-  { name: "DWM refraction", role: "The desktop behind the panel bends into the rim." },
+  { name: "DirectComposition glass", role: "The desktop behind the panel bends into the rim." },
   { name: "Tantivy", role: "Full text index with typo tolerance and ranking." },
   { name: "Everything SDK", role: "Optional file index from Voidtools, when running." },
   { name: "SQLite, WAL mode", role: "History, bookmarks, and settings that survive a crash." },
@@ -25,7 +25,7 @@ export function Engineering() {
 
         <Reveal delay={0.05}>
           <div className="mt-12 grid gap-8 border-t border-line pt-7 sm:grid-cols-3 sm:gap-0">
-            <Figure value="7.4 MB" label="Installer, x64" note="v2.28.0" />
+            <Figure value="7.1 MB" label="Installer, x64" note="v2.28.0" />
             <div className="sm:border-l sm:border-line sm:pl-8">
               <Figure
                 value="72 MB"

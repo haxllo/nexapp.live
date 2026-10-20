@@ -8,7 +8,7 @@ launch_at_startup = true
 max_results = 20
 
 panel_background = "glass"   # glass | black | white
-grid_view = false
+grid_view = true
 game_mode_enabled = false
 
 [quick_launch]

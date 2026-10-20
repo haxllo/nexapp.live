@@ -392,9 +392,9 @@ export function LauncherDemo() {
       <DesktopFrame
         src="/wallpaper.jpg"
         alt="The Nex desktop wallpaper: a monolith in a rust desert beneath a ringed planet"
-        sizes="(min-width: 1024px) 620px, 100vw"
+        sizes="900px"
         height="h-[480px] sm:h-[470px]"
-        priority
+        eager
         position="center 50%"
       >
         <div className="glass-panel w-full max-w-[400px] overflow-hidden rounded-[12px]">

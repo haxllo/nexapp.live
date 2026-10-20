@@ -10,8 +10,7 @@ export const metadata: Metadata = {
 };
 
 const layout = `%APPDATA%\\Nex\\plugins\\
-└── workspace\\
-    └── manifest.json`;
+└── workspace.json`;
 
 const manifest = `{
   "id": "workspace",
@@ -55,7 +54,7 @@ plugin_paths = [
 
 const fields = [
   ["id", "string", "Stable identifier for the plugin."],
-  ["name", "string", "Display name, shown in diagnostics."],
+  ["name", "string", "Display name. Used as the default subtitle for its actions."],
   ["version", "string", "Free form. Useful while you iterate."],
   ["enabled", "bool", "Set false to keep a plugin on disk but out of the registry."],
   ["provider_items", "array", "Static entries added to search results."],
@@ -64,7 +63,7 @@ const fields = [
 
 const itemFields = [
   ["id", "string", "Unique across the plugin."],
-  ["kind", "string", "file or folder, which decides the icon and the open behavior."],
+  ["kind", "string", "file or folder. Decides the icon on the row."],
   ["title", "string", "The result text."],
   ["path", "string", "Absolute path to open."],
 ];
@@ -91,10 +90,11 @@ export default function PluginSdkPage() {
       <div className="prose-nex mt-10">
         <h2>How loading works</h2>
         <p>
-          Nex reads each entry in <code>plugin_paths</code>. A path can be a folder that
-          contains plugin folders, or a manifest file directly. Every{" "}
-          <code>manifest.json</code> is parsed and validated; a file that fails adds a
-          warning and is skipped, which means one bad plugin cannot take the panel down.
+          Nex reads each entry in <code>plugin_paths</code>. A path can be a folder of
+          manifests, or a manifest file directly; subfolders are not scanned. Every{" "}
+          <code>.json</code> file in those folders is parsed and validated; a file that
+          fails is logged and skipped, which means one bad plugin cannot take the panel
+          down.
         </p>
         <p>
           The registry is built when Nex starts. Restart after adding or editing a plugin.
@@ -121,7 +121,11 @@ export default function PluginSdkPage() {
         </div>
 
         <h3>Provider items</h3>
-        <p>Each item becomes one row in search. They are static: there is no call back into a plugin at query time.</p>
+        <p>
+          Each item becomes one row in search. They are static: there is no call back into
+          a plugin at query time. A row is searchable but does nothing when selected yet,
+          so pair it with an action that opens the same path.
+        </p>
         <div className="not-prose mt-5 border-t border-line">
           {itemFields.map(([key, type, desc]) => (
             <div
@@ -140,7 +144,8 @@ export default function PluginSdkPage() {
         <h3>Actions</h3>
         <p>
           Actions appear in command mode. <code>open_path</code> hands a path to the shell;{" "}
-          <code>command</code> starts a process with arguments.
+          <code>command</code> starts a process with arguments, and stays blocked while
+          safe mode is on.
         </p>
         <div className="not-prose mt-5 border-t border-line">
           {actionFields.map(([key, type, desc]) => (
@@ -162,7 +167,7 @@ export default function PluginSdkPage() {
           One provider item and two actions. On Windows paths inside JSON, every backslash
           is doubled.
         </p>
-        <CodeBlock code={manifest} title="workspace/manifest.json" />
+        <CodeBlock code={manifest} title="workspace.json" />
 
         <h2>Safe mode</h2>
         <p>
@@ -176,7 +181,8 @@ export default function PluginSdkPage() {
         <p>
           This is a preview surface, and it is honest about it. There is no WASM runtime, no
           network API, no query-time callback from a plugin, and no extension store. A
-          plugin is data: static results and process launches. If that covers your
+          plugin is data: static results and process launches. Provider rows are not
+          clickable yet, and actions have no icon or confirmation step. If that covers your
           integration, it works today. If it needs to compute at query time, it does not.
         </p>
 

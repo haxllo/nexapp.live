@@ -13,7 +13,7 @@ export function Chat() {
               <DesktopFrame
                 src="/wallpaper.jpg"
                 alt="The Nex desktop wallpaper behind the chat surface"
-                sizes="(min-width: 1024px) 640px, 100vw"
+                sizes="900px"
                 height="h-[500px]"
                 position="center 45%"
               >
