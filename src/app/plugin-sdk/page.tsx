@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { CodeBlock } from "@/components/code-block";
 import { PageHead, TextLink } from "@/components/ui";
-import { GITHUB_REPO } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Plugin SDK",
@@ -79,125 +78,125 @@ const actionFields = [
   ["args", "string[]", "Arguments passed to the command."],
 ];
 
+const nav = [
+  ["how-loading-works", "How loading works"],
+  ["manifest", "Manifest"],
+  ["a-complete-plugin", "A complete plugin"],
+  ["safe-mode", "Safe mode"],
+  ["what-is-not-here-yet", "What is not here yet"],
+  ["source", "Source"],
+];
+
+function FieldTable({ rows }: { rows: string[][] }) {
+  return (
+    <div className="not-prose mt-5 border-t border-line">
+      {rows.map(([key, type, desc]) => (
+        <div
+          key={key}
+          className="grid gap-1 border-b border-line py-2.5 md:grid-cols-[150px_70px_minmax(0,1fr)] md:items-baseline md:gap-4"
+        >
+          <span className="mono text-[10.5px] text-paper">{key}</span>
+          <span className="mono text-[9.5px] uppercase tracking-[0.08em] text-faint">
+            {type}
+          </span>
+          <span className="text-[12.5px] leading-[1.6] text-muted">{desc}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function PluginSdkPage() {
   return (
-    <div className="shell max-w-[900px] pt-14 pb-20 md:pt-20 md:pb-28">
+    <div className="shell pt-10 pb-20 md:pb-28" data-testid="sdk-page">
       <PageHead
+        eyebrow="Plugin SDK"
         title="Plugin SDK"
         lede="A plugin is a folder with a manifest. It can add results to search and actions to command mode. No SDK to install, no runtime to embed."
       />
 
-      <div className="prose-nex mt-10">
-        <h2>How loading works</h2>
-        <p>
-          Nex reads each entry in <code>plugin_paths</code>. A path can be a folder of
-          manifests, or a manifest file directly; subfolders are not scanned. Every{" "}
-          <code>.json</code> file in those folders is parsed and validated; a file that
-          fails is logged and skipped, which means one bad plugin cannot take the panel
-          down.
-        </p>
-        <p>
-          The registry is built when Nex starts. Restart after adding or editing a plugin.
-        </p>
-
-        <h3>Layout</h3>
-        <CodeBlock code={layout} title="Plugin folder" />
-
-        <h2>Manifest</h2>
-        <p>The top level describes the plugin and holds two lists.</p>
-        <div className="not-prose mt-5 border-t border-line">
-          {fields.map(([key, type, desc]) => (
-            <div
-              key={key}
-              className="grid gap-1 border-b border-line py-2.5 md:grid-cols-[150px_70px_minmax(0,1fr)] md:items-baseline md:gap-4"
-            >
-              <span className="mono text-[10.5px] text-paper">{key}</span>
-              <span className="mono text-[9.5px] uppercase tracking-[0.08em] text-faint">
-                {type}
-              </span>
-              <span className="text-[12.5px] leading-[1.6] text-muted">{desc}</span>
-            </div>
+      <div className="sdk-layout">
+        <nav className="sdk-nav" aria-label="Plugin SDK sections" data-testid="sdk-section-navigation">
+          {nav.map(([id, label]) => (
+            <a key={id} href={`#${id}`} data-testid={`sdk-nav-${id}`}>
+              {label}
+            </a>
           ))}
-        </div>
+        </nav>
 
-        <h3>Provider items</h3>
-        <p>
-          Each item becomes one row in search. They are static: there is no call back into
-          a plugin at query time. A row is searchable but does nothing when selected yet,
-          so pair it with an action that opens the same path.
-        </p>
-        <div className="not-prose mt-5 border-t border-line">
-          {itemFields.map(([key, type, desc]) => (
-            <div
-              key={key}
-              className="grid gap-1 border-b border-line py-2.5 md:grid-cols-[150px_70px_minmax(0,1fr)] md:items-baseline md:gap-4"
+        <div className="prose-nex">
+          <h2 id="how-loading-works">How loading works</h2>
+          <p>
+            Nex reads each entry in <code>plugin_paths</code>. A path can be a folder of
+            manifests, or a manifest file directly; subfolders are not scanned. Every{" "}
+            <code>.json</code> file in those folders is parsed and validated; a file that
+            fails is logged and skipped, which means one bad plugin cannot take the panel
+            down.
+          </p>
+          <p>The registry is built when Nex starts. Restart after adding or editing a plugin.</p>
+
+          <h3>Layout</h3>
+          <CodeBlock code={layout} title="Plugin folder" />
+
+          <h2 id="manifest">Manifest</h2>
+          <p>The top level describes the plugin and holds two lists.</p>
+          <FieldTable rows={fields} />
+
+          <h3>Provider items</h3>
+          <p>
+            Each item becomes one row in search. They are static: there is no call back
+            into a plugin at query time. A row is searchable but does nothing when selected
+            yet, so pair it with an action that opens the same path.
+          </p>
+          <FieldTable rows={itemFields} />
+
+          <h3>Actions</h3>
+          <p>
+            Actions appear in command mode. <code>open_path</code> hands a path to the
+            shell; <code>command</code> starts a process with arguments, and stays blocked
+            while safe mode is on.
+          </p>
+          <FieldTable rows={actionFields} />
+
+          <h2 id="a-complete-plugin">A complete plugin</h2>
+          <p>
+            One provider item and two actions. On Windows paths inside JSON, every
+            backslash is doubled.
+          </p>
+          <CodeBlock code={manifest} title="workspace.json" />
+
+          <h2 id="safe-mode">Safe mode</h2>
+          <p>
+            <code>plugins_safe_mode</code> is on by default and blocks <code>command</code>{" "}
+            actions entirely. Provider items and <code>open_path</code> actions keep
+            working. Turn it off only for plugins you wrote or have read.
+          </p>
+          <CodeBlock code={config} title="config.toml" />
+
+          <h2 id="what-is-not-here-yet">What is not here yet</h2>
+          <p>
+            This is a preview surface, and it is honest about it. There is no WASM runtime,
+            no network API, no query-time callback from a plugin, and no extension store. A
+            plugin is data: static results and process launches. Provider rows are not
+            clickable yet, and actions have no icon or confirmation step. If that covers
+            your integration, it works today. If it needs to compute at query time, it does
+            not.
+          </p>
+
+          <h2 id="source">Source</h2>
+          <p>
+            The loader is in{" "}
+            <a
+              href="https://github.com/haxllo/nex/blob/master/apps/core/src/plugin_sdk.rs"
+              data-testid="sdk-source-link"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <span className="mono text-[10.5px] text-paper">{key}</span>
-              <span className="mono text-[9.5px] uppercase tracking-[0.08em] text-faint">
-                {type}
-              </span>
-              <span className="text-[12.5px] leading-[1.6] text-muted">{desc}</span>
-            </div>
-          ))}
+              apps/core/src/plugin_sdk.rs
+            </a>
+            . Open an issue if a field you need is missing.
+          </p>
         </div>
-
-        <h3>Actions</h3>
-        <p>
-          Actions appear in command mode. <code>open_path</code> hands a path to the shell;{" "}
-          <code>command</code> starts a process with arguments, and stays blocked while
-          safe mode is on.
-        </p>
-        <div className="not-prose mt-5 border-t border-line">
-          {actionFields.map(([key, type, desc]) => (
-            <div
-              key={key}
-              className="grid gap-1 border-b border-line py-2.5 md:grid-cols-[150px_70px_minmax(0,1fr)] md:items-baseline md:gap-4"
-            >
-              <span className="mono text-[10.5px] text-paper">{key}</span>
-              <span className="mono text-[9.5px] uppercase tracking-[0.08em] text-faint">
-                {type}
-              </span>
-              <span className="text-[12.5px] leading-[1.6] text-muted">{desc}</span>
-            </div>
-          ))}
-        </div>
-
-        <h2>A complete plugin</h2>
-        <p>
-          One provider item and two actions. On Windows paths inside JSON, every backslash
-          is doubled.
-        </p>
-        <CodeBlock code={manifest} title="workspace.json" />
-
-        <h2>Safe mode</h2>
-        <p>
-          <code>plugins_safe_mode</code> is on by default and blocks <code>command</code>{" "}
-          actions entirely. Provider items and <code>open_path</code> actions keep working.
-          Turn it off only for plugins you wrote or have read.
-        </p>
-        <CodeBlock code={config} title="config.toml" />
-
-        <h2>What is not here yet</h2>
-        <p>
-          This is a preview surface, and it is honest about it. There is no WASM runtime, no
-          network API, no query-time callback from a plugin, and no extension store. A
-          plugin is data: static results and process launches. Provider rows are not
-          clickable yet, and actions have no icon or confirmation step. If that covers your
-          integration, it works today. If it needs to compute at query time, it does not.
-        </p>
-
-        <h2>Source</h2>
-        <p>
-          The loader is in{" "}
-          <a
-            href={`${GITHUB_REPO}/blob/master/apps/core/src/plugin_sdk.rs`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            apps/core/src/plugin_sdk.rs
-          </a>
-          . Open an issue if a field you need is missing.
-        </p>
       </div>
 
       <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">

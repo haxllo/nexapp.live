@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { CodeBlock } from "@/components/code-block";
 import { Kbd, PageHead, TextLink } from "@/components/ui";
-import { CONFIG_PATH, GITHUB_LATEST, GITHUB_REPO } from "@/lib/constants";
+import { CONFIG_PATH } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Getting started",
@@ -23,6 +23,7 @@ export default function GettingStartedPage() {
   return (
     <>
       <PageHead
+        eyebrow="Getting started"
         title="Getting started"
         lede="From nothing to the first search, plus the syntax worth memorising and the two failures that actually happen."
       />
@@ -32,9 +33,8 @@ export default function GettingStartedPage() {
         <ul>
           <li>Windows 10 or 11, 64-bit.</li>
           <li>
-            WebView2. It ships with Windows 11 and with most updated Windows 10
-            installs; if the panel stays blank, install the Evergreen runtime from
-            Microsoft.
+            WebView2. It ships with Windows 11 and with most updated Windows 10 installs;
+            if the panel stays blank, install the Evergreen runtime from Microsoft.
           </li>
           <li>Rust 1.85 or newer, only if you are building from source.</li>
         </ul>
@@ -42,13 +42,21 @@ export default function GettingStartedPage() {
         <h2>Install</h2>
         <p>
           Download the latest installer from{" "}
-          <a href={GITHUB_LATEST} target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://github.com/haxllo/nex/releases/latest"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-testid="getting-started-download"
+          >
             GitHub Releases
           </a>{" "}
           and run it. Nex is a per-user install and starts in the background when it
           finishes. There is no window until you ask for one.
         </p>
-        <p>If you prefer a portable copy, the zip on the same release page unpacks and runs in place.</p>
+        <p>
+          If you prefer a portable copy, the zip on the same release page unpacks and runs
+          in place.
+        </p>
 
         <h3>Build from source</h3>
         <p>
@@ -82,7 +90,10 @@ export default function GettingStartedPage() {
           <li>
             <Kbd>Enter</Kbd> opens the selected result, <Kbd>Esc</Kbd> closes the panel.
           </li>
-          <li>Right-click a result for run as admin, copy path, open folder, pin, or uninstall.</li>
+          <li>
+            Right-click a result for run as admin, copy path, open folder, pin, or
+            uninstall.
+          </li>
         </ul>
 
         <h2>Search syntax</h2>
@@ -95,8 +106,8 @@ export default function GettingStartedPage() {
             <code>&gt; restart</code> searches actions and commands only.
           </li>
           <li>
-            <code>@apps</code>, <code>@files</code>, <code>@folders</code> narrow the
-            pool before the fuzzy match runs.
+            <code>@apps</code>, <code>@files</code>, <code>@folders</code> narrow the pool
+            before the fuzzy match runs.
           </li>
           <li>
             <code>kind:file</code> and <code>ext:md</code> filter by type.{" "}
@@ -133,8 +144,8 @@ export default function GettingStartedPage() {
         </p>
         <h3>Files are missing</h3>
         <p>
-          Check <code>discovery_roots</code>. Nex scans the user folder by default and skips
-          system, temp, and build directories such as <code>node_modules</code> and{" "}
+          Check <code>discovery_roots</code>. Nex scans the user folder by default and
+          skips system, temp, and build directories such as <code>node_modules</code> and{" "}
           <code>.git</code>.
         </p>
 
@@ -142,7 +153,12 @@ export default function GettingStartedPage() {
         <p>
           The configuration reference documents every key, its type, and its range. The
           full source lives at{" "}
-          <a href={GITHUB_REPO} target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://github.com/haxllo/nex"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-testid="getting-started-source"
+          >
             github.com/haxllo/nex
           </a>
           .

@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Local reverse-engineering scratch space and browser profiles.
+    ".reverse/**",
+    ".preview/**",
   ]),
 ]);
 

@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight } from "@/components/icons";
+import { ArrowRight } from "@phosphor-icons/react/ssr";
 import { Kbd, PageHead } from "@/components/ui";
-import { CONFIG_PATH } from "@/lib/constants";
-import { getLatestRelease } from "@/lib/releases";
 
 export const metadata: Metadata = {
   title: "Documentation",
@@ -11,21 +9,24 @@ export const metadata: Metadata = {
     "Install Nex, learn the search syntax, change every setting in config.toml, and extend the launcher with plugins.",
 };
 
-const pages = [
+const overview = [
   {
+    href: "/docs/getting-started",
     title: "Getting started",
     body: "Prerequisites, installation, the first search, the search syntax, and what to do when the hotkey will not fire.",
-    href: "/docs/getting-started",
+    testId: "docs-article-getting-started",
   },
   {
+    href: "/docs/configuration",
     title: "Configuration",
     body: "Every key in config.toml with its type, default, and valid range, grouped the way the file is grouped.",
-    href: "/docs/configuration",
+    testId: "docs-article-configuration",
   },
   {
+    href: "/plugin-sdk",
     title: "Plugin SDK",
     body: "Add results and actions with a JSON manifest. Paths, commands, keywords, and safe mode.",
-    href: "/plugin-sdk",
+    testId: "docs-article-plugin-sdk",
   },
 ];
 
@@ -38,38 +39,33 @@ const syntax = [
   ["-term, AND, OR, NOT", "Exclude and combine terms"],
 ];
 
-const cli = [
+const commands = [
   ["nex --status", "Check whether Nex is running"],
   ["nex --quit", "Stop the running instance"],
   ["nex --restart", "Restart the instance"],
   ["nex --diagnostics-bundle", "Write a diagnostics zip"],
 ];
 
-export default async function DocsPage() {
-  const release = await getLatestRelease();
-
+export default function DocsPage() {
   return (
     <>
       <PageHead
+        eyebrow="Documentation"
         title="Documentation"
-        lede={`Install it, change how it behaves, and extend it. Everything here describes the current release, ${release.version}.`}
+        lede="Install it, change how it behaves, and extend it. Everything here describes the current release, 2.30.0."
       />
 
-      <div className="mt-10 border-t border-line">
-        {pages.map((page) => (
-          <Link
-            key={page.href}
-            href={page.href}
-            className="group grid gap-1.5 border-b border-line py-5 transition-colors duration-200 hover:bg-white/[0.015] md:grid-cols-[minmax(0,30%)_minmax(0,1fr)_auto] md:items-baseline md:gap-8"
-          >
-            <span className="text-[14px] text-paper">{page.title}</span>
+      <div className="docs-overview-links">
+        {overview.map((item) => (
+          <Link key={item.href} href={item.href} data-testid={item.testId} className="group">
+            <span className="text-[14px] text-paper">{item.title}</span>
             <span className="max-w-[58ch] text-[13px] leading-[1.65] text-muted">
-              {page.body}
+              {item.body}
             </span>
             <ArrowRight
               size={15}
               aria-hidden
-              className="hidden text-faint transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-paper md:block"
+              className="text-faint transition-transform duration-200 group-hover:translate-x-0.5"
             />
           </Link>
         ))}
@@ -81,7 +77,9 @@ export default async function DocsPage() {
           <dl className="mt-4 space-y-4 border-t border-line pt-4">
             <div>
               <dt className="text-[12.5px] text-muted">Config file</dt>
-              <dd className="mono mt-1 break-all text-[11px] text-paper">{CONFIG_PATH}</dd>
+              <dd className="mono mt-1 break-all text-[11px] text-paper">
+                %APPDATA%\Nex\config.toml
+              </dd>
             </div>
             <div>
               <dt className="text-[12.5px] text-muted">Default hotkey</dt>
@@ -103,9 +101,12 @@ export default async function DocsPage() {
         <section>
           <h2 className="text-[13px] font-medium text-paper">Search syntax</h2>
           <dl className="mt-4 border-t border-line">
-            {syntax.map(([token, meaning]) => (
-              <div key={token} className="flex items-baseline justify-between gap-6 border-b border-line py-2.5">
-                <dt className="mono text-[10.5px] text-paper">{token}</dt>
+            {syntax.map(([term, meaning]) => (
+              <div
+                key={term}
+                className="flex items-baseline justify-between gap-6 border-b border-line py-2.5"
+              >
+                <dt className="mono text-[10.5px] text-paper">{term}</dt>
                 <dd className="text-right text-[12px] text-muted">{meaning}</dd>
               </div>
             ))}
@@ -116,7 +117,7 @@ export default async function DocsPage() {
       <section className="mt-12">
         <h2 className="text-[13px] font-medium text-paper">Command line</h2>
         <dl className="mt-4 grid gap-x-10 border-t border-line sm:grid-cols-2">
-          {cli.map(([command, meaning]) => (
+          {commands.map(([command, meaning]) => (
             <div key={command} className="border-b border-line py-2.5">
               <dt className="mono text-[10.5px] text-paper">{command}</dt>
               <dd className="mt-1 text-[12px] text-muted">{meaning}</dd>

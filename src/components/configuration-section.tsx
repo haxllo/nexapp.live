@@ -1,6 +1,5 @@
 import { CodeBlock } from "@/components/code-block";
-import { Reveal } from "@/components/reveal";
-import { SectionHead, TextLink } from "@/components/ui";
+import { Eyebrow, TextLink } from "@/components/ui";
 
 const config = `# %APPDATA%\\Nex\\config.toml
 hotkey = "Win"
@@ -19,28 +18,34 @@ auto_fill = false
 plugins_enabled = true
 plugins_safe_mode = true`;
 
-export function Configuration() {
+export function ConfigurationSection() {
   return (
     <section id="config" className="scroll-mt-20 border-t border-line">
       <div className="shell py-20 md:py-28">
-        <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-16">
-          <div className="min-w-0 lg:col-span-5">
-            <Reveal>
-              <SectionHead title="It is a text file. Of course it is.">
-                Every setting lives in a TOML file you can read, diff, and keep in
-                your dotfiles. Save it and most changes apply about a second later.
-                The hotkey and the index path need a restart.
-              </SectionHead>
-              <div className="mt-6">
-                <TextLink href="/docs/configuration">Full configuration reference</TextLink>
+        <div className="configuration-layout">
+          <div className="min-w-0">
+            <div className="max-w-[46rem]">
+              <div className="mb-5">
+                <Eyebrow rule>Configuration</Eyebrow>
               </div>
-            </Reveal>
+              <h2 className="text-base leading-snug text-paper md:text-lg">
+                It is a text file. Of course it is.
+              </h2>
+              <p className="mt-5 max-w-[54ch] text-sm leading-[1.85] text-muted">
+                Every setting lives in a TOML file you can read, diff, and keep in your
+                dotfiles. Save it and most changes apply about a second later. The hotkey
+                and the index path need a restart.
+              </p>
+            </div>
+            <div className="mt-6">
+              <TextLink href="/docs/configuration" testId="configuration-reference-link">
+                Full configuration reference
+              </TextLink>
+            </div>
           </div>
 
-          <div className="min-w-0 lg:col-span-7">
-            <Reveal delay={0.06}>
-              <CodeBlock code={config} title="config.toml" />
-            </Reveal>
+          <div className="min-w-0">
+            <CodeBlock code={config} title="config.toml" />
           </div>
         </div>
       </div>

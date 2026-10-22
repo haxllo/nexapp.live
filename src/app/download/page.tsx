@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import { DownloadSimple } from "@phosphor-icons/react/ssr";
 import { CodeBlock } from "@/components/code-block";
-import { DownloadSimple } from "@/components/icons";
 import { Button, Kbd, PageHead, TextLink } from "@/components/ui";
-import { CONFIG_PATH, GITHUB_RELEASES } from "@/lib/constants";
-import { getLatestRelease } from "@/lib/releases";
+import { latestAssets } from "@/lib/releases";
+import { GITHUB_RELEASES, LATEST } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Download",
@@ -11,52 +12,85 @@ export const metadata: Metadata = {
     "Download Nex for Windows 10 and 11, x64. Installer, portable zip, and build-from-source instructions.",
 };
 
-const build = `git clone https://github.com/haxllo/nex.git
+const sourceBuild = `git clone https://github.com/haxllo/nex.git
 cd nex
 cargo build --release --bin Nex --bin NexHelper
 .\\target\\release\\Nex.exe`;
 
-export default async function DownloadPage() {
-  const release = await getLatestRelease();
-  const installer = release.assets.find((asset) => asset.label === "Installer");
+const requirements = [
+  ["System", "Windows 10 or 11, 64-bit"],
+  ["Runtime", "WebView2, bundled with Windows 11"],
+  ["Memory", "72 MB active target, configurable"],
+  ["Disk", "6.9 MB installer"],
+  ["License", "MIT, source available"],
+];
+
+const afterInstall = [
+  {
+    title: "The installer runs and Nex starts in the background",
+    body: "There is no window until you ask for one. A tray icon takes over from there.",
+  },
+  {
+    title: "Press Win",
+    body: "The panel opens on the monitor under your cursor, in the upper third, with Quick Launch already filled.",
+  },
+  {
+    title: "Type, then Enter",
+    body: "Apps, files, and actions share one field. Esc closes the panel and gives focus back to whatever was in front.",
+  },
+];
+
+export default function DownloadPage() {
+  const installer = latestAssets[0];
 
   return (
-    <div className="shell pt-14 pb-20 md:pt-20 md:pb-28">
+    <div className="shell pt-10 pb-20 md:pb-28" data-testid="download-page-container">
       <PageHead
+        eyebrow="Download"
         title="Install Nex."
-        lede={`Windows 10 or 11, 64-bit. The installer is ${
-          installer?.size ?? "small"
-        }, and Nex starts in the background with the Win key already wired up.`}
+        lede="Windows 10 or 11, 64-bit. The installer is 6.9 MB, and Nex starts in the background with the Win key already wired up."
       />
 
       <div className="mt-12 grid gap-12 lg:grid-cols-12 lg:gap-16">
         <div className="min-w-0 lg:col-span-7">
-          <div className="rounded-[12px] border border-line bg-ink-2 p-6 md:p-7">
+          <div className="download-release">
+            <Image
+              src="/nex-logo.png"
+              alt="Nex"
+              width={50}
+              height={50}
+              className="download-mark"
+            />
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <h2 className="text-[15px] font-medium text-paper">Latest release</h2>
-              <span className="mono text-[10.5px] text-faint">
-                v{release.version} · {release.date}
+              <span
+                className="mono pr-16 text-[10.5px] text-faint"
+                data-testid="download-latest-version"
+              >
+                v{LATEST.version} · {LATEST.date}
               </span>
             </div>
-            <p className="mt-1.5 text-[13px] text-muted">{release.title}</p>
+            <p className="mt-1.5 text-[13px] text-muted">{LATEST.title}</p>
 
             <div className="mt-6">
               <Button
-                href={installer?.url ?? GITHUB_RELEASES}
+                href={installer.url}
                 external
                 size="lg"
-                icon={<DownloadSimple size={15} weight="bold" aria-hidden />}
                 className="w-full sm:w-auto"
+                testId="download-primary-button"
+                icon={<DownloadSimple size={15} aria-hidden />}
               >
                 Download for Windows
               </Button>
             </div>
 
             <div className="mt-7 border-t border-line">
-              {release.assets.map((asset) => (
+              {latestAssets.map((asset) => (
                 <a
-                  key={asset.name}
+                  key={asset.id}
                   href={asset.url}
+                  data-testid={`download-asset-${asset.id}`}
                   className="group flex items-center justify-between gap-4 border-b border-line py-3 transition-colors duration-200 hover:text-paper"
                 >
                   <span className="min-w-0">
@@ -81,6 +115,7 @@ export default async function DownloadPage() {
               Older versions live on{" "}
               <a
                 href={GITHUB_RELEASES}
+                data-testid="download-older-releases"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted underline decoration-white/20 underline-offset-2 hover:text-paper"
@@ -94,24 +129,11 @@ export default async function DownloadPage() {
           <section className="mt-10">
             <h2 className="text-[15px] font-medium text-paper">After installing</h2>
             <div className="mt-4 border-t border-line">
-              {[
-                {
-                  title: "The installer runs and Nex starts in the background",
-                  body: "There is no window until you ask for one. A tray icon takes over from there.",
-                },
-                {
-                  title: "Press Win",
-                  body: "The panel opens on the monitor under your cursor, in the upper third, with Quick Launch already filled.",
-                },
-                {
-                  title: "Type, then Enter",
-                  body: "Apps, files, and actions share one field. Esc closes the panel and gives focus back to whatever was in front.",
-                },
-              ].map((step) => (
-                <div key={step.title} className="border-b border-line py-4">
-                  <div className="text-[13.5px] text-paper">{step.title}</div>
+              {afterInstall.map((item) => (
+                <div key={item.title} className="border-b border-line py-4">
+                  <div className="text-[13.5px] text-paper">{item.title}</div>
                   <p className="mt-1.5 max-w-[52ch] text-[13px] leading-[1.65] text-muted">
-                    {step.body}
+                    {item.body}
                   </p>
                 </div>
               ))}
@@ -125,25 +147,19 @@ export default async function DownloadPage() {
               activation and allowlisted key simulation.
             </p>
             <div className="mt-4">
-              <CodeBlock code={build} title="PowerShell" language="powershell" />
+              <CodeBlock code={sourceBuild} title="PowerShell" />
             </div>
           </section>
         </div>
 
-        <aside className="min-w-0 lg:sticky lg:top-24 lg:col-span-5 lg:self-start">
-          <div className="rounded-[12px] border border-line bg-ink-2/60 p-6">
+        <aside className="download-aside min-w-0 lg:sticky lg:top-28 lg:col-span-5 lg:self-start">
+          <div data-testid="download-system-reqs">
             <h2 className="text-[12px] font-medium text-paper">Requirements</h2>
             <dl className="mt-4 space-y-3">
-              {[
-                ["System", "Windows 10 or 11, 64-bit"],
-                ["Runtime", "WebView2, bundled with Windows 11"],
-                ["Memory", "72 MB active target, configurable"],
-                ["Disk", installer ? `${installer.size} installer` : "About 7 MB"],
-                ["License", "MIT, source available"],
-              ].map(([key, value]) => (
-                <div key={key} className="flex items-baseline justify-between gap-6">
+              {requirements.map(([label, value]) => (
+                <div key={label} className="flex items-baseline justify-between gap-6">
                   <dt className="mono text-[10.5px] uppercase tracking-[0.08em] text-faint">
-                    {key}
+                    {label}
                   </dt>
                   <dd className="text-right text-[12.5px] text-muted">{value}</dd>
                 </div>
@@ -151,13 +167,13 @@ export default async function DownloadPage() {
             </dl>
           </div>
 
-          <div className="mt-6 rounded-[12px] border border-line bg-ink-2/60 p-6">
+          <div className="mt-6" data-testid="download-file-locations">
             <h2 className="text-[12px] font-medium text-paper">Where things live</h2>
             <div className="mt-4 space-y-4">
               <div>
                 <div className="text-[12.5px] text-muted">Config</div>
                 <div className="mono mt-1 break-all rounded-[6px] border border-line bg-white/[0.03] px-2 py-1.5 text-[10.5px] text-paper">
-                  {CONFIG_PATH}
+                  %APPDATA%\Nex\config.toml
                 </div>
               </div>
               <div>
@@ -167,8 +183,8 @@ export default async function DownloadPage() {
                 </div>
               </div>
               <p className="text-[12.5px] leading-[1.6] text-muted">
-                Settings hot-reload in about a second. The hotkey and the index path
-                need a restart.
+                Settings hot-reload in about a second. The hotkey and the index path need a
+                restart.
               </p>
             </div>
           </div>

@@ -1,25 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Sans, JetBrains_Mono } from "next/font/google";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import "./globals.css";
-
-const instrument = Instrument_Sans({
-  variable: "--font-instrument",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const jetbrains = JetBrains_Mono({
-  variable: "--font-jetbrains",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.nexapp.live/"),
   title: {
-    default: "Nex, the keyboard-first launcher for Windows",
+    default: "Nex — the liquid-glass launcher for Windows",
     template: "%s · Nex",
   },
   description:
@@ -34,25 +21,31 @@ export const metadata: Metadata = {
     "productivity",
     "quick launch",
   ],
+  applicationName: "Nex",
   icons: {
-    icon: "/nex-logo.svg",
+    shortcut: "/nex-logo.png",
+    icon: [{ url: "/nex-logo.png", type: "image/png" }],
+    apple: "/nex-logo.png",
   },
   openGraph: {
-    title: "Nex, the keyboard-first launcher for Windows",
+    title: "Nex — the liquid-glass launcher for Windows",
     description:
       "A glass panel over your desktop. Apps, files, commands, math and chat, one key away.",
     type: "website",
     siteName: "Nex",
-    images: [{ url: "/nex-logo.svg", width: 512, height: 512, alt: "Nex" }],
+    images: [{ url: "/nex-logo.png", width: 512, height: 512, alt: "Nex" }],
   },
   twitter: {
     card: "summary",
-    images: ["/nex-logo.svg"],
+    title: "Nex — the liquid-glass launcher for Windows",
+    description:
+      "A glass panel over your desktop. Apps, files, commands, math and chat, one key away.",
+    images: ["/nex-logo.png"],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0b0d",
+  themeColor: "#111315",
   colorScheme: "dark",
 };
 
@@ -62,18 +55,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${instrument.variable} ${jetbrains.variable}`}>
+    <html lang="en">
       <body className="min-h-dvh bg-ink text-paper">
         <a
           href="#content"
+          data-testid="skip-to-content"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-[8px] focus:bg-paper focus:px-3 focus:py-2 focus:text-[13px] focus:font-medium focus:text-ink"
         >
           Skip to content
         </a>
-        <Header />
+        <SiteHeader />
         <main id="content">{children}</main>
-        <Footer />
-        <div className="grain" aria-hidden />
+        <SiteFooter />
       </body>
     </html>
   );

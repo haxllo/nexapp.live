@@ -8,51 +8,60 @@ Live at [nexapp.live](https://www.nexapp.live).
 
 - Next.js 16 (App Router, Turbopack)
 - React 19
-- Tailwind CSS v4
-- Motion (the library formerly known as Framer Motion)
-- Phosphor icons
+- Motion 12 (`motion/react`)
+- Phosphor icons (CSR in client components, SSR elsewhere)
 - TypeScript
+
+Tailwind is not used at build time. The design system in `src/app/globals.css` is the compiled stylesheet from the reference build, kept intact so the layout and material match; the theme tokens sit at the top of the file, and later overrides apply the dark docs surface, the launcher watermark, and the launcher changes.
 
 ## Design system
 
-The site follows the product's own geometry rather than a generic marketing template.
+- **Canvas** `#111315`, hairlines at 7% and 14% white.
+- **Ink and warmth** paper `#f0f3f2`, muted `#a7afaf`, faint `#929b9b`, ember `#ff9473`, signal `#a8d3c8`.
+- **Type** Instrument Sans for UI, JetBrains Mono for metadata and code, Fraunces for the display serif. All three are self-hosted from `public/fonts` with the original variable-font subsets.
+- **Shape** pill controls, 1px rules, an 18px glass panel with a refractive rim.
+- **Docs** the same ink canvas, a glass sidebar card, hairline tables, and ember for the active page. The syntax band is the one light section, kept as a deliberate pause between dark chapters.
+- **Launcher footer** a ghosted app-mark watermark from the supplied flat SVG, recoloured to the glass accent and tucked into the bottom-right corner behind the detail pane and footer.
+- **Motion** the dock selection springs between tabs, panels materialise on switch, and the panel rim follows the pointer. `prefers-reduced-motion` disables the spring.
 
-- **Canvas** `#0a0b0d`, one pale blue signal `#9db9ff` taken from the panel accent. No gradients used as decoration.
-- **Type** Instrument Sans for display and UI, JetBrains Mono for metadata, keys, and code.
-- **Shape** 8px controls, 10px panels, 12px grids. 1px hairlines instead of card shadows.
-- **Motion** IntersectionObserver reveals plus a short hero entrance. Everything is disabled under `prefers-reduced-motion`.
-- **Previews** three rendered views of the real overlay: search (live fuzzy search, calculator, scopes, command mode), chat (working composer, context chips), and media (play/pause). They are built from the actual app layout, not invented UI.
+## The homepage preview
 
-## The glass previews
+The glass preview is interactive, not a screenshot:
 
-The real panel samples the live desktop through DXGI Desktop Duplication and sets
-`WDA_EXCLUDEFROMCAPTURE`, so it is invisible to screenshots, OBS, and Discord by design.
-That is why there is no glass screenshot on the site.
+- **Launcher** eight real app rows, per-row bookmarks, live fuzzy scoring, scopes, command mode, an inline calculator, keyboard navigation, and a result detail pane. The search bar closes with a decorative power glyph; the Actions control is text-only.
+- **Chat** empty state, suggestion prompts, working composer, attach and PC-context chips, transcript copy, and reset.
+- **Media** album art, seek, transport, volume, and a three-track queue with a running clock.
+- The `Start fresh` control remounts all three; the footer links dispatch `nex-mode` to open a specific surface.
 
-The previews instead render the material in the browser with layered
-`backdrop-filter` (blur, saturation, brightness), a 1px rim highlight, inset edge light,
-and a soft contact shadow over the project desktop wallpaper. The panel keeps the app's
-smoked tint so text stays readable over bright wallpaper, with opaque fallbacks for
-browsers without compositing support and for `prefers-reduced-transparency`.
-
-Asset notes:
-
-- Desktop wallpaper: wallhaven `rr1y5j`, supplied by the project owner (5824x3264 source). The media cover is a crop of an Unsplash desert photo.
-- App icons: Simple Icons (CC0) for brand marks, Phosphor for system utilities.
-- Album art: a crop of the lake photograph, not a real release cover.
+The real panel carries `WDA_EXCLUDEFROMCAPTURE`, so no screenshot can show its material. The browser preview recreates it with layered `backdrop-filter`, a 1px rim highlight, an inset edge light, and a contact shadow over the coast photograph.
 
 ## Pages
 
 | Route | Purpose |
 |---|---|
-| `/` | Product page: live panel preview, capabilities, syntax, chat, engineering, config, releases |
+| `/` | Product page: glass preview, capabilities, chat, media, syntax, engineering, config, releases |
 | `/features` | Grouped capability reference |
-| `/download` | Release assets, requirements, post-install steps, source build |
+| `/download` | Release assets, requirements, after-install steps, source build |
 | `/docs` | Docs index and quick reference |
 | `/docs/getting-started` | Install, first run, syntax, CLI, troubleshooting |
 | `/docs/configuration` | Every `config.toml` key with type, default, and range |
-| `/changelog` | Recent release notes plus the full version list |
-| `/plugin-sdk` | Manifest schema, action types, safe mode, example plugin |
+| `/changelog` | Detailed timeline plus the full version index back to 1.8.0 |
+| `/plugin-sdk` | Manifest schema, action types, safe mode, complete plugin |
+
+## Assets
+
+- `public/nex-coast.jpg` hero photograph, `public/nex-logo.png` orange butterfly mark, `public/album.jpg` Nightfall EP artwork.
+- `public/apps/*.svg` brand marks for the launcher preview.
+- `src/components/app-mark.tsx` is the launcher footer watermark, built from the supplied flat SVG with the tile as a faint outline and the wings in `currentColor`.
+- Fonts in `public/fonts` are the woff2 subsets from the reference build.
+
+## Content
+
+- `src/lib/changelog.ts` holds the ten detailed releases and the earlier version index.
+- `src/lib/releases.ts` holds the four homepage cards and the current asset names and sizes.
+- `src/lib/settings.ts` is the configuration reference. Keep it in step with `config.toml`.
+- `src/lib/features.ts` is the feature page data.
+- `src/lib/site.ts` holds the repository, release, and navigation constants.
 
 ## Commands
 
@@ -62,11 +71,3 @@ pnpm build   # production build
 pnpm start   # production server
 pnpm lint    # ESLint
 ```
-
-## Content
-
-Product facts were taken from the public repository and the v2.28.0 release notes.
-
-- `src/lib/constants.ts` holds the current release, asset names, sizes, and URLs. Update it when a release ships.
-- `src/lib/settings.ts` holds the configuration reference. Keep it in sync with `config.toml`.
-- The changelog is written from GitHub release notes; the version list is complete back to 2.0.0.

@@ -1,96 +1,186 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import { Pause, Play, SkipBack, SkipForward, SpeakerHigh } from "@/components/icons";
-import { DesktopFrame } from "@/components/glass";
+import { useEffect, useState } from "react";
+import {
+  Pause,
+  Play,
+  SkipBack,
+  SkipForward,
+  SpeakerHigh,
+} from "@phosphor-icons/react";
 
-export function MediaDemo() {
+const tracks = [
+  {
+    title: "Low Orbit",
+    artist: "Sable",
+    album: "Nightfall EP",
+    length: 192,
+  },
+  {
+    title: "Ember Line",
+    artist: "Sable",
+    album: "Nightfall EP",
+    length: 214,
+  },
+  {
+    title: "Glasswing",
+    artist: "Sable",
+    album: "Nightfall EP",
+    length: 178,
+  },
+];
+
+const clock = (seconds: number) =>
+  `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, "0")}`;
+
+export function MediaDemo({ active }: { active: boolean }) {
+  const [state, setState] = useState({ index: 0, position: 42 });
   const [playing, setPlaying] = useState(true);
+  const [volume, setVolume] = useState(70);
+  const track = tracks[state.index];
+
+  function skip(delta: number) {
+    setState((current) => ({
+      index: (current.index + delta + tracks.length) % tracks.length,
+      position: 0,
+    }));
+  }
+
+  useEffect(() => {
+    if (!active || !playing) return;
+    const timer = setInterval(() => {
+      setState((current) =>
+        current.position + 1 >= tracks[current.index].length
+          ? { index: (current.index + 1) % tracks.length, position: 0 }
+          : { ...current, position: current.position + 1 },
+      );
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [active, playing]);
 
   return (
-    <DesktopFrame
-      src="/wallpaper.jpg"
-      alt="The Nex desktop wallpaper behind the media controls"
-      sizes="(min-width: 1024px) 1100px, 100vw"
-      height="h-[270px] sm:h-[320px]"
-      position="center 58%"
-    >
-      <div className="glass-panel w-full max-w-[640px] rounded-[14px] p-4">
-        <div className="flex items-center gap-3">
-          <div className="relative h-14 w-14 shrink-0 sm:h-16 sm:w-16 overflow-hidden rounded-[6px] border border-[var(--glass-line)] sm:h-16 sm:w-16">
-            <Image
-              src="/album.jpg"
-              alt="Cover art for Low Orbit"
-              fill
-              sizes="52px"
-              className="object-cover"
-            />
-          </div>
+    <div className="glass-panel media-window" data-testid="media-demo-panel">
+      <div className="media-artwork">
+        <Image
+          src="/album.jpg"
+          alt="Nightfall EP artwork"
+          fill
+          sizes="(min-width: 640px) 240px, 180px"
+          className="object-cover"
+        />
+        <span className="media-art-label">
+          SABLE
+          <br />
+          <strong>NIGHTFALL</strong>
+        </span>
+      </div>
 
-          <div className="min-w-0 flex-1">
-            <div className="truncate text-[14px] leading-tight text-[var(--glass-text)]">
-              Low Orbit
-            </div>
-            <div className="mt-0.5 truncate text-[11px] leading-tight text-[var(--glass-dim)]">
-              Sable · Nightfall EP
-            </div>
-            <div className="mt-2 hidden items-center gap-2 sm:flex">
-              <span className="mono text-[10px] leading-none text-[var(--glass-faint)]">0:42</span>
-              <div className="relative h-[2px] flex-1 overflow-hidden rounded-full bg-[var(--glass-track)]">
-                <div className="absolute inset-y-0 left-0 w-[22%] rounded-full bg-[var(--glass-accent)]" />
-              </div>
-              <span className="mono text-[10px] leading-none text-[var(--glass-faint)]">3:12</span>
-            </div>
-          </div>
+      <div className="media-player">
+        <div className="media-eyebrow">
+          <span
+            className={`equalizer ${playing ? "is-playing" : ""}`}
+            aria-hidden
+          >
+            {[0, 1, 2, 3].map((bar) => (
+              <i key={bar} style={{ animationDelay: `${160 * bar}ms` }} />
+            ))}
+          </span>
+          NOW PLAYING
+          <span className="media-demo-label" data-testid="media-simulation-label">
+            SIMULATED
+          </span>
+        </div>
 
-          <div className="flex shrink-0 items-center gap-0.5">
-            <span
-              aria-hidden
-              className="inline-flex h-7 w-7 items-center justify-center text-[var(--glass-control)]"
-            >
-              <SkipBack size={15} weight="fill" />
-            </span>
-            <button
-              type="button"
-              onClick={() => setPlaying((value) => !value)}
-              aria-label={playing ? "Pause preview" : "Play preview"}
-              aria-pressed={playing}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full text-[var(--glass-text)] transition-colors hover:bg-[var(--glass-hover)]"
-            >
-              {playing ? (
-                <Pause size={17} weight="fill" aria-hidden />
-              ) : (
-                <Play size={17} weight="fill" aria-hidden />
-              )}
-            </button>
-            <span
-              aria-hidden
-              className="inline-flex h-7 w-7 items-center justify-center text-[var(--glass-control)]"
-            >
-              <SkipForward size={15} weight="fill" />
-            </span>
-          </div>
+        <h3 data-testid="media-track-title">{track.title}</h3>
+        <p data-testid="media-track-artist">
+          {track.artist} · {track.album}
+        </p>
 
-          <span aria-hidden className="hidden h-5 w-px bg-[var(--glass-line)] sm:block" />
-
-          <div aria-hidden className="hidden items-center gap-1.5 sm:flex">
-            <SpeakerHigh size={14} className="text-[var(--glass-control)]" />
-            <span className="relative h-[2px] w-[52px] rounded-full bg-[var(--glass-track)]">
-              <span className="absolute inset-y-0 left-0 w-[70%] rounded-full bg-[var(--glass-accent)]" />
-              <span className="absolute left-[70%] top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--glass-text)]" />
-            </span>
+        <div className="media-progress">
+          <input
+            type="range"
+            min={0}
+            max={track.length}
+            value={state.position}
+            onChange={(event) =>
+              setState((current) => ({ ...current, position: +event.target.value }))
+            }
+            aria-label="Seek"
+            data-testid="media-seek"
+            style={{
+              background: `linear-gradient(to right, #f1f5f4 ${
+                (state.position / track.length) * 100
+              }%, #ffffff30 0)`,
+            }}
+          />
+          <div>
+            <span data-testid="media-elapsed">{clock(state.position)}</span>
+            <span data-testid="media-duration">{clock(track.length)}</span>
           </div>
         </div>
 
-        <div className="mt-2 flex items-center gap-2 px-0.5 sm:hidden">
-          <span className="mono text-[10px] leading-none text-[var(--glass-faint)]">0:42</span>
-          <div className="relative h-[2px] flex-1 overflow-hidden rounded-full bg-[var(--glass-track)]">
-            <div className="absolute inset-y-0 left-0 w-[22%] rounded-full bg-[var(--glass-accent)]" />
-          </div>
-          <span className="mono text-[10px] leading-none text-[var(--glass-faint)]">3:12</span>
+        <div className="media-transport">
+          <button
+            type="button"
+            onClick={() => skip(-1)}
+            aria-label="Previous track"
+            title="Previous track"
+            data-testid="media-prev"
+          >
+            <SkipBack size={23} weight="fill" />
+          </button>
+          <button
+            type="button"
+            className="media-play liquid-control"
+            onClick={() => setPlaying((value) => !value)}
+            aria-label={playing ? "Pause preview" : "Play preview"}
+            aria-pressed={playing}
+            data-testid="media-play-toggle"
+          >
+            {playing ? <Pause size={24} weight="fill" /> : <Play size={24} weight="fill" />}
+          </button>
+          <button
+            type="button"
+            onClick={() => skip(1)}
+            aria-label="Next track"
+            title="Next track"
+            data-testid="media-next"
+          >
+            <SkipForward size={23} weight="fill" />
+          </button>
+        </div>
+
+        <div className="media-volume-row">
+          <SpeakerHigh size={16} aria-hidden />
+          <input
+            type="range"
+            min={0}
+            max={100}
+            value={volume}
+            onChange={(event) => setVolume(+event.target.value)}
+            aria-label="Volume"
+            data-testid="media-volume"
+          />
+          <span data-testid="media-volume-value">{volume}%</span>
         </div>
       </div>
-    </DesktopFrame>
+
+      <div className="media-queue" aria-label="Preview tracks">
+        {tracks.map((item, index) => (
+          <button
+            key={item.title}
+            type="button"
+            aria-pressed={state.index === index}
+            data-testid={`media-track-${index}`}
+            onClick={() => setState({ index, position: 0 })}
+          >
+            <span>0{index + 1}</span>
+            {item.title}
+            <span>{clock(item.length)}</span>
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }

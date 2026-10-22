@@ -1,32 +1,44 @@
-import { MediaDemo } from "@/components/media-demo";
-import { Reveal } from "@/components/reveal";
-import { SectionHead, TextLink } from "@/components/ui";
+import Image from "next/image";
+import { ModeLink } from "@/components/mode-link";
+import { TextLink } from "@/components/ui";
 
-export function Media() {
+const bars = [6, 12, 20, 12, 28, 17, 9, 25, 32, 14, 22, 10, 28, 16, 7, 15, 24, 12, 30, 18, 9, 22, 15, 6];
+
+export function MediaStory() {
   return (
-    <section id="media" className="scroll-mt-20 border-t border-line">
-      <div className="shell py-20 md:py-28">
-        <Reveal>
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <SectionHead title="The track, without alt-tabbing.">
-              Play, pause, skip, and set the volume from the panel. The same glass, a
-              smaller surface, and no media window to hunt for.
-            </SectionHead>
-            <div className="pb-1">
-              <TextLink href="/features">Media and power actions</TextLink>
+    <section id="media" className="story-section media-story" data-testid="media-section">
+      <div className="shell story-layout">
+        <div className="media-story-art" aria-hidden>
+          <Image src="/album.jpg" alt="" width={150} height={150} />
+          <div>
+            <span className="mono">A MOMENT IN YOUR FLOW</span>
+            <strong>Low Orbit</strong>
+            <p>Sable · Nightfall EP</p>
+            <div className="media-waveform">
+              {bars.map((height, index) => (
+                <i key={index} style={{ height }} />
+              ))}
             </div>
           </div>
-        </Reveal>
+        </div>
 
-        <Reveal delay={0.05}>
-          <div className="mt-10">
-            <MediaDemo />
+        <div className="story-content">
+          <span className="eyebrow">04 / WITHOUT MISSING A BEAT</span>
+          <h2>The track, without alt-tabbing.</h2>
+          <p>
+            Play, pause, skip, and set the volume from the panel. The same glass, a
+            smaller surface, and no media window to hunt for.
+          </p>
+
+          <div className="mt-7 flex flex-wrap items-center gap-6">
+            <ModeLink mode="media" testId="explore-media-demo">
+              Explore media
+            </ModeLink>
+            <TextLink href="/features" testId="media-feature-list">
+              Media and power actions
+            </TextLink>
           </div>
-          <div className="mt-3 flex items-center justify-between gap-4">
-            <span className="mono text-[10px] text-faint">Media view, same material</span>
-            <span className="mono text-[10px] text-faint">Press play or pause</span>
-          </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

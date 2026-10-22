@@ -4,53 +4,53 @@
 
 - **Next.js 16.2.10** (App Router, Turbopack)
 - **React 19.2.4**
-- **Tailwind CSS v4.3.3**
 - **Motion 12.42.2**
 - **Phosphor Icons 2.1.10**
 - **TypeScript 5.9.3**
 - **pnpm 10.34.3**
 
+Tailwind is installed but no longer compiled at build time. `src/app/globals.css` is the reference stylesheet, extracted intact.
+
 ## Design system
 
 | Token | Value | Use |
 |---|---|---|
-| `ink` | `#0a0b0d` | page canvas |
-| `ink-2` | `#0d0f13` | raised surfaces |
-| `ink-3` | `#12151a` | panel shells |
-| `line` | `rgba(255,255,255,0.08)` | hairlines |
-| `paper` | `#edeff2` | primary text |
-| `muted` | `#a4abb6` | body text |
-| `faint` | `#7a828e` | metadata |
-| `signal` | `#9db9ff` | focus, selection, one accent |
+| `ink` | `#111315` | page canvas |
+| `line` | `#ffffff12` | hairlines |
+| `line-2` | `#ffffff25` | stronger rules |
+| `paper` | `#f0f3f2` | primary text |
+| `muted` | `#a7afaf` | body text |
+| `faint` | `#929b9b` | metadata |
+| `ember` | `#ff9473` | warm accent, brand period |
+| `signal` | `#a8d3c8` | focus, selection, success |
+| `cream` | `#e5e9e5` | light text on glass |
 
-- Type: Instrument Sans (display/UI), JetBrains Mono (metadata, keys, code).
-- Radii: 8px controls, 10px panels, 12px glass panels, 14px screen frames.
-- Motion: CSS reveals driven by IntersectionObserver, 600ms `cubic-bezier(0.22,1,0.36,1)`. Reduced motion shows content immediately.
-- Glass: layered `backdrop-filter` (blur 20px, saturate 190%, brightness 0.82), 1px white rim, inset edge light, contact shadow, opaque reduced-transparency fallback.
-- No em-dashes, no decorative dots, no gradient glows, no fake UI screenshots.
+- Type: Instrument Sans (UI), JetBrains Mono (metadata, keys, code), Fraunces (display serif).
+- Light band: syntax `#e7ede9`. Docs use the same ink canvas with a glass sidebar and ember active states.
+- Motion: spring dock selection, materialise on panel switch, pointer-tracked rim. Reduced motion removes the spring.
+- Glass: layered `backdrop-filter`, 1px refractive rim, inset edge light, contact shadow, opaque fallback in the native app.
 
 ## Done
 
-- Full redesign of every route; removed the previous Linear-inspired issue-tracker sections that described features Nex does not have.
-- Rebuilt the three homepage demos from the real overlay layouts:
-  - **Search**: the app list from the actual UI (Riot Client, Brave, Discord, Spotify, Terminal, File Explorer, Task Manager, Settings), brand icons, per-row bookmarks, selection fill, live fuzzy matching, calculator, scopes, and command mode.
-  - **Chat**: header with model pill, the "What's on your mind?" empty state, suggestion chips, working composer with send, copy, new-chat, attach-file and PC-facts context chips.
-  - **Media**: cover art, progress, transport, volume, working play/pause.
-- Liquid Glass treatment over the project desktop wallpaper, with an engineering note explaining `WDA_EXCLUDEFROMCAPTURE` and why the real material cannot be screenshotted.
-- Content rewritten from the actual repository, live config, and v2.28.0 release notes (glass panel, chat, Quick Launch, Everything SDK, config keys, plugin manifest schema).
-- Shared shell: sticky header with active states and mobile menu, footer with real destinations only, custom 404.
-- Docs layout with active sidebar, full configuration reference, real CLI flags, plugin manifest reference.
-- Changelog with recent release notes and the complete version list back to 2.0.0.
-- SEO: per-page metadata, `sitemap.xml`, `robots.txt`, skip link, focus rings, axe WCAG AA clean on all routes.
-- Responsive QA at 360, 390, 768, 1024, and 1440; no horizontal overflow.
+- Rebuilt the homepage against the reference preview: hero, interactive glass showcase, six capabilities, chat and media stories, syntax band, engineering, configuration, four release cards, final CTA.
+- Rebuilt the launcher demo from the reference component data: fuzzy scoring, scopes, command mode, calculator, keyboard navigation, bookmarks, detail pane and notes.
+- Rebuilt the chat demo (suggestions, composer, context chips, transcript copy, reset) and media demo (three tracks, seek, transport, volume, queue).
+- Rebuilt all eight routes with the reference markup, classes, copy, metadata, and assets.
+- Self-hosted Instrument Sans, JetBrains Mono, and Fraunces; no Google Fonts request at build or runtime.
+- Kept every version label, release summary, asset name, and config key identical to the reference. Text comparison of all eight routes is exact.
+- Rebuilt the docs surface in the site's own material: ink canvas, glass sidebar card, ember active nav, hairline tables, warm configuration callout, and 60px Fraunces page titles. The previous light-paper docs looked detached from every other route.
+- Added the app-mark watermark to the launcher demo footer: tile outline and butterfly wings in `currentColor`, glass accent at low opacity, tucked into the bottom-right corner behind the detail pane and footer.
+- Removed the Nex app mark from the launcher search bar, put a decorative power glyph in its place, and made the Actions control text-only.
+- Responsive audit at 360, 390, 768, 1024, and 1440 across docs, home, and the other routes: no horizontal page overflow.
+- Production build is clean; all routes prerender.
 
 ## Open
 
 - [ ] Dedicated OG/Twitter card (currently the square logo).
 - [ ] Search across docs.
 - [ ] Privacy-respecting analytics.
-- [ ] Release automation so `src/lib/constants.ts` and the changelog update from GitHub.
-- [ ] Add a light-material preview if a scene ever needs dark text on bright glass.
+- [ ] Release automation so the static release data updates from GitHub.
+- [ ] Remove the unused Tailwind dev dependencies once the compiled stylesheet is considered final.
 
 ## Commands
 

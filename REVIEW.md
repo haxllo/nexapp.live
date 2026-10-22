@@ -1,90 +1,67 @@
-# Nex Website — Design & Code Review
+# Nex Website — Reverse-engineering review
 
-> Generated: 2026-07-22
-> Tools: `impeccable` (UI anti-pattern detector), `slop-scan` (AI slop scanner), manual audit
+> Reference: `https://fresh-ux.preview.emergentagent.com/`
+> Local build: Next.js 16.2.10, 1440 × 1200, Brave headless
 
-## Score: 6 → 10/10
+## Baseline comparison
 
-All `impeccable`-detected UI anti-patterns resolved — 0 warnings. All 16 issues fixed.
+| Check | Result |
+|---|---|
+| Rendered text, all 8 routes | Exact match (preview vs local, whitespace-normalised) |
+| Page height at 1440 px | Identical on 7 routes; configuration matched after adding the final config block |
+| Full-page pixel diff, home | 0.18% differing pixels, almost all font antialiasing |
+| Full-page pixel diff, secondary routes | 0.00–0.005% |
+| Mobile height at 390 px, home | Identical (9552 px) |
+| Production build | Clean; all routes prerender |
 
----
+## Reference bugs fixed in the clone
 
-## ✅ Fixed (prev: 🔴 Critical)
+1. **Configuration page was 822 px short.** The reference ends with an "A complete file" section and a full default `config.toml` snippet. Added verbatim.
+2. **Version labels.** The reference renders `v2.30.0`, not `v 2.30.0`. Removed the gap in the hero pill, release cards, changelog timeline, earlier index, download header, and final CTA.
+3. **Homepage 2.28.0 summary** is shorter than the changelog entry and starts "The search panel…". Split it from the changelog copy.
+4. **Portable zip filename** was `…-x64-zip`; corrected to `…-x64.zip`.
+5. **Trailing ellipses** in two release summaries were doubled. Normalised to a single `…`.
+6. **Docs contrast.** The reference stylesheet inlines dark-theme colours in its utilities, so `text-paper` rendered white inside the light docs layout. Setting names, group titles, key values, and the syntax link were invisible.
+7. **Metadata descriptions** for docs, configuration, changelog, and download now match the reference word for word.
 
-| # | Issue | Fix |
-|---|-------|-----|
-| 1 | **Low contrast text** | `--color-text-dim` bumped `#555`→`#828` (2.7:1→4.6:1 WCAG AA) in `globals.css` |
-| 2 | **No `prefers-reduced-motion`** | CSS `@media` override kills all animations + Motion hooks in `hero.tsx`/`features-preview.tsx` skip entry effects |
-| 3 | **No visible focus indicators** | Global `*:focus-visible` outline rule in `globals.css` |
-| 4 | **No skip-to-content link** | Hidden skip link as first focusable element in `layout.tsx` |
-| 5 | **Emoji as UI icons** | Replaced all 6 emoji prefixes (⌨⚡🧮🔌>) with inline SVG icons in `features-preview.tsx` |
-| 6 | **Pulsing status dot** | Removed `animate-pulse` from the green dot in `hero.tsx` |
-| 7 | **Nested cards** | Removed terminal-window container (border, bg-card, chrome dots) from `features-preview.tsx`, flat list with dividers only |
+## Requested changes after the first pass
 
----
+### Docs surface
 
-## Remaining
+The reference docs are a light paper island inside an otherwise dark site. They now use the same ink canvas as every other route:
 
-### 🟠 AI Slop (design patterns)
+- glass sidebar card with an ember active pill;
+- hairline tables and setting groups instead of a paper sheet;
+- warm `config.toml` callout with an ember left rule;
+- 60px Fraunces page titles, matching features/download/changelog;
+- overview cards with the same 1px rim and soft fill as the rest of the site;
+- the syntax band remains the single light section, so it still reads as a deliberate pause.
 
-### 5. Emoji as UI icons
-- ~~**File:** `src/components/features-preview.tsx:9-48`~~
-- ~~**Pattern:** Using ⌨, ⚡, 🔌, 🧮, > as list prefix icons~~
-- ✅ **Fixed** — replaced with inline SVG icons (Keyboard, Search, Lightning, Terminal, Calculator, Puzzle) in `features-preview.tsx`
+This is an intentional departure from the reference, made on request. It also removes the reference's invisible-text bug at the source.
 
-### 6. Pulsing status dot
-- ~~**File:** `src/components/hero.tsx:27`~~
-- ✅ **Fixed** — `animate-pulse` removed from the green status dot
+### Launcher demo
 
-### 7. Nested cards
-- ~~**File:** `src/components/features-preview.tsx:63-96`~~
-- ✅ **Fixed** — terminal-window container removed, flat list with dividers only
+- Removed the Nex app mark from the search bar.
+- Placed a decorative power glyph in that position; it has no click handler.
+- Kept the Actions control, now text-only, with no leading power icon.
 
-| 8 | **Overused font — Geist** | Swapped Geist for Onest (Google Fonts) in `layout.tsx` and `globals.css` |
-| 9 | **Generic stagger animation** | Removed `i * 0.08` stagger and x-offset slide from `features-preview.tsx` — simple opacity fade only |
-| 10 | **Template hero structure** | Restructured `hero.tsx` — split layout (text left / screenshot right), removed 3D scroll tilt, removed stats counter grid, docs link as text link instead of secondary button |
+### Launcher footer watermark
 
-### 9. Generic stagger animation
-- ~~**File:** `src/components/features-preview.tsx:78`~~
-- ✅ **Fixed** — stagger delay and x-offset removed, replaced with uniform opacity fade
+- Built `src/components/app-mark.tsx` from the supplied `Vector.svg`.
+- The tile is kept as a faint rounded-square outline; the wings are the visible mark.
+- Recoloured through `currentColor` to the glass accent, set low opacity, rotated, and tucked into the bottom-right corner behind the detail pane and footer.
+- Below 767 px it shrinks slightly; it adds no layout width.
 
-### 10. Template hero structure
-- ~~**File:** `src/components/hero.tsx`~~
-- ✅ **Fixed** — split layout, no 3D tilt, no stats grid, docs as text link
+## Verification after the changes
 
----
+- Rendered text still matches the reference exactly on all eight routes; the docs work changed styling only.
+- Docs pages checked at 360, 390, 768, 1024, and 1440 px: no horizontal page overflow. Only the clipped watermark extends past the viewport, inside `overflow: hidden`.
+- Launcher interactions unchanged: calculator, command mode, scopes, keyboard navigation, chat send/copy, media skip, reset.
+- `pnpm build`, `pnpm exec tsc --noEmit`, and `pnpm lint` pass.
 
-## 🟡 Code Quality
+## Remaining differences
 
-### 11. Unoptimized images
-- ~~**Files:** `src/components/hero.tsx:80`, `src/app/features/page.tsx:97`, `src/components/header.tsx:15`~~
-- ✅ **Fixed** — removed `unoptimized`, added `quality={90}` on all images
-
-### 12. Empty `next.config.ts`
-- ~~**File:** `next.config.ts`~~
-- ✅ **Fixed** — added image format config (webp, avif) + security headers
-
-### 13. Missing per-page metadata
-- ~~**Files:** `src/app/features/page.tsx`, `src/app/download/page.tsx`, `src/app/changelog/page.tsx`, `src/app/plugin-sdk/page.tsx`~~
-- ✅ **Fixed** — added `metadata` export to all 4 pages
-
-### 14. No mobile navigation
-- ~~**File:** `src/components/header.tsx`~~
-- ✅ **Fixed** — added hamburger toggle with slide-down menu for mobile viewports
-
-### 15. `postinstall` script hack
-- ~~**File:** `package.json:11`~~
-- ✅ **Fixed** — removed the empty postinstall script
-
-### 16. Hardcoded URLs
-- ~~**Files:** `src/components/cta.tsx:19`, `src/components/footer.tsx:27-28`, `src/app/download/page.tsx:18`~~
-- ✅ **Fixed** — extracted to `src/lib/constants.ts` (GITHUB_REPO, GITHUB_ISSUES, GITHUB_DISCUSSIONS, GITHUB_RELEASES)
-
----
-
-## Tools Installed
-
-- **`impeccable`** (v3.3.0) — `npx impeccable detect [path|url]` — UI anti-pattern and design quality scanner
-- **`slop-scan`** (v0.3.0) — `npx slop-scan scan [path]` — JS/TS AI slop pattern detector
-
-Both are available via npx without global install.
+- The docs are intentionally dark and no longer match the reference's light-paper layout.
+- The launcher and footer carry the requested changes, so home-page pixel parity is no longer the target.
+- Reference screenshots below the fold can miss lazy-loaded images (the final CTA mark), in both builds.
+- `globals.css` is compiled CSS, not Tailwind source. The reference component CSS comes first; the docs, watermark, and launcher overrides are grouped at the end.

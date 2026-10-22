@@ -1,10 +1,10 @@
 import { Hero } from "@/components/hero";
 import { Capabilities } from "@/components/capabilities";
+import { ChatStory } from "@/components/chat";
+import { MediaStory } from "@/components/media";
 import { Syntax } from "@/components/syntax";
-import { Chat } from "@/components/chat";
 import { Engineering } from "@/components/engineering";
-import { Media } from "@/components/media";
-import { Configuration } from "@/components/configuration-section";
+import { ConfigurationSection } from "@/components/configuration-section";
 import { Releases } from "@/components/releases";
 import { FinalCta } from "@/components/final-cta";
 
@@ -14,10 +14,10 @@ export default function Home() {
       <Hero />
       <Capabilities />
       <Syntax />
-      <Chat />
+      <ChatStory />
+      <MediaStory />
       <Engineering />
-      <Media />
-      <Configuration />
+      <ConfigurationSection />
       <Releases />
       <FinalCta />
     </>

@@ -1,0 +1,196 @@
+export type ChangelogEntry = {
+  version: string;
+  date: string;
+  title: string;
+  summary: string;
+  points: string[];
+  url: string;
+};
+
+/** Releases with written detail on the changelog page, newest first. */
+export const changelogDetailed: ChangelogEntry[] = [
+  {
+    version: "2.30.0",
+    date: "2026-10-21",
+    title: "A faster, steadier glass panel",
+    summary: "Most of this release is under the glass: opening the panel is quicker and the backdrop keeps up with the window at your monitor's refresh rate instead of a fixed 60 Hz. Nothing about how nex looks or behaves has changed.",
+    points: [
+    ],
+    url: "https://github.com/haxllo/nex/releases/tag/v2.30.0",
+  },
+  {
+    version: "2.29.1",
+    date: "2026-10-20",
+    title: "A new mark for nex",
+    summary: "The app has a new icon. Same launcher, new face: the orange mark replaces the blue magnifier in the taskbar, the tray, the Start menu shortcut, the installer and the window.",
+    points: [
+    ],
+    url: "https://github.com/haxllo/nex/releases/tag/v2.29.1",
+  },
+  {
+    version: "2.29.0",
+    date: "2026-10-20",
+    title: "One press, every scale",
+    summary: "The Win key now behaves like a system key again: one press opens the panel, a second closes it, and chords stay chords. Start never opens behind the panel, Win+E opens Explorer once, and Win+Shift+S still reaches the…",
+    points: [
+    ],
+    url: "https://github.com/haxllo/nex/releases/tag/v2.29.0",
+  },
+  {
+    version: "2.28.0",
+    date: "2026-10-19",
+    title: "The panel is glass now",
+    summary: "The panel is no longer a page painted over a blur. It is drawn as a pane of glass: the desktop behind it bends into the rim, the edge picks up light, and the whole thing sits above a soft contact shadow.",
+    points: [
+      "The backdrop bends into the edges instead of only softening, and color splits slightly at the very edge.",
+      "Edge light sits on all four sides at rest. It leans toward the pointer only while the pointer is over the panel.",
+      "The silhouette lives in the surface, so corners stay anti-aliased and no longer overflow at 125% scaling.",
+      "The reveal waits for a frame at the size the panel actually has, so it never shows the previous session's rows.",
+      "Dividers and the scrollbar reach the right edge again, after the invisible resize frame was clipping them.",
+      "Attached-file and PC chips use the same 1px edge, 6px radius, and row inset as the rest of the panel.",
+    ],
+    url: "https://github.com/haxllo/nex/releases/tag/v2.28.0",
+  },
+  {
+    version: "2.27.1",
+    date: "2026-10-18",
+    title: "Glass that is live from the first frame",
+    summary: "A short polish pass on the glass: opening over playing video no longer holds a frozen picture, and the surface reads cleaner over bright wallpapers.",
+    points: [
+      "A show pulls the newest desktop frame before revealing, instead of the poll's copy from up to a quarter second earlier.",
+      "Lighter wash and quieter grain, so the panel reads as clean glass rather than a milky layer.",
+      "The soft shadow under text is kept on dark backdrops and removed on light ones.",
+    ],
+    url: "https://github.com/haxllo/nex/releases/tag/v2.27.1",
+  },
+  {
+    version: "2.27.0",
+    date: "2026-10-18",
+    title: "The panel is now made of glass",
+    summary: "The first release of the native glass material. The search surface stopped imitating a blurred panel and started sampling the desktop behind it, with an opaque fallback for machines where the GPU path cannot start.",
+    points: [
+      "The panel captures what is behind it and refracts that content at the rim.",
+      "When transparency is off, or the renderer fails, the panel falls back to an opaque surface instead of a blank window.",
+      "Panel corner radius and row radius share the same 8px geometry.",
+    ],
+    url: "https://github.com/haxllo/nex/releases/tag/v2.27.0",
+  },
+  {
+    version: "2.26.3",
+    date: "2026-10-15",
+    title: "Small update pill fix",
+    summary: "",
+    points: [
+    ],
+    url: "https://github.com/haxllo/nex/releases/tag/v2.26.3",
+  },
+  {
+    version: "2.26.2",
+    date: "2026-10-15",
+    title: "Small update pill fix",
+    summary: "",
+    points: [
+    ],
+    url: "https://github.com/haxllo/nex/releases/tag/v2.26.2",
+  },
+  {
+    version: "2.26.1",
+    date: "2026-10-15",
+    title: "Chat UI pass",
+    summary: "The chat surface became usable with a keyboard: hover-revealed actions, a boxed composer, and a model picker rebuilt as a real dropdown.",
+    points: [
+      "Every dropdown shares one surface, hover fill, and left accent selection.",
+      "Custom model IDs enter through a Use-query option instead of a raw input.",
+      "Context chips match the panel's edge and radius.",
+    ],
+    url: "https://github.com/haxllo/nex/releases/tag/v2.26.1",
+  },
+  {
+    version: "2.26.0",
+    date: "2026-10-14",
+    title: "Text finally renders right, and the helper grew up",
+    summary: "A release about sharp text and reliable activation. ClearType returns where it can, the helper owns activation, and the pieces behind the hotkey stop fighting the system.",
+    points: [
+      "ClearType in search, rows, hover, media, chat, and menus. Transparent glass still renders grayscale by design.",
+      "A single activation path through the helper, with demotion to the keyboard hook and a foreground stack for restore.",
+      "Icons that expose a tiny frame on a big canvas fall through to the dense icon instead of serving a blurry one.",
+      "Outside clicks dismiss immediately, including with the file picker open.",
+    ],
+    url: "https://github.com/haxllo/nex/releases/tag/v2.26.0",
+  },
+];
+
+/** Compact version index below the timeline. */
+export const changelogEarlier: { version: string; date: string; url: string }[] = [
+  { version: "2.25.3", date: "2026-10-12", url: "https://github.com/haxllo/nex/releases/tag/v2.25.3" },
+  { version: "2.25.2", date: "2026-10-12", url: "https://github.com/haxllo/nex/releases/tag/v2.25.2" },
+  { version: "2.25.1", date: "2026-10-12", url: "https://github.com/haxllo/nex/releases/tag/v2.25.1" },
+  { version: "2.25.0", date: "2026-10-12", url: "https://github.com/haxllo/nex/releases/tag/v2.25.0" },
+  { version: "2.24.2", date: "2026-10-10", url: "https://github.com/haxllo/nex/releases/tag/v2.24.2" },
+  { version: "2.24.1", date: "2026-10-10", url: "https://github.com/haxllo/nex/releases/tag/v2.24.1" },
+  { version: "2.24.0", date: "2026-10-10", url: "https://github.com/haxllo/nex/releases/tag/v2.24.0" },
+  { version: "2.23.3", date: "2026-10-08", url: "https://github.com/haxllo/nex/releases/tag/v2.23.3" },
+  { version: "2.23.2", date: "2026-10-08", url: "https://github.com/haxllo/nex/releases/tag/v2.23.2" },
+  { version: "2.23.1", date: "2026-10-07", url: "https://github.com/haxllo/nex/releases/tag/v2.23.1" },
+  { version: "2.23.0", date: "2026-10-07", url: "https://github.com/haxllo/nex/releases/tag/v2.23.0" },
+  { version: "2.22.12", date: "2026-10-05", url: "https://github.com/haxllo/nex/releases/tag/v2.22.12" },
+  { version: "2.22.11", date: "2026-10-05", url: "https://github.com/haxllo/nex/releases/tag/v2.22.11" },
+  { version: "2.22.10", date: "2026-10-04", url: "https://github.com/haxllo/nex/releases/tag/v2.22.10" },
+  { version: "2.22.9", date: "2026-10-02", url: "https://github.com/haxllo/nex/releases/tag/v2.22.9" },
+  { version: "2.22.8", date: "2026-10-02", url: "https://github.com/haxllo/nex/releases/tag/v2.22.8" },
+  { version: "2.22.7", date: "2026-10-01", url: "https://github.com/haxllo/nex/releases/tag/v2.22.7" },
+  { version: "2.22.6", date: "2026-10-01", url: "https://github.com/haxllo/nex/releases/tag/v2.22.6" },
+  { version: "2.22.5", date: "2026-10-01", url: "https://github.com/haxllo/nex/releases/tag/v2.22.5" },
+  { version: "2.22.4", date: "2026-10-01", url: "https://github.com/haxllo/nex/releases/tag/v2.22.4" },
+  { version: "2.22.3", date: "2026-10-01", url: "https://github.com/haxllo/nex/releases/tag/v2.22.3" },
+  { version: "2.22.2", date: "2026-10-01", url: "https://github.com/haxllo/nex/releases/tag/v2.22.2" },
+  { version: "2.22.1", date: "2026-10-01", url: "https://github.com/haxllo/nex/releases/tag/v2.22.1" },
+  { version: "2.22.0", date: "2026-10-01", url: "https://github.com/haxllo/nex/releases/tag/v2.22.0" },
+  { version: "2.21.4", date: "2026-09-28", url: "https://github.com/haxllo/nex/releases/tag/v2.21.4" },
+  { version: "2.21.3", date: "2026-09-28", url: "https://github.com/haxllo/nex/releases/tag/v2.21.3" },
+  { version: "2.21.2", date: "2026-09-26", url: "https://github.com/haxllo/nex/releases/tag/v2.21.2" },
+  { version: "2.21.1", date: "2026-09-26", url: "https://github.com/haxllo/nex/releases/tag/v2.21.1" },
+  { version: "2.21.0", date: "2026-09-25", url: "https://github.com/haxllo/nex/releases/tag/v2.21.0" },
+  { version: "2.20.0", date: "2026-09-19", url: "https://github.com/haxllo/nex/releases/tag/v2.20.0" },
+  { version: "2.19.0", date: "2026-09-15", url: "https://github.com/haxllo/nex/releases/tag/v2.19.0" },
+  { version: "2.18.0", date: "2026-09-08", url: "https://github.com/haxllo/nex/releases/tag/v2.18.0" },
+  { version: "2.17.1", date: "2026-09-03", url: "https://github.com/haxllo/nex/releases/tag/v2.17.1" },
+  { version: "2.17.0", date: "2026-08-29", url: "https://github.com/haxllo/nex/releases/tag/v2.17.0" },
+  { version: "2.16.0", date: "2026-08-21", url: "https://github.com/haxllo/nex/releases/tag/v2.16.0" },
+  { version: "2.15.1", date: "2026-08-18", url: "https://github.com/haxllo/nex/releases/tag/v2.15.1" },
+  { version: "2.15.0", date: "2026-08-18", url: "https://github.com/haxllo/nex/releases/tag/v2.15.0" },
+  { version: "2.14.2", date: "2026-08-15", url: "https://github.com/haxllo/nex/releases/tag/v2.14.2" },
+  { version: "2.14.1", date: "2026-08-15", url: "https://github.com/haxllo/nex/releases/tag/v2.14.1" },
+  { version: "2.14.0", date: "2026-08-10", url: "https://github.com/haxllo/nex/releases/tag/v2.14.0" },
+  { version: "2.13.0", date: "2026-08-05", url: "https://github.com/haxllo/nex/releases/tag/v2.13.0" },
+  { version: "2.12.0", date: "2026-08-03", url: "https://github.com/haxllo/nex/releases/tag/v2.12.0" },
+  { version: "2.11.0", date: "2026-08-02", url: "https://github.com/haxllo/nex/releases/tag/v2.11.0" },
+  { version: "2.10.0", date: "2026-07-31", url: "https://github.com/haxllo/nex/releases/tag/v2.10.0" },
+  { version: "2.9.1", date: "2026-07-29", url: "https://github.com/haxllo/nex/releases/tag/v2.9.1" },
+  { version: "2.9.0", date: "2026-07-29", url: "https://github.com/haxllo/nex/releases/tag/v2.9.0" },
+  { version: "2.8.1", date: "2026-07-24", url: "https://github.com/haxllo/nex/releases/tag/v2.8.1" },
+  { version: "2.8.0", date: "2026-07-23", url: "https://github.com/haxllo/nex/releases/tag/v2.8.0" },
+  { version: "2.7.0", date: "2026-07-23", url: "https://github.com/haxllo/nex/releases/tag/v2.7.0" },
+  { version: "2.6.0", date: "2026-07-23", url: "https://github.com/haxllo/nex/releases/tag/v2.6.0" },
+  { version: "2.5.0", date: "2026-07-22", url: "https://github.com/haxllo/nex/releases/tag/v2.5.0" },
+  { version: "2.4.3", date: "2026-07-22", url: "https://github.com/haxllo/nex/releases/tag/v2.4.3" },
+  { version: "2.4.2", date: "2026-07-10", url: "https://github.com/haxllo/nex/releases/tag/v2.4.2" },
+  { version: "2.4.1", date: "2026-07-10", url: "https://github.com/haxllo/nex/releases/tag/v2.4.1" },
+  { version: "2.4.0", date: "2026-07-04", url: "https://github.com/haxllo/nex/releases/tag/v2.4.0" },
+  { version: "2.3.1", date: "2026-07-03", url: "https://github.com/haxllo/nex/releases/tag/v2.3.1" },
+  { version: "2.3.0", date: "2026-06-22", url: "https://github.com/haxllo/nex/releases/tag/v2.3.0" },
+  { version: "2.2.2", date: "2026-06-22", url: "https://github.com/haxllo/nex/releases/tag/v2.2.2" },
+  { version: "2.2.1", date: "2026-06-21", url: "https://github.com/haxllo/nex/releases/tag/v2.2.1" },
+  { version: "2.2.0", date: "2026-06-21", url: "https://github.com/haxllo/nex/releases/tag/v2.2.0" },
+  { version: "2.1.1", date: "2026-06-20", url: "https://github.com/haxllo/nex/releases/tag/v2.1.1" },
+  { version: "2.1.0", date: "2026-06-20", url: "https://github.com/haxllo/nex/releases/tag/v2.1.0" },
+  { version: "2.0.0", date: "2026-06-18", url: "https://github.com/haxllo/nex/releases/tag/v2.0.0" },
+  { version: "1.3.0", date: "2026-05-27", url: "https://github.com/haxllo/nex/releases/tag/v1.3.0" },
+  { version: "1.2.0", date: "2026-05-25", url: "https://github.com/haxllo/nex/releases/tag/v1.2.0" },
+  { version: "1.1.1", date: "2026-05-24", url: "https://github.com/haxllo/nex/releases/tag/v1.1.1" },
+  { version: "1.1.0", date: "2026-05-24", url: "https://github.com/haxllo/nex/releases/tag/v1.1.0" },
+  { version: "1.0.1", date: "2026-05-19", url: "https://github.com/haxllo/nex/releases/tag/v1.0.1" },
+  { version: "1.0.0", date: "2026-05-17", url: "https://github.com/haxllo/nex/releases/tag/v1.0.0" },
+];
+
+export const latestRelease = changelogDetailed[0];

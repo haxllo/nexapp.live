@@ -1,16 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { CodeBlock } from "@/components/code-block";
 import { PageHead, TextLink } from "@/components/ui";
-import { CONFIG_PATH } from "@/lib/constants";
+import { CONFIG_PATH } from "@/lib/site";
 import { settingGroups } from "@/lib/settings";
 
-export const metadata: Metadata = {
-  title: "Configuration",
-  description:
-    "Reference for every key in config.toml: types, defaults, ranges, and which settings need a restart.",
-};
-
-const example = `hotkey = "Win"
+const fullConfig = `hotkey = "Win"
 launch_at_startup = true
 max_results = 20
 search_mode_default = "all"
@@ -39,15 +34,22 @@ max_items = 9
 pinned = []
 auto_fill = false`;
 
+export const metadata: Metadata = {
+  title: "Configuration",
+  description:
+    "Reference for every key in config.toml: types, defaults, ranges, and which settings need a restart.",
+};
+
 export default function ConfigurationPage() {
   return (
     <>
       <PageHead
+        eyebrow="Configuration"
         title="Configuration"
         lede="One TOML file. Save it and most changes apply about a second later. The hotkey and the index path need a restart."
       />
 
-      <div className="mt-8 rounded-[10px] border border-line bg-ink-2/60 p-4">
+      <div className="config-path mt-8" data-testid="configuration-file-path">
         <div className="mono text-[10px] uppercase tracking-[0.12em] text-faint">
           Config file
         </div>
@@ -56,16 +58,18 @@ export default function ConfigurationPage() {
 
       <nav
         aria-label="Setting groups"
-        className="mt-8 hidden flex-wrap gap-x-4 gap-y-2 md:flex"
+        className="mt-8 flex flex-wrap gap-x-4 gap-y-3"
+        data-testid="configuration-group-navigation"
       >
         {settingGroups.map((group) => (
-          <a
+          <Link
             key={group.id}
             href={`#${group.id}`}
+            data-testid={`configuration-nav-${group.id}`}
             className="mono text-[10px] uppercase tracking-[0.1em] text-faint transition-colors hover:text-paper"
           >
             {group.title}
-          </a>
+          </Link>
         ))}
       </nav>
 
@@ -73,9 +77,10 @@ export default function ConfigurationPage() {
         <section
           key={group.id}
           id={group.id}
+          data-testid={`configuration-group-${group.id}`}
           className="mt-10 scroll-mt-24 border-t border-line pt-6"
         >
-          <div className="grid gap-4 lg:grid-cols-[190px_minmax(0,1fr)] lg:gap-8">
+          <div className="grid gap-5">
             <div>
               <h2 className="text-[14px] font-medium text-paper">{group.title}</h2>
               {group.note && (
@@ -84,15 +89,17 @@ export default function ConfigurationPage() {
                 </p>
               )}
             </div>
-
             <dl>
               {group.settings.map((setting) => (
                 <div
                   key={setting.key}
+                  data-testid={`setting-${group.id}-${setting.key.replace(/_/g, "-")}`}
                   className="grid gap-1.5 border-b border-line py-3.5 md:grid-cols-[minmax(0,190px)_minmax(0,1fr)] md:gap-6"
                 >
                   <dt className="flex flex-wrap items-baseline gap-2">
-                    <span className="mono break-all text-[11px] text-paper">{setting.key}</span>
+                    <span className="mono break-all text-[11px] text-paper">
+                      {setting.key}
+                    </span>
                     {setting.restart && (
                       <span className="mono rounded-[3px] border border-line bg-white/[0.03] px-1 py-px text-[8.5px] uppercase tracking-[0.08em] text-faint">
                         restart
@@ -122,7 +129,7 @@ export default function ConfigurationPage() {
           backslashes in Windows paths.
         </p>
         <div className="mt-4">
-          <CodeBlock code={example} title="config.toml" />
+          <CodeBlock code={fullConfig} title="config.toml" />
         </div>
       </section>
 
