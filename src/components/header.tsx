@@ -46,7 +46,7 @@ export function Header() {
               alt=""
               width={20}
               height={20}
-              className="invert transition-opacity duration-200 group-hover:opacity-80"
+              className="transition-opacity duration-200 group-hover:opacity-80"
               loading="eager"
             />
             <span className="text-[13.5px] font-medium tracking-[-0.01em] text-paper">

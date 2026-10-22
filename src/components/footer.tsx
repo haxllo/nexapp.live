@@ -42,7 +42,7 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr_1fr] md:gap-8">
           <div>
             <Link href="/" className="flex w-fit items-center gap-2.5" aria-label="Nex home">
-              <Image src="/nex-logo.svg" alt="" width={20} height={20} className="invert" />
+              <Image src="/nex-logo.svg" alt="" width={20} height={20} />
               <span className="text-[13.5px] font-medium tracking-[-0.01em] text-paper">
                 Nex
               </span>
