@@ -13,7 +13,7 @@ export function MediaStory() {
           <div>
             <span className="mono">A MOMENT IN YOUR FLOW</span>
             <strong>Low Orbit</strong>
-            <p>Sable · Nightfall EP</p>
+            <p>Sable · Eclipse</p>
             <div className="media-waveform">
               {bars.map((height, index) => (
                 <i key={index} style={{ height }} />

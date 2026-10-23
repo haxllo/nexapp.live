@@ -50,7 +50,7 @@ The real panel carries `WDA_EXCLUDEFROMCAPTURE`, so no screenshot can show its m
 
 ## Assets
 
-- `public/nex-coast.jpg` hero photograph, `public/nex-logo.png` orange butterfly mark, `public/album.jpg` Nightfall EP artwork.
+- `public/nex-coast.jpg` hero photograph, `public/nex-logo.png` orange butterfly mark, `public/album.jpg` Eclipse artwork (by [u/jmort125](https://www.reddit.com/r/Yedits/comments/1cmlyi6/177_album_covers_free_to_use_for_comps_or_any/), free to use).
 - `public/apps/*.svg` brand marks for the launcher preview.
 - `src/components/app-mark.tsx` is the launcher footer watermark, built from the supplied flat SVG with the tile as a faint outline and the wings in `currentColor`.
 - Fonts in `public/fonts` are the woff2 subsets from the reference build.

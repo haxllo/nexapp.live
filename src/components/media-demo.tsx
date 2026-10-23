@@ -14,19 +14,19 @@ const tracks = [
   {
     title: "Low Orbit",
     artist: "Sable",
-    album: "Nightfall EP",
+    album: "Eclipse",
     length: 192,
+  },
+  {
+    title: "Ring Shadow",
+    artist: "Sable",
+    album: "Eclipse",
+    length: 214,
   },
   {
     title: "Ember Line",
     artist: "Sable",
-    album: "Nightfall EP",
-    length: 214,
-  },
-  {
-    title: "Glasswing",
-    artist: "Sable",
-    album: "Nightfall EP",
+    album: "Eclipse",
     length: 178,
   },
 ];
@@ -64,7 +64,7 @@ export function MediaDemo({ active }: { active: boolean }) {
       <div className="media-artwork">
         <Image
           src="/album.jpg"
-          alt="Nightfall EP artwork"
+          alt="Eclipse artwork"
           fill
           sizes="(min-width: 640px) 240px, 180px"
           className="object-cover"
@@ -72,7 +72,7 @@ export function MediaDemo({ active }: { active: boolean }) {
         <span className="media-art-label">
           SABLE
           <br />
-          <strong>NIGHTFALL</strong>
+          <strong>ECLIPSE</strong>
         </span>
       </div>
 
