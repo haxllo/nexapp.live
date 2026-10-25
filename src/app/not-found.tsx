@@ -10,7 +10,7 @@ export default function NotFound() {
       <div className="relative mb-10 h-16 w-16">
         <span className="relative inline-flex h-16 w-16 overflow-hidden rounded-[16px] ring-1 ring-white/10">
           <Image
-            src="/nex-logo.png"
+            src="/monochrome.png"
             alt="Nex"
             width={160}
             height={160}

@@ -11,6 +11,7 @@ const slug = (label: string) => label.toLowerCase().replace(/\s+/g, "-");
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -20,11 +21,18 @@ export function SiteHeader() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header className="ln-header" data-testid="nav-header">
+    <header className="ln-header" data-scrolled={scrolled ? "" : undefined} data-testid="nav-header">
       <div className="ln-shell ln-header-inner">
         <Link
           className="ln-brand"
@@ -34,7 +42,7 @@ export function SiteHeader() {
           onClick={() => setOpen(false)}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/nex-logo.png" alt="" />
+          <img src="/monochrome.png" alt="" />
           Nex
         </Link>
 
@@ -62,6 +70,7 @@ export function SiteHeader() {
           >
             <GithubLogo size={18} />
           </a>
+          <span className="ln-header-divider" aria-hidden="true" />
           <Link
             className="ln-btn ln-btn-primary ln-btn-sm"
             data-testid="nav-cta-download"

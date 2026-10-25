@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { PageHead, TextLink } from "@/components/ui";
+import { ArrowUpRight } from "@phosphor-icons/react/ssr";
+import { PageIntro } from "@/components/page-intro";
+import { TextLink } from "@/components/ui";
 import { changelogDetailed, changelogEarlier } from "@/lib/changelog";
 import { GITHUB_RELEASES } from "@/lib/site";
 
@@ -9,122 +11,162 @@ export const metadata: Metadata = {
     "Release notes for Nex, newest first, fetched from GitHub so the list always matches what shipped.",
 };
 
+type EarlierRelease = (typeof changelogEarlier)[number];
+
+const MONTH_NAMES = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+const versionSlug = (version: string) => version.replace(/\./g, "-");
+
+/**
+ * The earlier index is already newest-first, so a single pass keeps the months
+ * in order and the versions chronological inside each one.
+ */
+function groupByMonth(releases: EarlierRelease[]) {
+  const groups: { label: string; releases: EarlierRelease[] }[] = [];
+
+  for (const release of releases) {
+    const [year, month] = release.date.split("-");
+    const monthName = MONTH_NAMES[Number(month) - 1] ?? month;
+    const label = `${monthName} ${year}`;
+    const current = groups[groups.length - 1];
+
+    if (current && current.label === label) {
+      current.releases.push(release);
+    } else {
+      groups.push({ label, releases: [release] });
+    }
+  }
+
+  return groups;
+}
+
 export default function ChangelogPage() {
   const latest = changelogDetailed[0];
+  const earlierGroups = groupByMonth(changelogEarlier);
 
   return (
-    <div className="shell pt-10 pb-20 md:pb-28" data-testid="changelog-container">
-      <PageHead
-        eyebrow="Changelog"
+    <div data-testid="changelog-container">
+      <PageIntro
+        label="Changelog"
         title="Changelog"
         lede="Nex ships small releases, usually more than one a week. These are the ones that changed how the panel feels."
       >
-        <div className="page-head-actions">
-          <div className="flex flex-wrap items-center gap-4">
-            <a
-              href={latest.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-testid="changelog-download-latest"
-              className="inline-flex max-w-full items-center justify-center rounded-full font-medium transition-[background-color,color,border-color,transform,box-shadow] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] active:translate-y-px h-11 px-4.5 text-[13.5px] gap-2 text-[#24332c] bg-[#e6eee9] border border-white/70 shadow-[inset_0_1px_0_#fff,0_3px_10px_#0002] hover:bg-white hover:-translate-y-px "
-            >
-              <span>Download v{latest.version}</span>
-            </a>
-            <a
-              href={GITHUB_RELEASES}
-              data-testid="changelog-all-releases"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-1.5 text-[13px] text-muted transition-colors hover:text-paper"
-            >
-              Every release on GitHub
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="13"
-                height="13"
-                fill="currentColor"
-                viewBox="0 0 256 256"
-                aria-hidden="true"
-              >
-                <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z" />
-              </svg>
-            </a>
-          </div>
-        </div>
-      </PageHead>
-
-      <div className="changelog-timeline" data-testid="changelog-version-list">
-        {changelogDetailed.map((release) => (
-          <article
-            key={release.version}
-            className="changelog-entry"
-            data-testid={`changelog-version-${release.version.replace(/\./g, "-")}`}
+        <div className="pg-actions">
+          <a
+            className="ln-btn ln-btn-primary"
+            href={latest.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-testid="changelog-download-latest"
           >
-            <header className="md:sticky md:top-24 md:self-start">
-              <h2 className="mono text-[13px] text-paper">v{release.version}</h2>
-              <div className="mono mt-1 text-[10.5px] text-faint">{release.date}</div>
-            </header>
-            <div>
-              <h3 className="text-[16px] leading-snug tracking-[-0.01em] text-paper">
-                {release.title}
-              </h3>
-              {release.summary && (
-                <p className="mt-2.5 max-w-[64ch] text-[13.5px] leading-[1.7] text-muted">
-                  {release.summary}
-                </p>
-              )}
-              {release.points.length > 0 ? (
-                <ul className="mt-4 max-w-[64ch] space-y-2">
-                  {release.points.map((point) => (
-                    <li
-                      key={point}
-                      className="relative pl-4 text-[13px] leading-[1.65] text-muted"
+            Download v{latest.version}
+          </a>
+          <a
+            className="ln-btn ln-btn-secondary"
+            href={GITHUB_RELEASES}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-testid="changelog-all-releases"
+          >
+            Every release on GitHub
+            <ArrowUpRight size={13} aria-hidden />
+          </a>
+        </div>
+      </PageIntro>
+
+      <div className="ln-shell pg-body">
+        <div className="pg-log" data-testid="changelog-version-list">
+          {changelogDetailed.map((release) => (
+            <article
+              key={release.version}
+              className="pg-log-entry"
+              data-testid={`changelog-version-${versionSlug(release.version)}`}
+            >
+              <div className="pg-log-meta">
+                <span className="pg-version">{`v${release.version}`}</span>
+                <span className="pg-date">{release.date}</span>
+              </div>
+
+              <div>
+                <h3>
+                  <a
+                    href={release.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {release.title}
+                  </a>
+                </h3>
+
+                {release.summary && <p>{release.summary}</p>}
+
+                {release.points.length > 0 ? (
+                  <ul>
+                    {release.points.map((point) => (
+                      <li key={point}>{point}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <footer>
+                    <TextLink
+                      href={release.url}
+                      external
+                      testId={`changelog-notes-${versionSlug(release.version)}`}
                     >
-                      <span
-                        aria-hidden="true"
-                        className="absolute left-0 top-[0.72em] h-px w-2 bg-white/25"
-                      />
-                      {point}
+                      Release notes
+                    </TextLink>
+                  </footer>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <section className="mt-12">
+          <div className="pg-label">
+            <h2>Earlier releases</h2>
+          </div>
+          <p className="text-[12.5px] text-faint">
+            Version and date. Release notes for each are on GitHub.
+          </p>
+
+          <div className="pg-months mt-5">
+            {earlierGroups.map((group) => (
+              <div key={group.label} className="pg-month">
+                <h4>{group.label}</h4>
+                <ul>
+                  {group.releases.map((release) => (
+                    <li key={release.version}>
+                      <a
+                        href={release.url}
+                        data-testid={`changelog-earlier-${versionSlug(release.version)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {`v${release.version}`}
+                        <span>{release.date}</span>
+                      </a>
                     </li>
                   ))}
                 </ul>
-              ) : (
-                <div className="mt-3">
-                  <TextLink
-                    href={release.url}
-                    external
-                    testId={`changelog-notes-${release.version.replace(/\./g, "-")}`}
-                  >
-                    Release notes
-                  </TextLink>
-                </div>
-              )}
-            </div>
-          </article>
-        ))}
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
-
-      <section className="mt-12">
-        <h2 className="text-[13px] font-medium text-paper">Earlier releases</h2>
-        <p className="mt-1.5 text-[12.5px] text-faint">
-          Version and date. Release notes for each are on GitHub.
-        </p>
-        <div className="mt-5 grid grid-cols-2 gap-x-8 sm:grid-cols-3 lg:grid-cols-4">
-          {changelogEarlier.map((release) => (
-            <a
-              key={release.version}
-              href={release.url}
-              data-testid={`changelog-earlier-${release.version.replace(/\./g, "-")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-baseline justify-between border-b border-line/60 py-1.5 transition-colors hover:text-paper"
-            >
-              <span className="mono text-[10.5px] text-muted">v{release.version}</span>
-              <span className="mono text-[10px] text-faint">{release.date}</span>
-            </a>
-          ))}
-        </div>
-      </section>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CodeBlock } from "@/components/code-block";
-import { PageHead, TextLink } from "@/components/ui";
+import { TextLink } from "@/components/ui";
 import { CONFIG_PATH } from "@/lib/site";
 import { settingGroups } from "@/lib/settings";
 
@@ -43,11 +43,10 @@ export const metadata: Metadata = {
 export default function ConfigurationPage() {
   return (
     <>
-      <PageHead
-        eyebrow="Configuration"
-        title="Configuration"
-        lede="One TOML file. Save it and most changes apply about a second later. The hotkey and the index path need a restart."
-      />
+      <div className="pg-doc-head">
+        <h1>Configuration</h1>
+        <p>One TOML file. Save it and most changes apply about a second later. The hotkey and the index path need a restart.</p>
+      </div>
 
       <div className="config-path mt-8" data-testid="configuration-file-path">
         <div className="mono text-[10px] uppercase tracking-[0.12em] text-faint">

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react/ssr";
-import { Kbd, PageHead } from "@/components/ui";
+import { Kbd } from "@/components/ui";
 import { CONFIG_PATH, LATEST } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -50,11 +50,10 @@ const commands = [
 export default function DocsPage() {
   return (
     <>
-      <PageHead
-        eyebrow="Documentation"
-        title="Documentation"
-        lede={`Install it, change how it behaves, and extend it. Everything here describes the current release, ${LATEST.version}.`}
-      />
+      <div className="pg-doc-head">
+        <h1>Documentation</h1>
+        <p>{`Install it, change how it behaves, and extend it. Everything here describes the current release, ${LATEST.version}.`}</p>
+      </div>
 
       <div className="docs-overview-links">
         {overview.map((item) => (

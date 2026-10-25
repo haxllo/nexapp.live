@@ -19,7 +19,7 @@ export function SiteFooter() {
               href="/"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/nex-logo.png" alt="" />
+              <img src="/monochrome.png" alt="" />
               Nex
             </Link>
             <p>

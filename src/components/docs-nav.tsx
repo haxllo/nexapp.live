@@ -15,11 +15,11 @@ export function DocsNav() {
 
   return (
     <div data-testid="docs-sidebar">
-      <p className="docs-nav-title">
+      <p className="pg-side-title">
         <File size={15} />
         The Nex handbook
       </p>
-      <nav className="docs-nav-links" aria-label="Docs">
+      <nav className="pg-links" aria-label="Docs">
         {links.map((link) => (
           <Link
             key={link.href}
@@ -31,7 +31,7 @@ export function DocsNav() {
           </Link>
         ))}
       </nav>
-      <div className="docs-nav-secondary">
+      <div className="pg-side-extra">
         <Link href="/plugin-sdk" data-testid="docs-nav-plugin-sdk">
           Plugin SDK
           <ArrowUpRight size={13} />

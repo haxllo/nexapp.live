@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CodeBlock } from "@/components/code-block";
-import { PageHead, TextLink } from "@/components/ui";
+import { TextLink } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Plugin SDK",
@@ -109,28 +109,35 @@ function FieldTable({ rows }: { rows: string[][] }) {
 
 export default function PluginSdkPage() {
   return (
-    <div className="shell pt-10 pb-20 md:pb-28" data-testid="sdk-page">
-      <PageHead
-        eyebrow="Plugin SDK"
-        title="Plugin SDK"
-        lede="A plugin is a folder with a manifest. It can add results to search and actions to command mode. No SDK to install, no runtime to embed."
-      />
+    <div data-testid="sdk-page">
+      <div className="pg-intro">
+        <div className="ln-shell">
+          <h1 className="pg-title">Plugin SDK</h1>
+          <p className="pg-lede">
+            A plugin is a folder with a manifest. It can add results to search and actions
+            to command mode. No SDK to install, no runtime to embed.
+          </p>
+        </div>
+      </div>
 
-      <div className="sdk-layout">
-        <nav
-          className="sdk-nav"
-          aria-label="Plugin SDK sections"
-          data-testid="sdk-section-navigation"
-        >
-          {nav.map(([id, label]) => (
-            <Link key={id} href={`#${id}`} data-testid={`sdk-nav-${id}`}>
-              {label}
-            </Link>
-          ))}
-        </nav>
+      <div className="ln-shell pg-docs">
+        <aside className="pg-side">
+          <nav
+            className="pg-links"
+            aria-label="Plugin SDK sections"
+            data-testid="sdk-section-navigation"
+          >
+            {nav.map(([id, label]) => (
+              <Link key={id} href={`#${id}`} data-testid={`sdk-nav-${id}`}>
+                {label}
+              </Link>
+            ))}
+          </nav>
+        </aside>
 
-        <div className="prose-nex">
-          <h2 id="how-loading-works">How loading works</h2>
+        <article className="min-w-0">
+          <div className="pg-prose">
+            <h2 id="how-loading-works">How loading works</h2>
           <p>
             Nex reads each entry in <code>plugin_paths</code>. A path can be a folder of
             manifests, or a manifest file directly; subfolders are not scanned. Every{" "}
@@ -202,11 +209,14 @@ export default function PluginSdkPage() {
             . Open an issue if a field you need is missing.
           </p>
         </div>
+        </article>
       </div>
 
-      <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
-        <TextLink href="/docs/configuration">Configuration reference</TextLink>
-        <TextLink href="/features">What the panel does</TextLink>
+      <div className="ln-shell">
+        <div className="pg-note flex flex-wrap" style={{ display: "flex", gap: "8px 28px" }}>
+          <TextLink href="/docs/configuration">Configuration reference</TextLink>
+          <TextLink href="/features">What the panel does</TextLink>
+        </div>
       </div>
     </div>
   );

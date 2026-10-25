@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { Button } from "@/components/ui";
 import { CodeBlock } from "@/components/code-block";
-import { PageHead, TextLink } from "@/components/ui";
+import { PageIntro } from "@/components/page-intro";
+import { TextLink } from "@/components/ui";
 import { latestAssets } from "@/lib/releases";
 import { GITHUB_RELEASES, LATEST } from "@/lib/site";
 
@@ -42,190 +44,196 @@ export default function DownloadPage() {
   const installer = latestAssets[0];
 
   return (
-    <div className="shell pt-10 pb-20 md:pb-28" data-testid="download-page-container">
-      <PageHead
-        eyebrow="Download"
-        title="Install Nex."
+    <div data-testid="download-page-container">
+      <PageIntro
+        label="Download"
+        title="Nex on Windows."
         lede="Windows 10 or 11, 64-bit. The installer is 6.9 MB, and Nex starts in the background with the Win key already wired up."
-      />
+      >
+        <div className="pg-actions">
+          <Button
+            href={installer.url}
+            external
+            size="lg"
+            withWindows
+            testId="download-primary-button"
+          >
+            Download for Windows
+          </Button>
+          <span
+            className="ln-mono text-[11.5px] text-[var(--ln-text-4)]"
+            data-testid="download-latest-version"
+          >
+            v{LATEST.version} · {LATEST.date}
+          </span>
+        </div>
+      </PageIntro>
 
-      <div className="mt-12 grid gap-12 lg:grid-cols-12 lg:gap-16">
-        <div className="min-w-0 lg:col-span-7">
-          <div className="download-release">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/nex-logo.png"
-              alt="Nex"
-              loading="lazy"
-              width={50}
-              height={50}
-              decoding="async"
-              className="download-mark"
-            />
-            <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <h2 className="text-[15px] font-medium text-paper">Latest release</h2>
-              <span
-                className="mono pr-16 text-[10.5px] text-faint"
-                data-testid="download-latest-version"
-              >
-                v{LATEST.version} · {LATEST.date}
-              </span>
-            </div>
-            <p className="mt-1.5 text-[13px] text-muted">{LATEST.title}</p>
+      <div className="pg-body">
+        <div className="ln-shell pg-dl">
+          <div className="min-w-0">
+            <section>
+              <div className="pg-release">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/monochrome.png"
+                  alt="Nex"
+                  loading="lazy"
+                  width={50}
+                  height={50}
+                  decoding="async"
+                  className="pg-mark"
+                />
+                <div>
+                  <h2>Latest release</h2>
+                  <p>{LATEST.title}</p>
+                </div>
+              </div>
 
-            <div className="mt-6">
-              <a
-                href={installer.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-testid="download-primary-button"
-                className="inline-flex max-w-full items-center justify-center rounded-full font-medium transition-[background-color,color,border-color,transform,box-shadow] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] active:translate-y-px h-12 px-5.5 text-[14.5px] gap-2.5 text-[#24332c] bg-[#e6eee9] border border-white/70 shadow-[inset_0_1px_0_#fff,0_3px_10px_#0002] hover:bg-white hover:-translate-y-px w-full sm:w-auto"
-              >
-                <span className="shrink-0">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="15"
-                    height="15"
-                    fill="currentColor"
-                    viewBox="0 0 256 256"
-                    aria-hidden="true"
+              <div className="pg-assets">
+                {latestAssets.map((asset) => (
+                  <a
+                    key={asset.id}
+                    href={asset.url}
+                    data-testid={`download-asset-${asset.id}`}
+                    className="pg-asset"
                   >
-                    <path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z" />
-                  </svg>
-                </span>
-                <span>Download for Windows</span>
-              </a>
-            </div>
-
-            <div className="mt-7 border-t border-line">
-              {latestAssets.map((asset) => (
-                <a
-                  key={asset.id}
-                  href={asset.url}
-                  data-testid={`download-asset-${asset.id}`}
-                  className="group flex items-center justify-between gap-4 border-b border-line py-3 transition-colors duration-200 hover:text-paper"
-                >
-                  <span className="min-w-0">
-                    <span className="block text-[12.5px] text-paper">{asset.label}</span>
-                    <span className="mono block truncate text-[10.5px] text-faint">
-                      {asset.name}
+                    <span className="min-w-0">
+                      <strong>{asset.label}</strong>
+                      <span>{asset.name}</span>
                     </span>
-                  </span>
-                  <span className="mono flex shrink-0 items-center gap-3 text-[10.5px] text-faint">
-                    {asset.size}
+                    <small>{asset.size}</small>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="13"
-                      height="13"
+                      width="14"
+                      height="14"
                       fill="currentColor"
                       viewBox="0 0 256 256"
                       aria-hidden="true"
-                      className="text-faint transition-colors group-hover:text-paper"
                     >
                       <path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z" />
                     </svg>
-                  </span>
+                  </a>
+                ))}
+              </div>
+
+              <p className="pg-note" style={{ marginTop: 28 }}>
+                Older versions live on{" "}
+                <a
+                  href={GITHUB_RELEASES}
+                  data-testid="download-older-releases"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  GitHub Releases
                 </a>
-              ))}
-            </div>
+                .
+              </p>
+            </section>
 
-            <p className="mono mt-4 text-[10.5px] leading-relaxed text-faint">
-              Older versions live on{" "}
-              <a
-                href={GITHUB_RELEASES}
-                data-testid="download-older-releases"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted underline decoration-white/20 underline-offset-2 hover:text-paper"
-              >
-                GitHub Releases
-              </a>
-              .
-            </p>
+            <section className="pg-block" style={{ marginTop: 72 }}>
+              <div className="pg-label">
+<span>After installing</span>
+                <p>Three steps from installer to panel.</p>
+              </div>
+              <div className="pg-assets">
+                {afterInstall.map((item) => (
+                  <div
+                    key={item.title}
+                    className="pg-asset"
+                    style={{ gridTemplateColumns: "minmax(0, 1fr)" }}
+                  >
+                    <span className="min-w-0">
+                      <strong>{item.title}</strong>
+                      <span
+                        className="ln-mono"
+                        style={{
+                          fontFamily: "var(--ln-font)",
+                          fontSize: "13px",
+                          lineHeight: 1.65,
+                          color: "var(--ln-text-3)",
+                        }}
+                      >
+                        {item.body}
+                      </span>
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="pg-block" style={{ marginTop: 72 }}>
+              <div className="pg-label">
+<span>Build from source</span>
+                <p>Rust 1.85 or newer.</p>
+              </div>
+              <p style={{ maxWidth: "56ch", fontSize: 13.5, lineHeight: 1.65, color: "var(--ln-text-3)" }}>
+                The two binaries are the app and the helper that owns activation and
+                allowlisted key simulation.
+              </p>
+              <div style={{ marginTop: 20 }}>
+                <CodeBlock code={sourceBuild} title="PowerShell" />
+              </div>
+            </section>
           </div>
 
-          <section className="mt-10">
-            <h2 className="text-[15px] font-medium text-paper">After installing</h2>
-            <div className="mt-4 border-t border-line">
-              {afterInstall.map((item) => (
-                <div key={item.title} className="border-b border-line py-4">
-                  <div className="text-[13.5px] text-paper">{item.title}</div>
-                  <p className="mt-1.5 max-w-[52ch] text-[13px] leading-[1.65] text-muted">
-                    {item.body}
-                  </p>
-                </div>
-              ))}
+          <aside className="pg-rail min-w-0">
+            <div data-testid="download-system-reqs">
+              <h3>Requirements</h3>
+              <dl>
+                {requirements.map(([label, value]) => (
+                  <div key={label} className="contents">
+                    <dt>{label}</dt>
+                    <dd>{value}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
-          </section>
 
-          <section className="mt-10">
-            <h2 className="text-[15px] font-medium text-paper">Build from source</h2>
-            <p className="mt-2 max-w-[56ch] text-[13px] leading-[1.65] text-muted">
-              Rust 1.85 or newer. The two binaries are the app and the helper that owns
-              activation and allowlisted key simulation.
-            </p>
-            <div className="mt-4">
-              <CodeBlock code={sourceBuild} title="PowerShell" />
-            </div>
-          </section>
-        </div>
-
-        <aside className="download-aside min-w-0 lg:sticky lg:top-28 lg:col-span-5 lg:self-start">
-          <div data-testid="download-system-reqs">
-            <h2 className="text-[12px] font-medium text-paper">Requirements</h2>
-            <dl className="mt-4 space-y-3">
-              {requirements.map(([label, value]) => (
-                <div key={label} className="flex items-baseline justify-between gap-6">
-                  <dt className="mono text-[10.5px] uppercase tracking-[0.08em] text-faint">
-                    {label}
-                  </dt>
-                  <dd className="text-right text-[12.5px] text-muted">{value}</dd>
+            <div data-testid="download-file-locations">
+              <h3>Where things live</h3>
+              <div className="pg-keys">
+                <div>
+                  <span className="pg-key">%APPDATA%\Nex\config.toml</span>
+                  <span>config</span>
                 </div>
-              ))}
-            </dl>
-          </div>
-
-          <div className="mt-6" data-testid="download-file-locations">
-            <h2 className="text-[12px] font-medium text-paper">Where things live</h2>
-            <div className="mt-4 space-y-4">
-              <div>
-                <div className="text-[12.5px] text-muted">Config</div>
-                <div className="mono mt-1 break-all rounded-[6px] border border-line bg-white/[0.03] px-2 py-1.5 text-[10.5px] text-paper">
-                  %APPDATA%\Nex\config.toml
+                <div>
+                  <span className="pg-key">%APPDATA%\Nex\index.tantivy</span>
+                  <span>index</span>
                 </div>
               </div>
-              <div>
-                <div className="text-[12.5px] text-muted">Index</div>
-                <div className="mono mt-1 break-all rounded-[6px] border border-line bg-white/[0.03] px-2 py-1.5 text-[10.5px] text-paper">
-                  %APPDATA%\Nex\index.tantivy
-                </div>
-              </div>
-              <p className="text-[12.5px] leading-[1.6] text-muted">
+              <p style={{ marginTop: 12 }}>
                 Settings hot-reload in about a second. The hotkey and the index path need a
                 restart.
               </p>
             </div>
-          </div>
 
-          <div className="mt-8 space-y-3">
-            <div className="flex items-center gap-2">
-              <kbd className="keycap ">Win</kbd>
-              <span className="text-[12.5px] text-muted">default hotkey</span>
+            <div>
+              <h3>Keys</h3>
+              <div className="pg-keys">
+                <div>
+                  <kbd className="pg-key">Win</kbd>
+                  <span>default hotkey</span>
+                </div>
+                <div>
+                  <kbd className="pg-key">Esc</kbd>
+                  <span>close the panel</span>
+                </div>
+                <div>
+                  <kbd className="pg-key">Enter</kbd>
+                  <span>open the selection</span>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <kbd className="keycap ">Esc</kbd>
-              <span className="text-[12.5px] text-muted">close the panel</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <kbd className="keycap ">Enter</kbd>
-              <span className="text-[12.5px] text-muted">open the selection</span>
-            </div>
-          </div>
 
-          <div className="mt-8">
-            <TextLink href="/docs/getting-started">Setup and troubleshooting</TextLink>
-          </div>
-        </aside>
+            <div>
+              <h3>Next</h3>
+              <p>
+                <TextLink href="/docs/getting-started">Setup and troubleshooting</TextLink>
+              </p>
+            </div>
+          </aside>
+        </div>
       </div>
     </div>
   );

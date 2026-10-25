@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { CodeBlock } from "@/components/code-block";
-import { Kbd, PageHead, TextLink } from "@/components/ui";
+import { Kbd, TextLink } from "@/components/ui";
 import { CONFIG_PATH, GITHUB_LATEST, GITHUB_REPO } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -22,13 +22,12 @@ nex --diagnostics-bundle  # write a diagnostics zip`;
 export default function GettingStartedPage() {
   return (
     <>
-      <PageHead
-        eyebrow="Getting started"
-        title="Getting started"
-        lede="From nothing to the first search, plus the syntax worth memorising and the two failures that actually happen."
-      />
+      <div className="pg-doc-head">
+        <h1>Getting started</h1>
+        <p>From nothing to the first search, plus the syntax worth memorising and the two failures that actually happen.</p>
+      </div>
 
-      <div className="prose-nex mt-10">
+      <div className="pg-prose">
         <h2>What you need</h2>
         <ul>
           <li>Windows 10 or 11, 64-bit.</li>

@@ -23,9 +23,9 @@ export const metadata: Metadata = {
   ],
   applicationName: "Nex",
   icons: {
-    shortcut: "/nex-logo.png",
-    icon: [{ url: "/nex-logo.png", type: "image/png" }],
-    apple: "/nex-logo.png",
+    shortcut: "/monochrome.png",
+    icon: [{ url: "/monochrome.png", type: "image/png" }],
+    apple: "/monochrome.png",
   },
   openGraph: {
     title: "Nex — the liquid-glass launcher for Windows",
@@ -33,14 +33,14 @@ export const metadata: Metadata = {
       "A glass panel over your desktop. Apps, files, commands, math and chat, one key away.",
     type: "website",
     siteName: "Nex",
-    images: [{ url: "/nex-logo.png", width: 512, height: 512, alt: "Nex" }],
+    images: [{ url: "/monochrome.png", width: 512, height: 512, alt: "Nex" }],
   },
   twitter: {
     card: "summary",
     title: "Nex — the liquid-glass launcher for Windows",
     description:
       "A glass panel over your desktop. Apps, files, commands, math and chat, one key away.",
-    images: ["/nex-logo.png"],
+    images: ["/monochrome.png"],
   },
 };
 
