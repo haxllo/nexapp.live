@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CodeBlock } from "@/components/code-block";
+import type { CodeLine } from "@/components/code-block";
+import { TextLink } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Plugin SDK",
@@ -8,8 +10,17 @@ export const metadata: Metadata = {
     "Add search results and actions to Nex with a JSON manifest: fields, action types, safe mode, and a complete example.",
 };
 
-const layout = `%APPDATA%\\Nex\\plugins\\
-└── workspace.json`;
+const layoutLines: CodeLine[] = [
+  [
+    { text: "%APPDATA%", className: "tk-k" },
+    { text: "\\Nex\\plugins\\", className: "tk-s" },
+  ],
+  [
+    { text: "└──", className: "tk-p" },
+    { text: " ", raw: true },
+    { text: "workspace.json", className: "tk-s" },
+  ],
+];
 
 const manifest = `{
   "id": "workspace",
@@ -146,8 +157,8 @@ export default function PluginSdkPage() {
           </p>
           <p>The registry is built when Nex starts. Restart after adding or editing a plugin.</p>
 
-          <h3>Folder layout</h3>
-          <CodeBlock code={layout} title="Plugin folder" />
+          <h3>Layout</h3>
+          <CodeBlock variant="ln" title="Plugin folder" lines={layoutLines} />
 
           <h2 id="manifest">Manifest</h2>
           <p>The top level describes the plugin and holds two lists.</p>
@@ -212,37 +223,9 @@ export default function PluginSdkPage() {
       </div>
 
       <div className="ln-shell">
-        <div className="ln-links">
-          <Link
-            className="ln-btn ln-btn-secondary ln-btn-sm"
-            href="/docs/configuration"
-          >
-            Configuration reference
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="13"
-              height="13"
-              fill="currentColor"
-              viewBox="0 0 256 256"
-            >
-              <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z" />
-            </svg>
-          </Link>
-          <Link
-            className="ln-btn ln-btn-secondary ln-btn-sm"
-            href="/features"
-          >
-            What the panel does
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="13"
-              height="13"
-              fill="currentColor"
-              viewBox="0 0 256 256"
-            >
-              <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z" />
-            </svg>
-          </Link>
+        <div className="flex flex-wrap gap-4 pt-4">
+          <TextLink href="/docs/configuration">Configuration reference</TextLink>
+          <TextLink href="/features">What the panel does</TextLink>
         </div>
       </div>
     </div>
