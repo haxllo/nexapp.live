@@ -44,4 +44,5 @@ next-env.d.ts
 /.preview/
 /.tmp-qa/
 /.tmp-assets/
-.commandcode\
+/.commandcode/
+/.rea/

@@ -1,4 +1,5 @@
 import { Hero } from "@/components/hero";
+import { Principles } from "@/components/principles";
 import { Capabilities } from "@/components/capabilities";
 import { ChatStory } from "@/components/chat";
 import { MediaStory } from "@/components/media";
@@ -12,6 +13,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <Principles />
       <Capabilities />
       <Syntax />
       <ChatStory />

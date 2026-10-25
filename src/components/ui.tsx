@@ -56,29 +56,6 @@ export function PageHead({
   );
 }
 
-export function SectionHeader({
-  eyebrow,
-  title,
-  children,
-  action,
-}: {
-  eyebrow: ReactNode;
-  title: ReactNode;
-  children?: ReactNode;
-  action?: ReactNode;
-}) {
-  return (
-    <div className="section-header">
-      <div>
-        <span className="eyebrow">{eyebrow}</span>
-        <h2>{title}</h2>
-        {children && <p>{children}</p>}
-      </div>
-      {action}
-    </div>
-  );
-}
-
 export function TextLink({
   href,
   children,
@@ -176,43 +153,6 @@ export function Button({
 
   return (
     <Link href={href} data-testid={testId} className={classes}>
-      {inner}
-    </Link>
-  );
-}
-
-export function QuietLink({
-  href,
-  children,
-  external = false,
-  testId,
-}: {
-  href: string;
-  children: ReactNode;
-  external?: boolean;
-  testId?: string;
-}) {
-  const inner = (
-    <>
-      {children}
-      <ArrowUpRight size={16} aria-hidden />
-    </>
-  );
-  if (external) {
-    return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        data-testid={testId}
-        className="quiet-link"
-      >
-        {inner}
-      </a>
-    );
-  }
-  return (
-    <Link href={href} data-testid={testId} className="quiet-link">
       {inner}
     </Link>
   );

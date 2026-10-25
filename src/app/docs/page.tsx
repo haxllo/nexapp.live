@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react/ssr";
 import { Kbd, PageHead } from "@/components/ui";
+import { CONFIG_PATH, LATEST } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Documentation",
@@ -52,7 +53,7 @@ export default function DocsPage() {
       <PageHead
         eyebrow="Documentation"
         title="Documentation"
-        lede="Install it, change how it behaves, and extend it. Everything here describes the current release, 2.30.0."
+        lede={`Install it, change how it behaves, and extend it. Everything here describes the current release, ${LATEST.version}.`}
       />
 
       <div className="docs-overview-links">
@@ -77,9 +78,7 @@ export default function DocsPage() {
           <dl className="mt-4 space-y-4 border-t border-line pt-4">
             <div>
               <dt className="text-[12.5px] text-muted">Config file</dt>
-              <dd className="mono mt-1 break-all text-[11px] text-paper">
-                %APPDATA%\Nex\config.toml
-              </dd>
+              <dd className="mono mt-1 break-all text-[11px] text-paper">{CONFIG_PATH}</dd>
             </div>
             <div>
               <dt className="text-[12.5px] text-muted">Default hotkey</dt>

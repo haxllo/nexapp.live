@@ -1,56 +1,81 @@
-import { ArrowUpRight } from "@phosphor-icons/react/ssr";
-import { Eyebrow, TextLink } from "@/components/ui";
+import Link from "next/link";
 import { homeReleases } from "@/lib/releases";
 
 export function Releases() {
   return (
-    <section id="releases" className="scroll-mt-20 border-t border-line">
-      <div className="shell py-20 md:py-28">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div className="max-w-[46rem]">
-            <div className="mb-5">
-              <Eyebrow rule>Releases</Eyebrow>
-            </div>
-            <h2 className="text-base leading-snug text-paper md:text-lg">
-              Shipped most weeks.
-            </h2>
-            <p className="mt-5 max-w-[54ch] text-sm leading-[1.85] text-muted">
-              Small releases, written down. Fetched from GitHub, so this list is never
-              stale.
+    <section className="ln-section" id="releases" data-testid="releases-section">
+      <div className="ln-shell">
+        <Link className="ln-section-label" href="/changelog">
+          <span className="ln-dot" style={{ background: "var(--ln-accent-tint)" }} />
+          <span className="ln-num">7.0</span>
+          Changelog
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="13"
+            height="13"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z" />
+          </svg>
+        </Link>
+        <div className="ln-head-row">
+          <h2 className="ln-h2">Shipped most weeks.</h2>
+          <div>
+            <p className="ln-lede">
+              <strong>Small releases, written down.</strong> Fetched from GitHub, so this
+              list is never stale.
             </p>
-          </div>
-          <div className="pb-1">
-            <TextLink href="/changelog" testId="releases-full-changelog">
-              Full changelog
-            </TextLink>
+            <div className="ln-links">
+              <Link
+                className="ln-btn ln-btn-secondary ln-btn-sm"
+                data-testid="releases-full-changelog"
+                href="/changelog"
+              >
+                Full changelog{" "}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="13"
+                  height="13"
+                  fill="currentColor"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z" />
+                </svg>
+              </Link>
+            </div>
           </div>
         </div>
-
-        <div className="releases-grid">
+        <div className="ln-releases">
           {homeReleases.map((release) => (
             <a
-              key={release.version}
-              data-testid={`release-link-${release.version.replace(/\./g, "-")}`}
               href={release.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="release-item"
+              className="ln-release"
+              data-testid={`release-link-${release.version.replace(/\./g, "-")}`}
+              key={release.version}
             >
-              <div className="release-item-meta">
-                <span className="mono text-[12px] text-paper">v{release.version}</span>
-                <span className="mono text-[9px] text-faint">{release.date}</span>
+              <div className="ln-release-meta">
+                <b>
+                  <i /> v{release.version}
+                </b>
+                <span>{release.date}</span>
               </div>
               <div>
                 <h3>{release.title}</h3>
-                <p className="mt-1 max-w-[62ch] text-[13px] leading-[1.6] text-muted">
-                  {release.summary}
-                </p>
+                <p>{release.summary}</p>
               </div>
-              <ArrowUpRight
-                size={15}
-                aria-hidden
-                className="hidden text-faint transition-colors duration-200 group-hover:text-paper md:block"
-              />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                viewBox="0 0 256 256"
+                className="ln-release-arrow"
+              >
+                <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z" />
+              </svg>
             </a>
           ))}
         </div>

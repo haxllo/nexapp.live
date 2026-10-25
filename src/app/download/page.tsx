@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import { DownloadSimple } from "@phosphor-icons/react/ssr";
 import { CodeBlock } from "@/components/code-block";
-import { Button, Kbd, PageHead, TextLink } from "@/components/ui";
+import { PageHead, TextLink } from "@/components/ui";
 import { latestAssets } from "@/lib/releases";
 import { GITHUB_RELEASES, LATEST } from "@/lib/site";
 
@@ -54,11 +52,14 @@ export default function DownloadPage() {
       <div className="mt-12 grid gap-12 lg:grid-cols-12 lg:gap-16">
         <div className="min-w-0 lg:col-span-7">
           <div className="download-release">
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src="/nex-logo.png"
               alt="Nex"
+              loading="lazy"
               width={50}
               height={50}
+              decoding="async"
               className="download-mark"
             />
             <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -73,16 +74,27 @@ export default function DownloadPage() {
             <p className="mt-1.5 text-[13px] text-muted">{LATEST.title}</p>
 
             <div className="mt-6">
-              <Button
+              <a
                 href={installer.url}
-                external
-                size="lg"
-                className="w-full sm:w-auto"
-                testId="download-primary-button"
-                icon={<DownloadSimple size={15} aria-hidden />}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-testid="download-primary-button"
+                className="inline-flex max-w-full items-center justify-center rounded-full font-medium transition-[background-color,color,border-color,transform,box-shadow] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] active:translate-y-px h-12 px-5.5 text-[14.5px] gap-2.5 text-[#24332c] bg-[#e6eee9] border border-white/70 shadow-[inset_0_1px_0_#fff,0_3px_10px_#0002] hover:bg-white hover:-translate-y-px w-full sm:w-auto"
               >
-                Download for Windows
-              </Button>
+                <span className="shrink-0">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="15"
+                    height="15"
+                    fill="currentColor"
+                    viewBox="0 0 256 256"
+                    aria-hidden="true"
+                  >
+                    <path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z" />
+                  </svg>
+                </span>
+                <span>Download for Windows</span>
+              </a>
             </div>
 
             <div className="mt-7 border-t border-line">
@@ -101,11 +113,17 @@ export default function DownloadPage() {
                   </span>
                   <span className="mono flex shrink-0 items-center gap-3 text-[10.5px] text-faint">
                     {asset.size}
-                    <DownloadSimple
-                      size={13}
-                      aria-hidden
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="13"
+                      height="13"
+                      fill="currentColor"
+                      viewBox="0 0 256 256"
+                      aria-hidden="true"
                       className="text-faint transition-colors group-hover:text-paper"
-                    />
+                    >
+                      <path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z" />
+                    </svg>
                   </span>
                 </a>
               ))}
@@ -191,15 +209,15 @@ export default function DownloadPage() {
 
           <div className="mt-8 space-y-3">
             <div className="flex items-center gap-2">
-              <Kbd>Win</Kbd>
+              <kbd className="keycap ">Win</kbd>
               <span className="text-[12.5px] text-muted">default hotkey</span>
             </div>
             <div className="flex items-center gap-2">
-              <Kbd>Esc</Kbd>
+              <kbd className="keycap ">Esc</kbd>
               <span className="text-[12.5px] text-muted">close the panel</span>
             </div>
             <div className="flex items-center gap-2">
-              <Kbd>Enter</Kbd>
+              <kbd className="keycap ">Enter</kbd>
               <span className="text-[12.5px] text-muted">open the selection</span>
             </div>
           </div>

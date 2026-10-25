@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { CodeBlock } from "@/components/code-block";
 import { Kbd, PageHead, TextLink } from "@/components/ui";
-import { CONFIG_PATH } from "@/lib/site";
+import { CONFIG_PATH, GITHUB_LATEST, GITHUB_REPO } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Getting started",
@@ -43,7 +43,7 @@ export default function GettingStartedPage() {
         <p>
           Download the latest installer from{" "}
           <a
-            href="https://github.com/haxllo/nex/releases/latest"
+            href={GITHUB_LATEST}
             target="_blank"
             rel="noopener noreferrer"
             data-testid="getting-started-download"
@@ -154,7 +154,7 @@ export default function GettingStartedPage() {
           The configuration reference documents every key, its type, and its range. The
           full source lives at{" "}
           <a
-            href="https://github.com/haxllo/nex"
+            href={GITHUB_REPO}
             target="_blank"
             rel="noopener noreferrer"
             data-testid="getting-started-source"

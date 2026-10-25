@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowUpRight } from "@phosphor-icons/react/ssr";
-import { Button, PageHead, TextLink } from "@/components/ui";
+import { PageHead, TextLink } from "@/components/ui";
 import { changelogDetailed, changelogEarlier } from "@/lib/changelog";
 import { GITHUB_RELEASES } from "@/lib/site";
 
@@ -22,13 +21,15 @@ export default function ChangelogPage() {
       >
         <div className="page-head-actions">
           <div className="flex flex-wrap items-center gap-4">
-            <Button
+            <a
               href={latest.url}
-              external
-              testId="changelog-download-latest"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-testid="changelog-download-latest"
+              className="inline-flex max-w-full items-center justify-center rounded-full font-medium transition-[background-color,color,border-color,transform,box-shadow] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] active:translate-y-px h-11 px-4.5 text-[13.5px] gap-2 text-[#24332c] bg-[#e6eee9] border border-white/70 shadow-[inset_0_1px_0_#fff,0_3px_10px_#0002] hover:bg-white hover:-translate-y-px "
             >
-              Download v{latest.version}
-            </Button>
+              <span>Download v{latest.version}</span>
+            </a>
             <a
               href={GITHUB_RELEASES}
               data-testid="changelog-all-releases"
@@ -37,7 +38,16 @@ export default function ChangelogPage() {
               className="group inline-flex items-center gap-1.5 text-[13px] text-muted transition-colors hover:text-paper"
             >
               Every release on GitHub
-              <ArrowUpRight size={13} aria-hidden />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="13"
+                height="13"
+                fill="currentColor"
+                viewBox="0 0 256 256"
+                aria-hidden="true"
+              >
+                <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z" />
+              </svg>
             </a>
           </div>
         </div>
@@ -71,7 +81,7 @@ export default function ChangelogPage() {
                       className="relative pl-4 text-[13px] leading-[1.65] text-muted"
                     >
                       <span
-                        aria-hidden
+                        aria-hidden="true"
                         className="absolute left-0 top-[0.72em] h-px w-2 bg-white/25"
                       />
                       {point}
@@ -94,29 +104,27 @@ export default function ChangelogPage() {
         ))}
       </div>
 
-      {changelogEarlier.length > 0 && (
-        <section className="mt-12">
-          <h2 className="text-[13px] font-medium text-paper">Earlier releases</h2>
-          <p className="mt-1.5 text-[12.5px] text-faint">
-            Version and date. Release notes for each are on GitHub.
-          </p>
-          <div className="mt-5 grid grid-cols-2 gap-x-8 sm:grid-cols-3 lg:grid-cols-4">
-            {changelogEarlier.map((release) => (
-              <a
-                key={release.version}
-                href={release.url}
-                data-testid={`changelog-earlier-${release.version.replace(/\./g, "-")}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-baseline justify-between border-b border-line/60 py-1.5 transition-colors hover:text-paper"
-              >
-                <span className="mono text-[10.5px] text-muted">v{release.version}</span>
-                <span className="mono text-[10px] text-faint">{release.date}</span>
-              </a>
-            ))}
-          </div>
-        </section>
-      )}
+      <section className="mt-12">
+        <h2 className="text-[13px] font-medium text-paper">Earlier releases</h2>
+        <p className="mt-1.5 text-[12.5px] text-faint">
+          Version and date. Release notes for each are on GitHub.
+        </p>
+        <div className="mt-5 grid grid-cols-2 gap-x-8 sm:grid-cols-3 lg:grid-cols-4">
+          {changelogEarlier.map((release) => (
+            <a
+              key={release.version}
+              href={release.url}
+              data-testid={`changelog-earlier-${release.version.replace(/\./g, "-")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-baseline justify-between border-b border-line/60 py-1.5 transition-colors hover:text-paper"
+            >
+              <span className="mono text-[10.5px] text-muted">v{release.version}</span>
+              <span className="mono text-[10px] text-faint">{release.date}</span>
+            </a>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

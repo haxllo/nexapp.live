@@ -9,6 +9,9 @@ export const metadata: Metadata = {
     "Fuzzy search, the Everything SDK, Quick Launch, actions, file creation, the query DSL, chat, the glass panel, and the engineering underneath.",
 };
 
+const navLinkClass =
+  "mono whitespace-nowrap text-[10.5px] uppercase tracking-[0.1em] text-faint transition-colors duration-200 hover:text-paper";
+
 export default function FeaturesPage() {
   return (
     <>
@@ -23,14 +26,14 @@ export default function FeaturesPage() {
       <nav aria-label="Feature groups" className="feature-navigation" data-testid="feature-navigation">
         <div className="shell">
           {featureGroups.map((group) => (
-            <a
+            <Link
               key={group.id}
               href={`#${group.id}`}
               data-testid={`feature-nav-${group.id}`}
-              className="mono whitespace-nowrap text-[10.5px] uppercase tracking-[0.1em] text-faint transition-colors duration-200 hover:text-paper"
+              className={navLinkClass}
             >
               {group.title}
-            </a>
+            </Link>
           ))}
         </div>
       </nav>

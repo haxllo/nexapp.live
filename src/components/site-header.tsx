@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -25,22 +24,21 @@ export function SiteHeader() {
     pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header className="site-header" data-testid="nav-header">
-      <div className="shell header-inner">
+    <header className="ln-header" data-testid="nav-header">
+      <div className="ln-shell ln-header-inner">
         <Link
-          href="/"
-          className="brand"
-          data-testid="nav-logo-link"
+          className="ln-brand"
           aria-label="Nex home"
+          data-testid="nav-logo-link"
+          href="/"
           onClick={() => setOpen(false)}
         >
-          <Image src="/nex-logo.png" alt="" width={38} height={38} preload />
-          <span>
-            Nex<span className="brand-period">.</span>
-          </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/nex-logo.png" alt="" />
+          Nex
         </Link>
 
-        <nav className="desktop-nav liquid-control" aria-label="Primary">
+        <nav className="ln-nav" aria-label="Primary">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
@@ -53,35 +51,34 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="header-actions">
+        <div className="ln-header-actions">
           <a
             href={GITHUB_REPO}
             target="_blank"
             rel="noopener noreferrer"
-            className="github-link"
+            className="ln-icon-link"
             aria-label="Nex on GitHub"
-            title="View source on GitHub"
             data-testid="nav-github-link"
           >
-            <GithubLogo size={20} />
+            <GithubLogo size={18} />
           </a>
           <Link
-            href="/download"
-            className="header-download liquid-control"
+            className="ln-btn ln-btn-primary ln-btn-sm"
             data-testid="nav-cta-download"
+            href="/download"
           >
-            Get Nex <ArrowUpRight size={15} aria-hidden />
+            Download
           </Link>
           <button
             type="button"
-            className="mobile-toggle liquid-control"
-            onClick={() => setOpen((value) => !value)}
+            className="ln-icon-link ln-menu-btn"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-nav"
             data-testid="nav-mobile-toggle"
+            onClick={() => setOpen((value) => !value)}
           >
-            {open ? <X size={20} /> : <List size={20} />}
+            {open ? <X size={18} /> : <List size={18} />}
           </button>
         </div>
       </div>
@@ -89,11 +86,11 @@ export function SiteHeader() {
       {open && (
         <nav
           id="mobile-nav"
-          className="mobile-nav"
+          className="ln-mobile-nav"
           aria-label="Mobile"
           data-testid="mobile-nav-menu"
         >
-          {NAV_LINKS.map((link, index) => (
+          {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -101,9 +98,8 @@ export function SiteHeader() {
               aria-current={isActive(link.href) ? "page" : undefined}
               data-testid={`mobile-nav-link-${slug(link.label)}`}
             >
-              <span className="mono">0{index + 1}</span>
               {link.label}
-              <ArrowUpRight size={18} />
+              <ArrowUpRight size={16} />
             </Link>
           ))}
           <a
@@ -112,9 +108,8 @@ export function SiteHeader() {
             rel="noopener noreferrer"
             data-testid="mobile-nav-github"
           >
-            <GithubLogo size={18} />
             GitHub
-            <ArrowUpRight size={18} />
+            <ArrowUpRight size={16} />
           </a>
         </nav>
       )}

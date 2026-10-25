@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { CodeBlock } from "@/components/code-block";
 import { PageHead, TextLink } from "@/components/ui";
 
@@ -116,11 +117,15 @@ export default function PluginSdkPage() {
       />
 
       <div className="sdk-layout">
-        <nav className="sdk-nav" aria-label="Plugin SDK sections" data-testid="sdk-section-navigation">
+        <nav
+          className="sdk-nav"
+          aria-label="Plugin SDK sections"
+          data-testid="sdk-section-navigation"
+        >
           {nav.map(([id, label]) => (
-            <a key={id} href={`#${id}`} data-testid={`sdk-nav-${id}`}>
+            <Link key={id} href={`#${id}`} data-testid={`sdk-nav-${id}`}>
               {label}
-            </a>
+            </Link>
           ))}
         </nav>
 
