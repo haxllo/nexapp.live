@@ -7,7 +7,15 @@ type Message = { id: number; text: string };
 
 const suggestions = ["Think through an idea", "Explain something clearly"];
 
-export function ChatDemo({ onBack }: { onBack: () => void }) {
+type ChatPrefix = "chat" | "story-chat";
+
+export function ChatDemo({
+  onBack,
+  prefix = "chat",
+}: {
+  onBack?: () => void;
+  prefix?: ChatPrefix;
+}) {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [copied, setCopied] = useState(false);
@@ -55,13 +63,13 @@ export function ChatDemo({ onBack }: { onBack: () => void }) {
   }, [messages]);
 
   return (
-    <div className="nx-panel nx-chat" data-testid="chat-demo-panel">
+    <div className="nx-panel nx-chat" data-testid={`${prefix}-demo-panel`}>
       <div className="nx-chat-head">
         <button
           type="button"
           className="nx-icon-btn"
           aria-label="Back to launcher"
-          data-testid="chat-demo-back"
+          data-testid={`${prefix}-demo-back`}
           onClick={onBack}
         >
           <svg
@@ -76,7 +84,7 @@ export function ChatDemo({ onBack }: { onBack: () => void }) {
         </button>
         <div className="nx-chat-title">
           <b>Chat</b>
-          <button type="button" className="nx-model" data-testid="chat-model-toggle">
+          <button type="button" className="nx-model" data-testid={`${prefix}-model-toggle`}>
             ChatGPT · gpt-6-luna
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +102,7 @@ export function ChatDemo({ onBack }: { onBack: () => void }) {
             type="button"
             className="nx-icon-btn"
             aria-label="Conversation history"
-            data-testid="chat-history-toggle"
+            data-testid={`${prefix}-history-toggle`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +119,7 @@ export function ChatDemo({ onBack }: { onBack: () => void }) {
             className="nx-icon-btn"
             aria-label="New conversation"
             disabled={messages.length === 0}
-            data-testid="chat-reset"
+            data-testid={`${prefix}-reset`}
             onClick={() => {
               setMessages([]);
               setInput("");
@@ -137,7 +145,7 @@ export function ChatDemo({ onBack }: { onBack: () => void }) {
             className="nx-icon-btn"
             aria-label="Copy transcript"
             disabled={messages.length === 0}
-            data-testid="chat-copy"
+            data-testid={`${prefix}-copy`}
             onClick={copyTranscript}
           >
             {copied ? (
@@ -198,7 +206,7 @@ export function ChatDemo({ onBack }: { onBack: () => void }) {
             </div>
           </div>
         ) : (
-          <div className="nx-thread" data-testid="chat-messages">
+          <div className="nx-thread" data-testid={`${prefix}-messages`}>
             {messages.map((message, index) => (
               <div
                 key={message.id}
@@ -208,11 +216,11 @@ export function ChatDemo({ onBack }: { onBack: () => void }) {
                 {message.text}
               </div>
             ))}
-            <p className="nx-preview-note" data-testid="chat-preview-notice">
+            <p className="nx-preview-note" data-testid={`${prefix}-preview-notice`}>
               Preview only. Connect a provider in Nex to get an answer.
             </p>
             {(copied || copyError) && (
-              <span role="status" className="nx-preview-note" data-testid="chat-copy-status">
+              <span role="status" className="nx-preview-note" data-testid={`${prefix}-copy-status`}>
                 {copied
                   ? "Transcript copied"
                   : "Clipboard unavailable. Select the messages to copy them."}
@@ -230,7 +238,7 @@ export function ChatDemo({ onBack }: { onBack: () => void }) {
                 <button
                   type="button"
                   onClick={() => setAttached(false)}
-                  data-testid="chat-remove-attachment"
+                  data-testid={`${prefix}-remove-attachment`}
                   aria-label="Remove notes.md from context"
                 >
                   <X size={11} />
@@ -243,7 +251,7 @@ export function ChatDemo({ onBack }: { onBack: () => void }) {
                 <button
                   type="button"
                   onClick={() => setIncludePc(false)}
-                  data-testid="chat-remove-pc"
+                  data-testid={`${prefix}-remove-pc`}
                   aria-label="Stop including PC facts"
                 >
                   <X size={11} />
@@ -258,7 +266,7 @@ export function ChatDemo({ onBack }: { onBack: () => void }) {
             className="nx-icon-btn"
             aria-pressed={attached}
             aria-label="Attach notes.md"
-            data-testid="chat-attach"
+            data-testid={`${prefix}-attach`}
             onClick={() => setAttached((value) => !value)}
           >
             <svg
@@ -276,7 +284,7 @@ export function ChatDemo({ onBack }: { onBack: () => void }) {
             className="nx-icon-btn"
             aria-pressed={includePc}
             aria-label="Include PC context"
-            data-testid="chat-include-pc"
+            data-testid={`${prefix}-include-pc`}
             onClick={() => setIncludePc((value) => !value)}
           >
             <svg
@@ -301,7 +309,7 @@ export function ChatDemo({ onBack }: { onBack: () => void }) {
             }}
             placeholder="Message Nex..."
             aria-label="Message the chat preview"
-            data-testid="chat-demo-input"
+            data-testid={`${prefix}-demo-input`}
           />
           <button
             type="button"
@@ -309,7 +317,7 @@ export function ChatDemo({ onBack }: { onBack: () => void }) {
             onClick={send}
             disabled={!input.trim()}
             aria-label="Send message"
-            data-testid="chat-demo-send"
+            data-testid={`${prefix}-demo-send`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

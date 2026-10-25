@@ -1,71 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
-const tracks = [
-  {
-    title: "Low Orbit",
-    artist: "Sable",
-    album: "Eclipse",
-    length: 192,
-  },
-  {
-    title: "Ring Shadow",
-    artist: "Sable",
-    album: "Eclipse",
-    length: 214,
-  },
-  {
-    title: "Ember Line",
-    artist: "Sable",
-    album: "Eclipse",
-    length: 178,
-  },
-];
-
-const clock = (seconds: number) =>
-  `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, "0")}`;
-
-const fill = (value: number, max: number) => {
-  const percent = Math.round((value / max) * 10000) / 100;
-  return `linear-gradient(to right, var(--app-blue) ${percent}%, #2a2a2a ${percent}%)`;
-};
+import { useMediaPlayer } from "@/components/use-media-player";
 
 export function MediaDemo({ active }: { active: boolean }) {
-  const [state, setState] = useState({ index: 0, position: 132 });
-  const [playing, setPlaying] = useState(true);
-  const [volume, setVolume] = useState(22);
-  const [previousVolume, setPreviousVolume] = useState(22);
-  const track = tracks[state.index];
-  const muted = volume === 0;
-
-  function skip(delta: number) {
-    setState((current) => ({
-      index: (current.index + delta + tracks.length) % tracks.length,
-      position: 0,
-    }));
-  }
-
-  function toggleMute() {
-    if (muted) {
-      setVolume(previousVolume || 22);
-    } else {
-      setPreviousVolume(volume);
-      setVolume(0);
-    }
-  }
-
-  useEffect(() => {
-    if (!active || !playing) return;
-    const timer = setInterval(() => {
-      setState((current) =>
-        current.position + 1 >= tracks[current.index].length
-          ? { index: (current.index + 1) % tracks.length, position: 0 }
-          : { ...current, position: current.position + 1 },
-      );
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [active, playing]);
+  const player = useMediaPlayer(active);
+  const { track, playing, volume, muted } = player;
 
   return (
     <div
@@ -86,7 +25,7 @@ export function MediaDemo({ active }: { active: boolean }) {
             <i />
             <i />
           </span>
-          NOW PLAYING
+          {playing ? "NOW PLAYING" : "PAUSED"}
         </div>
         <h3 data-testid="media-track-title">{track.title}</h3>
         <p data-testid="media-track-artist">
@@ -97,23 +36,21 @@ export function MediaDemo({ active }: { active: boolean }) {
           type="range"
           min={0}
           max={track.length}
-          value={state.position}
-          onChange={(event) =>
-            setState((current) => ({ ...current, position: +event.target.value }))
-          }
+          value={player.position}
+          onChange={(event) => player.seek(+event.target.value)}
           aria-label="Seek"
           data-testid="media-seek"
-          style={{ background: fill(state.position, track.length) }}
+          style={{ background: player.seekFill }}
         />
         <div className="nx-times">
-          <span data-testid="media-elapsed">{clock(state.position)}</span>
-          <span data-testid="media-duration">{clock(track.length)}</span>
+          <span data-testid="media-elapsed">{player.elapsed}</span>
+          <span data-testid="media-duration">{player.duration}</span>
         </div>
         <div className="nx-controls">
           <button
             type="button"
             className="nx-icon-btn"
-            onClick={() => skip(-1)}
+            onClick={() => player.skip(-1)}
             aria-label="Previous track"
             data-testid="media-prev"
           >
@@ -130,7 +67,7 @@ export function MediaDemo({ active }: { active: boolean }) {
           <button
             type="button"
             className="nx-icon-btn"
-            onClick={() => setPlaying((value) => !value)}
+            onClick={player.togglePlay}
             aria-label={playing ? "Pause" : "Play"}
             data-testid="media-play-toggle"
           >
@@ -159,7 +96,7 @@ export function MediaDemo({ active }: { active: boolean }) {
           <button
             type="button"
             className="nx-icon-btn"
-            onClick={() => skip(1)}
+            onClick={() => player.skip(1)}
             aria-label="Next track"
             data-testid="media-next"
           >
@@ -178,7 +115,7 @@ export function MediaDemo({ active }: { active: boolean }) {
             <button
               type="button"
               className="nx-icon-btn"
-              onClick={toggleMute}
+              onClick={player.toggleMute}
               aria-label={muted ? "Unmute" : "Mute"}
               data-testid="media-mute"
             >
@@ -198,10 +135,10 @@ export function MediaDemo({ active }: { active: boolean }) {
               min={0}
               max={100}
               value={volume}
-              onChange={(event) => setVolume(+event.target.value)}
+              onChange={(event) => player.setVolume(+event.target.value)}
               aria-label="Volume"
               data-testid="media-volume"
-              style={{ background: fill(volume, 100) }}
+              style={{ background: player.volumeFill }}
             />
           </div>
         </div>

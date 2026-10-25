@@ -1,6 +1,13 @@
+"use client";
+
 import Link from "next/link";
 
+import { useMediaPlayer } from "@/components/use-media-player";
+
 export function MediaStory() {
+  const player = useMediaPlayer(true);
+  const { track, playing, volume, muted } = player;
+
   return (
     <section className="ln-section" id="media" data-testid="media-section">
       <div className="ln-shell">
@@ -107,7 +114,7 @@ export function MediaStory() {
               />
               <div className="ln-desk-shade" aria-hidden="true" />
               <div
-                className="nx-panel nx-media is-playing"
+                className={`nx-panel nx-media${playing ? " is-playing" : ""}`}
                 data-testid="story-media-demo-panel"
               >
                 <div className="nx-art">
@@ -117,33 +124,32 @@ export function MediaStory() {
                 <div className="nx-media-main">
                   <div className="nx-now">
                     <span
-                      className="nx-bars is-sm is-live"
+                      className={`nx-bars is-sm${playing ? " is-live" : ""}`}
                       aria-hidden="true"
                     >
                       <i />
                       <i />
                       <i />
                     </span>
-                    NOW PLAYING
+                    {playing ? "NOW PLAYING" : "PAUSED"}
                   </div>
-                  <h3 data-testid="story-media-track-title">Low Orbit</h3>
-                  <p data-testid="story-media-track-artist">Sable — Eclipse</p>
+                  <h3 data-testid="story-media-track-title">{track.title}</h3>                  <p data-testid="story-media-track-artist">
+                    {track.artist} — {track.album}
+                  </p>
                   <input
                     className="nx-range nx-seek"
                     type="range"
-                    min="0"
-                    max="192"
+                    min={0}
+                    max={track.length}
                     aria-label="Seek"
                     data-testid="story-media-seek"
-                    style={{
-                      background:
-                        "linear-gradient(to right, var(--app-blue) 68.75%, #2a2a2a 68.75%)",
-                    }}
-                    defaultValue="132"
+                    style={{ background: player.seekFill }}
+                    value={player.position}
+                    onChange={(event) => player.seek(+event.target.value)}
                   />
                   <div className="nx-times">
-                    <span data-testid="story-media-elapsed">2:12</span>
-                    <span data-testid="story-media-duration">3:12</span>
+                    <span data-testid="story-media-elapsed">{player.elapsed}</span>
+                    <span data-testid="story-media-duration">{player.duration}</span>
                   </div>
                   <div className="nx-controls">
                     <button
@@ -151,6 +157,7 @@ export function MediaStory() {
                       className="nx-icon-btn"
                       aria-label="Previous track"
                       data-testid="story-media-prev"
+                      onClick={() => player.skip(-1)}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -165,24 +172,38 @@ export function MediaStory() {
                     <button
                       type="button"
                       className="nx-icon-btn"
-                      aria-label="Pause"
+                      aria-label={playing ? "Pause" : "Play"}
                       data-testid="story-media-play-toggle"
+                      onClick={player.togglePlay}
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="18"
-                        height="18"
-                        fill="currentColor"
-                        viewBox="0 0 256 256"
-                      >
-                        <path d="M216,48V208a16,16,0,0,1-16,16H160a16,16,0,0,1-16-16V48a16,16,0,0,1,16-16h40A16,16,0,0,1,216,48ZM96,32H56A16,16,0,0,0,40,48V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V48A16,16,0,0,0,96,32Z" />
-                      </svg>
+                      {playing ? (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="18"
+                          height="18"
+                          fill="currentColor"
+                          viewBox="0 0 256 256"
+                        >
+                          <path d="M216,48V208a16,16,0,0,1-16,16H160a16,16,0,0,1-16-16V48a16,16,0,0,1,16-16h40A16,16,0,0,1,216,48ZM96,32H56A16,16,0,0,0,40,48V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V48A16,16,0,0,0,96,32Z" />
+                        </svg>
+                      ) : (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="18"
+                          height="18"
+                          fill="currentColor"
+                          viewBox="0 0 256 256"
+                        >
+                          <path d="M232.4,114.49,88.32,26.35a16,16,0,0,0-16.2-.3A15.86,15.86,0,0,0,64,39.87V216.13A15.94,15.94,0,0,0,80,232a16.07,16.07,0,0,0,8.36-2.35L232.4,141.51a15.81,15.81,0,0,0,0-27ZM80,215.94V40l143.83,88Z" />
+                        </svg>
+                      )}
                     </button>
                     <button
                       type="button"
                       className="nx-icon-btn"
                       aria-label="Next track"
                       data-testid="story-media-next"
+                      onClick={() => player.skip(1)}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -199,8 +220,9 @@ export function MediaStory() {
                       <button
                         type="button"
                         className="nx-icon-btn"
-                        aria-label="Mute"
+                        aria-label={muted ? "Unmute" : "Mute"}
                         data-testid="story-media-mute"
+                        onClick={player.toggleMute}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -215,15 +237,13 @@ export function MediaStory() {
                       <input
                         className="nx-range"
                         type="range"
-                        min="0"
-                        max="100"
+                        min={0}
+                        max={100}
                         aria-label="Volume"
                         data-testid="story-media-volume"
-                        style={{
-                          background:
-                            "linear-gradient(to right, var(--app-blue) 22%, #2a2a2a 22%)",
-                        }}
-                        defaultValue="22"
+                        style={{ background: player.volumeFill }}
+                        value={volume}
+                        onChange={(event) => player.setVolume(+event.target.value)}
                       />
                     </div>
                   </div>
