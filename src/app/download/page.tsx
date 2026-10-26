@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Button } from "@/components/ui";
 import { CodeBlock } from "@/components/code-block";
+import type { CodeLine } from "@/components/code-block";
 import { PageIntro } from "@/components/page-intro";
 import { TextLink } from "@/components/ui";
 import { latestAssets } from "@/lib/releases";
@@ -12,10 +13,12 @@ export const metadata: Metadata = {
     "Download Nex for Windows 10 and 11, x64. Installer, portable zip, and build-from-source instructions.",
 };
 
-const sourceBuild = `git clone https://github.com/haxllo/nex.git
+const sourceBuildLines: CodeLine[] = `git clone https://github.com/haxllo/nex.git
 cd nex
 cargo build --release --bin Nex --bin NexHelper
-.\\target\\release\\Nex.exe`;
+.\\target\\release\\Nex.exe`
+  .split("\n")
+  .map((text) => [{ text, raw: true }]);
 
 const requirements = [
   ["System", "Windows 10 or 11, 64-bit"],
@@ -172,7 +175,7 @@ export default function DownloadPage() {
                 allowlisted key simulation.
               </p>
               <div style={{ marginTop: 20 }}>
-                <CodeBlock code={sourceBuild} title="PowerShell" />
+                <CodeBlock variant="ln" title="PowerShell" lines={sourceBuildLines} />
               </div>
             </section>
           </div>

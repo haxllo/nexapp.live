@@ -116,10 +116,6 @@ export function SiteFooter() {
             </ul>
           </div>
         </div>
-        <div className="ln-footer-bottom">
-          <span>© 2026 Nex. MIT licensed. Built with Rust and WebView2.</span>
-          <span>Not affiliated with Microsoft.</span>
-        </div>
       </div>
     </footer>
   );

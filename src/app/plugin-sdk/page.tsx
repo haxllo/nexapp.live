@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CodeBlock } from "@/components/code-block";
 import type { CodeLine } from "@/components/code-block";
-import { TextLink } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Plugin SDK",
@@ -22,45 +21,203 @@ const layoutLines: CodeLine[] = [
   ],
 ];
 
-const manifest = `{
-  "id": "workspace",
-  "name": "Workspace",
-  "version": "0.1.0",
-  "enabled": true,
-  "provider_items": [
-    {
-      "id": "ws-notes",
-      "kind": "file",
-      "title": "Team notes",
-      "path": "C:\\\\Users\\\\me\\\\notes\\\\team.md"
-    }
+const manifestLines: CodeLine[] = [
+  [{ text: "{", className: "tk-p" }],
+  [
+    { text: "  ", raw: true },
+    { text: '"id"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: '"workspace"', className: "tk-s" },
   ],
-  "actions": [
-    {
-      "id": "open-notes",
-      "title": "Open team notes",
-      "subtitle": "Workspace",
-      "keywords": ["notes", "team"],
-      "type": "open_path",
-      "path": "C:\\\\Users\\\\me\\\\notes\\\\team.md"
-    },
-    {
-      "id": "sync",
-      "title": "Sync workspace",
-      "subtitle": "Workspace",
-      "keywords": ["sync", "git"],
-      "type": "command",
-      "command": "git",
-      "args": ["pull"]
-    }
-  ]
-}`;
+  [
+    { text: "  ", raw: true },
+    { text: '"name"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: '"Workspace"', className: "tk-s" },
+  ],
+  [
+    { text: "  ", raw: true },
+    { text: '"version"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: '"0.1.0"', className: "tk-s" },
+  ],
+  [
+    { text: "  ", raw: true },
+    { text: '"enabled"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: "true", className: "tk-b" },
+  ],
+  [
+    { text: "  ", raw: true },
+    { text: '"provider_items"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: "[", className: "tk-p" },
+  ],
+  [
+    { text: "    ", raw: true },
+    { text: "{", className: "tk-p" },
+  ],
+  [
+    { text: "      ", raw: true },
+    { text: '"id"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: '"ws-notes"', className: "tk-s" },
+  ],
+  [
+    { text: "      ", raw: true },
+    { text: '"kind"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: '"file"', className: "tk-s" },
+  ],
+  [
+    { text: "      ", raw: true },
+    { text: '"title"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: '"Team notes"', className: "tk-s" },
+  ],
+  [
+    { text: "      ", raw: true },
+    { text: '"path"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: '"C:\\\\Users\\\\me\\\\notes\\\\team.md"', className: "tk-s" },
+  ],
+  [
+    { text: "    ", raw: true },
+    { text: "}", className: "tk-p" },
+  ],
+  [
+    { text: "  ", raw: true },
+    { text: "]", className: "tk-p" },
+  ],
+  [
+    { text: "  ", raw: true },
+    { text: '"actions"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: "[", className: "tk-p" },
+  ],
+  [
+    { text: "    ", raw: true },
+    { text: "{", className: "tk-p" },
+  ],
+  [
+    { text: "      ", raw: true },
+    { text: '"id"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: '"open-notes"', className: "tk-s" },
+  ],
+  [
+    { text: "      ", raw: true },
+    { text: '"title"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: '"Open team notes"', className: "tk-s" },
+  ],
+  [
+    { text: "      ", raw: true },
+    { text: '"subtitle"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: '"Workspace"', className: "tk-s" },
+  ],
+  [
+    { text: "      ", raw: true },
+    { text: '"keywords"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: '["notes", "team"]', className: "tk-s" },
+  ],
+  [
+    { text: "      ", raw: true },
+    { text: '"type"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: '"open_path"', className: "tk-s" },
+  ],
+  [
+    { text: "      ", raw: true },
+    { text: '"path"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: '"C:\\\\Users\\\\me\\\\notes\\\\team.md"', className: "tk-s" },
+  ],
+  [
+    { text: "    ", raw: true },
+    { text: "}", className: "tk-p" },
+  ],
+  [
+    { text: "    ", raw: true },
+    { text: "{", className: "tk-p" },
+  ],
+  [
+    { text: "      ", raw: true },
+    { text: '"id"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: '"sync"', className: "tk-s" },
+  ],
+  [
+    { text: "      ", raw: true },
+    { text: '"title"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: '"Sync workspace"', className: "tk-s" },
+  ],
+  [
+    { text: "      ", raw: true },
+    { text: '"subtitle"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: '"Workspace"', className: "tk-s" },
+  ],
+  [
+    { text: "      ", raw: true },
+    { text: '"keywords"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: '["sync", "git"]', className: "tk-s" },
+  ],
+  [
+    { text: "      ", raw: true },
+    { text: '"type"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: '"command"', className: "tk-s" },
+  ],
+  [
+    { text: "      ", raw: true },
+    { text: '"command"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: '"git"', className: "tk-s" },
+  ],
+  [
+    { text: "      ", raw: true },
+    { text: '"args"', className: "tk-k" },
+    { text: ": ", className: "tk-p" },
+    { text: '["pull"]', className: "tk-s" },
+  ],
+  [
+    { text: "    ", raw: true },
+    { text: "}", className: "tk-p" },
+  ],
+  [
+    { text: "  ", raw: true },
+    { text: "]", className: "tk-p" },
+  ],
+  [{ text: "}", className: "tk-p" }],
+];
 
-const config = `plugins_enabled = true
-plugins_safe_mode = true
-plugin_paths = [
-  "C:\\\\Users\\\\you\\\\AppData\\\\Roaming\\\\Nex\\\\plugins",
-]`;
+const configLines: CodeLine[] = [
+  [
+    { text: "plugins_enabled", className: "tk-k" },
+    { text: " = ", className: "tk-p" },
+    { text: "true", className: "tk-b" },
+  ],
+  [
+    { text: "plugins_safe_mode", className: "tk-k" },
+    { text: " = ", className: "tk-p" },
+    { text: "true", className: "tk-b" },
+  ],
+  [
+    { text: "plugin_paths", className: "tk-k" },
+    { text: " = ", className: "tk-p" },
+    { text: "[", className: "tk-p" },
+  ],
+  [
+    { text: "  ", raw: true },
+    { text: '"C:\\\\Users\\\\you\\\\AppData\\\\Roaming\\\\Nex\\\\plugins"', className: "tk-s" },
+  ],
+  [{ text: "]", className: "tk-p" }],
+];
 
 const fields = [
   ["id", "string", "Stable identifier for the plugin."],
@@ -100,19 +257,18 @@ const nav = [
 
 function FieldTable({ rows }: { rows: string[][] }) {
   return (
-    <div className="not-prose mt-5 border-t border-line">
-      {rows.map(([key, type, desc]) => (
-        <div
-          key={key}
-          className="grid gap-1 border-b border-line py-2.5 md:grid-cols-[150px_70px_minmax(0,1fr)] md:items-baseline md:gap-4"
-        >
-          <span className="mono text-[10.5px] text-paper">{key}</span>
-          <span className="mono text-[9.5px] uppercase tracking-[0.08em] text-faint">
-            {type}
-          </span>
-          <span className="text-[12.5px] leading-[1.6] text-muted">{desc}</span>
-        </div>
-      ))}
+    <div className="pg-prose">
+      <dl>
+        {rows.map(([key, type, desc]) => (
+          <div key={key}>
+            <dt>{key}</dt>
+            <dd>
+              <span className="mono text-xs text-muted">{type}</span>
+              <p className="mt-1">{desc}</p>
+            </dd>
+          </div>
+        ))}
+      </dl>
     </div>
   );
 }
@@ -142,6 +298,10 @@ export default function PluginSdkPage() {
                 {label}
               </Link>
             ))}
+          </nav>
+          <nav className="pg-side-extra" aria-label="Related pages">
+            <Link href="/docs/configuration">Configuration reference</Link>
+            <Link href="/features">What the panel does</Link>
           </nav>
         </aside>
 
@@ -185,7 +345,7 @@ export default function PluginSdkPage() {
             One provider item and two actions. On Windows paths inside JSON, every
             backslash is doubled.
           </p>
-          <CodeBlock code={manifest} title="workspace.json" />
+          <CodeBlock variant="ln" title="workspace.json" lines={manifestLines} />
 
           <h2 id="safe-mode">Safe mode</h2>
           <p>
@@ -193,7 +353,7 @@ export default function PluginSdkPage() {
             actions entirely. Provider items and <code>open_path</code> actions keep
             working. Turn it off only for plugins you wrote or have read.
           </p>
-          <CodeBlock code={config} title="config.toml" />
+          <CodeBlock variant="ln" title="config.toml" lines={configLines} />
 
           <h2 id="what-is-not-here-yet">What is not here yet</h2>
           <p>
@@ -222,12 +382,6 @@ export default function PluginSdkPage() {
         </article>
       </div>
 
-      <div className="ln-shell">
-        <div className="flex flex-wrap gap-4 pt-4">
-          <TextLink href="/docs/configuration">Configuration reference</TextLink>
-          <TextLink href="/features">What the panel does</TextLink>
-        </div>
-      </div>
     </div>
   );
 }
