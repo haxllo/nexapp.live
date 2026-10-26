@@ -173,7 +173,7 @@ export function Syntax() {
     <section className="ln-section" id="syntax" data-testid="syntax-section">
       <div className="ln-shell">
         <Link className="ln-section-label" href="/docs/getting-started">
-          <span className="ln-dot" style={{ background: "var(--ln-green)" }} />
+          <span className="ln-dot" style={{ background: "var(--ln-accent)" }} />
           <span className="ln-num">2.0</span>
           Syntax
           <svg

@@ -100,7 +100,7 @@ export function TextLink({
 const buttonBase =
   "inline-flex max-w-full items-center justify-center rounded-full font-medium transition-[background-color,color,border-color,transform,box-shadow] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] active:translate-y-px";
 const buttonSkin =
-  "text-[#24332c] bg-[#e6eee9] border border-white/70 shadow-[inset_0_1px_0_#fff,0_3px_10px_#0002] hover:bg-white hover:-translate-y-px";
+  "text-[#111315] bg-[#f5f5f5] border border-white/70 shadow-[inset_0_1px_0_#fff,0_3px_10px_#0002] hover:bg-[#e5e7eb] hover:-translate-y-px";
 
 const buttonSizes = {
   md: "h-11 px-4.5 text-[13.5px] gap-2",
