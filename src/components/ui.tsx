@@ -98,11 +98,15 @@ export function TextLink({
 }
 
 const buttonBase =
-  "inline-flex max-w-full items-center justify-center rounded-full font-medium transition-[background-color,color,border-color,transform,box-shadow] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] active:translate-y-px";
-const buttonSkin =
-  "text-[#111315] bg-[#f5f5f5] border border-white/70 shadow-[inset_0_1px_0_#fff,0_3px_10px_#0002] hover:bg-[#e5e7eb] hover:-translate-y-px";
+  "ui-btn inline-flex max-w-full items-center justify-center rounded-full font-medium transition-[background-color,color,border-color,transform,box-shadow] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] active:translate-y-px";
+const buttonVariants = {
+  primary: "ui-btn-primary",
+  secondary: "ui-btn-secondary",
+  ghost: "ui-btn-ghost",
+};
 
 const buttonSizes = {
+  sm: "h-9 px-3.5 text-[12.5px] gap-1.5",
   md: "h-11 px-4.5 text-[13.5px] gap-2",
   lg: "h-12 px-5.5 text-[14.5px] gap-2.5",
 };
@@ -111,6 +115,7 @@ export function Button({
   href,
   children,
   external = false,
+  variant = "primary",
   size = "md",
   withWindows = false,
   icon,
@@ -120,13 +125,14 @@ export function Button({
   href: string;
   children: ReactNode;
   external?: boolean;
+  variant?: keyof typeof buttonVariants;
   size?: keyof typeof buttonSizes;
   withWindows?: boolean;
   icon?: ReactNode;
   className?: string;
   testId?: string;
 }) {
-  const classes = `${buttonBase} ${buttonSizes[size]} ${buttonSkin} ${className}`;
+  const classes = `${buttonBase} ${buttonVariants[variant]} ${buttonSizes[size]} ${className}`;
   const inner = (
     <>
       {withWindows && (

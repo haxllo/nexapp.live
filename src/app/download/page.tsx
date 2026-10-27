@@ -120,7 +120,7 @@ export default function DownloadPage() {
                 ))}
               </div>
 
-              <p className="pg-note" style={{ marginTop: 28 }}>
+              <p className="pg-note pg-note--compact">
                 Older versions live on{" "}
                 <a
                   href={GITHUB_RELEASES}
@@ -143,20 +143,11 @@ export default function DownloadPage() {
                 {afterInstall.map((item) => (
                   <div
                     key={item.title}
-                    className="pg-asset"
-                    style={{ gridTemplateColumns: "minmax(0, 1fr)" }}
+                    className="pg-asset pg-asset--stacked"
                   >
                     <span className="min-w-0">
                       <strong>{item.title}</strong>
-                      <span
-                        className="ln-mono"
-                        style={{
-                          fontFamily: "var(--ln-font)",
-                          fontSize: "13px",
-                          lineHeight: 1.65,
-                          color: "var(--ln-text-3)",
-                        }}
-                      >
+                      <span className="pg-asset-body">
                         {item.body}
                       </span>
                     </span>

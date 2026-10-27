@@ -116,6 +116,35 @@ export function SiteFooter() {
             </ul>
           </div>
         </div>
+      <div className="ln-footer-bottom" data-testid="footer-bottom-bar">
+        <span>© 2026 Nex</span>
+        <div className="ln-footer-bottom-links">
+          <a
+            href={GITHUB_REPO}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-testid="footer-bottom-github"
+          >
+            GitHub
+          </a>
+          <a
+            href={GITHUB_RELEASES}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-testid="footer-bottom-releases"
+          >
+            Releases
+          </a>
+          <a
+            href={GITHUB_ISSUES}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-testid="footer-bottom-issues"
+          >
+            Issues
+          </a>
+        </div>
+      </div>
       </div>
     </footer>
   );
