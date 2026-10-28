@@ -89,7 +89,6 @@ export function Hero() {
           <DemoShowcase />
         </div>
         <div className="ln-facts" data-testid="hero-product-facts">
-          <span>A little glass. A lot of possibility.</span>
           <ul>
             <li>
               <svg

@@ -215,10 +215,11 @@ function PowerIcon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="17"
-      height="17"
+      width="15"
+      height="15"
       fill="currentColor"
       viewBox="0 0 256 256"
+      style={{ display: "block" }}
     >
       <path d="M120,128V48a8,8,0,0,1,16,0v80a8,8,0,0,1-16,0Zm60.37-78.7a8,8,0,0,0-8.74,13.4C194.74,77.77,208,101.57,208,128a80,80,0,0,1-160,0c0-26.43,13.26-50.23,36.37-65.3a8,8,0,0,0-8.74-13.4C47.9,67.38,32,96.06,32,128a96,96,0,0,0,192,0C224,96.06,208.1,67.38,180.37,49.3Z" />
     </svg>
@@ -447,32 +448,12 @@ function scoreMatch(term: string, title: string): number {
   return 420 - gaps;
 }
 
-function detailLabel(item: Item): string {
-  switch (item.kind) {
-    case "app":
-      return "APP";
-    case "file":
-      return "FILE";
-    case "folder":
-      return "FOLDER";
-    case "command":
-      return "ACTION";
-    default:
-      return "CALCULATION";
-  }
-}
-
-function actionLabel(item: Item): string {
-  if (item.kind === "calc") return "Calculate";
-  if (item.kind === "command") return "Run action";
-  return "Open";
-}
-
 export function LauncherDemo() {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState(0);
   const [note, setNote] = useState<string | null>(null);
   const [bookmarks, setBookmarks] = useState<string[]>(initialBookmarks);
+  const [actionsOpen, setActionsOpen] = useState(false);
   const input = useRef<HTMLInputElement>(null);
   const noteTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -557,6 +538,8 @@ export function LauncherDemo() {
     [],
   );
 
+
+
   function flash(message: string) {
     setNote(message);
     if (noteTimer.current) clearTimeout(noteTimer.current);
@@ -576,8 +559,6 @@ export function LauncherDemo() {
         : [...current, id],
     );
   }
-
-  const detail = results[selected] ?? results[0];
 
   return (
     <div className="nx-panel nx-launcher" data-testid="launcher-demo-panel">
@@ -623,6 +604,7 @@ export function LauncherDemo() {
           className="nx-icon-btn"
           aria-label="Show power actions"
           data-testid="launcher-power-button"
+          style={{ overflow: "visible" }}
         >
           <PowerIcon />
         </button>
@@ -713,43 +695,6 @@ export function LauncherDemo() {
           })}
         </div>
 
-        <div className="nx-detail" data-testid="launcher-detail">
-          {detail ? (
-            <div
-              className="ln-materialize"
-              style={{ display: "grid", justifyItems: "center" }}
-            >
-              <AppIcon item={detail} />
-              <small>{detailLabel(detail)}</small>
-              <h4 className="" data-testid="launcher-detail-title">
-                {detail.title}
-              </h4>
-              <p className={detail.kind === "calc" ? "nx-big" : undefined}>
-                {detail.kind === "calc" ? detail.value : detail.subtitle}
-              </p>
-              <button
-                type="button"
-                className="nx-open"
-                data-testid="launcher-detail-action"
-                onClick={() => act(detail)}
-              >
-                {actionLabel(detail)}
-              </button>
-            </div>
-          ) : (
-            <div
-              className="ln-materialize"
-              style={{ display: "grid", justifyItems: "center" }}
-            >
-              <span className="nx-app-icon is-glyph">
-                <SearchIcon />
-              </span>
-              <h4 className="" data-testid="launcher-detail-title">
-                No results
-              </h4>
-            </div>
-          )}
-        </div>
       </div>
 
       <div className="nx-footer">
@@ -760,13 +705,48 @@ export function LauncherDemo() {
           <span className="nx-status" aria-live="polite" data-testid="demo-note">
             {note}
           </span>
-        ) : (
-          <span className="nx-hints">
-            <kbd>↑</kbd> <kbd>↓</kbd> navigate · <kbd>↵</kbd> open · <kbd>Tab</kbd> scope · try{" "}
-            <kbd>{">"}</kbd> or <kbd>12*7</kbd>
-          </span>
-        )}
-        <span className="nx-footer-end">
+        ) : null}
+        <span
+          className="nx-footer-end"
+          style={{ position: "relative", display: "flex", alignItems: "center", gap: 2 }}
+          onMouseEnter={() => setActionsOpen(true)}
+          onMouseLeave={() => setActionsOpen(false)}
+        >
+          {actionsOpen ? (
+            <>
+              <button
+                type="button"
+                className="nx-icon-btn"
+                aria-label="Settings"
+                data-testid="launcher-settings"
+                onClick={() => flash("Preview: would open Settings.")}
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  width="16"
+                  height="16"
+                >
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                className="nx-icon-btn"
+                aria-label="GitHub"
+                onClick={() => window.open("https://github.com/haxllo/nex", "_blank")}
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                  <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                </svg>
+              </button>
+            </>
+          ) : null}
           <button
             type="button"
             className="nx-icon-btn"
