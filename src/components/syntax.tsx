@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 
-type RowIcon = "power" | "calculator" | "plus" | "folderPlus" | "globe" | "file";
+type RowIcon = "power" | "calculator" | "plus" | "folderPlus" | "globe" | "file" | "youtube";
 
 type PreviewRow = {
   icon: RowIcon;
@@ -25,13 +25,12 @@ type Example = {
 
 const examples: Example[] = [
   {
-    code: "> restart",
+    code: "logs",
     title: "Command mode",
-    body: "Run actions by name. Power, uninstall, and anything a plugin exposes.",
+    body: "Run actions by name. Uninstall, config, updates, and anything a plugin exposes.",
     group: "Actions",
     rows: [
-      { icon: "power", tone: "is-cmd", title: "Restart", subtitle: "Power" },
-      { icon: "power", tone: "is-cmd", title: "Shut down", subtitle: "Power" },
+      { icon: "globe", tone: "is-cmd", title: "Open Logs", subtitle: "Open logs directory in File Explorer" },
     ],
   },
   {
@@ -44,21 +43,15 @@ const examples: Example[] = [
     ],
   },
   {
-    code: "july notes",
+    code: "july-notes.md",
     title: "Create",
-    body: "No match? Nex offers july-notes.md on your Desktop and gets out of the way.",
+    body: "No match? Nex offers to create the file on your Desktop and gets out of the way.",
     group: "Create",
     rows: [
       {
         icon: "plus",
         tone: "is-create",
         title: "Create july-notes.md",
-        subtitle: "Desktop",
-      },
-      {
-        icon: "folderPlus",
-        tone: "is-create",
-        title: "Create folder july-notes",
         subtitle: "Desktop",
       },
     ],
@@ -70,7 +63,7 @@ const examples: Example[] = [
     group: "Link",
     rows: [
       {
-        icon: "globe",
+        icon: "youtube",
         tone: "is-calc",
         title: "youtube.com",
         subtitle: "Open in default browser",
@@ -147,9 +140,23 @@ const iconPaths: Record<RowIcon, { ghost?: string; solid: string }> = {
     solid:
       "M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z",
   },
+  youtube: { solid: "" },
 };
 
 function RowIcon({ name }: { name: RowIcon }) {
+  if (name === "youtube") {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="15"
+        height="15"
+        viewBox="0 0 24 24"
+        fill="#ff0000"
+      >
+        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+      </svg>
+    );
+  }
   const { ghost, solid } = iconPaths[name];
   return (
     <svg
@@ -255,15 +262,37 @@ export function Syntax() {
                   data-testid="syntax-preview"
                 >
                   <div className="nx-search" style={{ height: "54px" }}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="19"
-                      height="19"
-                      fill="currentColor"
-                      viewBox="0 0 256 256"
-                    >
-                      <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z" />
-                    </svg>
+                    {active === 0 ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="19"
+                        height="19"
+                        viewBox="0 0 19 19"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <text
+                          x="9.5"
+                          y="14.5"
+                          textAnchor="middle"
+                          fontFamily="Arial, sans-serif"
+                          fontSize="18"
+                          fontWeight="700"
+                        >
+                          @
+                        </text>
+                      </svg>
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="19"
+                        height="19"
+                        fill="currentColor"
+                        viewBox="0 0 256 256"
+                      >
+                        <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z" />
+                      </svg>
+                    )}
                     <span
                       style={{
                         fontSize: "17px",
