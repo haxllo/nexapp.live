@@ -262,7 +262,7 @@ export function Syntax() {
                   data-testid="syntax-preview"
                 >
                   <div className="nx-search" style={{ height: "54px" }}>
-                    {active === 0 ? (
+                    {example.code.startsWith("@") || example.code.startsWith(">") ? (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="19"
@@ -300,7 +300,9 @@ export function Syntax() {
                         fontFamily: "var(--ln-mono)",
                       }}
                     >
-                      {example.code}
+                      {example.code.startsWith("@") || example.code.startsWith(">")
+                        ? example.code.slice(1).trimStart()
+                        : example.code}
                       <span className="nx-cursor" />
                     </span>
                   </div>
