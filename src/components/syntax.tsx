@@ -25,7 +25,7 @@ type Example = {
 
 const examples: Example[] = [
   {
-    code: "logs",
+    code: "@logs",
     title: "Command mode",
     body: "Run actions by name. Uninstall, config, updates, and anything a plugin exposes.",
     group: "Actions",
